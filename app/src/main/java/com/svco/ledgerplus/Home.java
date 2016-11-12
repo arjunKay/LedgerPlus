@@ -21,7 +21,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        //this is a comment
+
         AccountHeader header=new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTextColor(Color.parseColor("#FF0000"))

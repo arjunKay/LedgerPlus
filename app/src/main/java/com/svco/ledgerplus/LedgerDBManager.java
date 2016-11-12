@@ -10,10 +10,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 /*
         Database name   :  LedgerPlusDB
         Tables          :   1. TRANSACTIONS - Storing expenditure/income details
-                            2. CATEGORIES - Storing names of categories coming under ecpemdture and income
+                            2. CATEGORIES - Storing names of categories coming under expenditure and income
 
         Functions implemented:
-        ------------------------
+        ----------------------
             -> boolean insertTxn(String amount,String source,String category,String description,String day,String month,String year)
                 Description: For inserting data into table 'TRANSACTIONS'
 
@@ -35,17 +35,7 @@ import android.database.sqlite.SQLiteOpenHelper;
             -> Integer sumOfTxn(String cond)
                 Description : If cond="ex", it returns sum of all expenditure.
                               If cond="in", it returns sum of all income
-
-
-
-
-
  */
-
-
-
-
-
 
 public class LedgerDBManager extends SQLiteOpenHelper{
 
@@ -170,8 +160,4 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         c.close();
         return sum;
     }
-
-
-
-
 }
