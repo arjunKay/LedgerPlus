@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class LedgerDBManager extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "LedgerPlusDB.db";
-    public static final String TABLE_NAME = "transaction";
     public static final String COL1 = "ID";
     public static final String COL2 = "AMOUNT";
     public static final String COL3 = "SOURCE";
@@ -30,12 +29,16 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(" create table "+TABLE_NAME+" (ID INTEGER PRIMARY KEY AUTOINCREMENT,AMOUNT INTEGER,SOURCE TEXT,CATEGORY TEXT,DESCRIPTION TEXT,DAY INTEGER,MONTH INTEGER,YEAR INTEGER) ");
+        db.execSQL(" create table TRANSACTIONS (ID INTEGER PRIMARY KEY AUTOINCREMENT,AMOUNT INTEGER,SOURCE TEXT,CATEGORY TEXT,DESCRIPTION TEXT,DAY INTEGER,MONTH INTEGER,YEAR INTEGER) ");
+        db.execSQL(" create table CATEGORIES (ID INTEGER PRIMARY KEY AUTOINCREMENT,CATEGORY_NAME TEXT,TYPE TEXT");
+        //Type specifies whether Category is of expenditure or income. "e" for expenditure and "i" for income
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS TRANSACTIONS");
+        db.execSQL("DROP TABLE IF EXISTS CATEGORIES");
         onCreate(db);
     }
 
@@ -50,18 +53,33 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         contentValues.put(COL6,day);
         contentValues.put(COL7,month);
         contentValues.put(COL8,year);
-        long result = db.insert(TABLE_NAME,null,contentValues);
+        long result = db.insert("Transactions",null,contentValues);
         if(result==-1)
             return false;
         else
             return true;
 
     }
-    public Cursor getAllTxn(){
+    public boolean insertCat(String cat,String type){
+
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor res=db.rawQuery("select * from "+TABLE_NAME,null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Category_name",cat);
+        contentValues.put("Type",type);
+
+        long result = db.insert("Categories",null,contentValues);
+        if(result==-1)
+            return false;
+        else
+            return true;
+
+    }
+    public Cursor getAllData(String tablename){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor res=db.rawQuery("select * from "+tablename,null);
         return res;
     }
+
     public boolean updateTxn(String id,String amount,String source,String category,String description,String day,String month,String year){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -73,12 +91,24 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         contentValues.put(COL6,day);
         contentValues.put(COL7,month);
         contentValues.put(COL8,year);
-        db.update(TABLE_NAME,contentValues,"ID = ?",new String[] {id});
+        db.update("Transactions",contentValues,"ID = ?",new String[] {id});
         return true;
     }
-    public Integer deleteTxn(String id){
+    public boolean updateCat(String id,String cat,String type){
         SQLiteDatabase db=this.getWritableDatabase();
-        return db.delete(TABLE_NAME,"ID = ?",new String[]{id });
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Id",id);
+        contentValues.put("Category_name",cat);
+        contentValues.put("type",type);
+
+        db.update("Categories",contentValues,"ID = ?",new String[] {id});
+        return true;
+    }
+
+
+    public Integer deleteData(String id, String tablename){
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(tablename,"ID = ?",new String[]{id });
 
     }
     public Integer sumOfTxn(String id){
@@ -89,7 +119,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             relOp=">";
         SQLiteDatabase db=this.getWritableDatabase();
         int sum;
-        Cursor c = db.rawQuery("select sum(amount) from "+TABLE_NAME+" where Amount "+relOp+" 0 ;", null);
+        Cursor c = db.rawQuery("select sum(amount) from transactions where Amount "+relOp+" 0 ;", null);
         if(c.moveToFirst())
             sum = c.getInt(0);
         else
