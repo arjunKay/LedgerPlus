@@ -7,7 +7,45 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by user on 11/11/2016.
+/*
+        Database name   :  LedgerPlusDB
+        Tables          :   1. TRANSACTIONS - Storing expenditure/income details
+                            2. CATEGORIES - Storing names of categories coming under ecpemdture and income
+
+        Functions implemented:
+        ------------------------
+            -> boolean insertTxn(String amount,String source,String category,String description,String day,String month,String year)
+                Description: For inserting data into table 'TRANSACTIONS'
+
+            -> boolean insertCat(String cat,String type)
+                Description: For inserting data into table 'Categories'
+
+            -> Cursor getAllData(String tablename)
+                Description : Self explanatory
+
+            ->  boolean updateTxn(String id,String amount,String source,String category,String description,String day,String month,String year){
+                Description : Update entry with ID=id in table 'TRANSACTIONS'
+
+            ->  boolean updateCat(String id,String cat,String type)
+                Description : Update entry with ID=id in table 'CATEGORIES'
+
+            -> Integer deleteData(String id, String tablename)
+                Description : Delete entry with ID=id in table specified by 'tablename'
+
+            -> Integer sumOfTxn(String cond)
+                Description : If cond="ex", it returns sum of all expenditure.
+                              If cond="in", it returns sum of all income
+
+
+
+
+
  */
+
+
+
+
+
 
 public class LedgerDBManager extends SQLiteOpenHelper{
 
@@ -111,17 +149,22 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return db.delete(tablename,"ID = ?",new String[]{id });
 
     }
-    public Integer sumOfTxn(String id){
+    public Integer sumOfTxn(String cond){
         String relOp="";
-        if(id.equalsIgnoreCase("ex"))
+        if(cond.equalsIgnoreCase("ex"))
             relOp="<";
-        if(id.equalsIgnoreCase("in"))
+        if(cond.equalsIgnoreCase("in"))
             relOp=">";
         SQLiteDatabase db=this.getWritableDatabase();
         int sum;
         Cursor c = db.rawQuery("select sum(amount) from transactions where Amount "+relOp+" 0 ;", null);
         if(c.moveToFirst())
+        {
             sum = c.getInt(0);
+            if(cond.equals("ex"))
+                sum*=-1;
+        }
+
         else
             sum = -1;
         c.close();
