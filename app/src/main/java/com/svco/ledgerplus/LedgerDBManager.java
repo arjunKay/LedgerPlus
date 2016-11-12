@@ -18,7 +18,7 @@ import android.database.sqlite.SQLiteOpenHelper;
                 Description: For inserting data into table 'TRANSACTIONS'
 
             -> boolean insertCat(String cat,String type)
-                Description: For inserting data into table 'Categories'
+                Description: For inserting data into table 'CATEGORIES'
 
             -> Cursor getAllData(String tablename)
                 Description : Self explanatory
@@ -70,6 +70,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         onCreate(db);
     }
 
+
+    // For inserting data into table 'TRANSACTIONS'
     public boolean insertTxn(String amount,String source,String category,String description,String day,String month,String year){
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -88,6 +90,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             return true;
 
     }
+
+    //For inserting data into table 'CATEGORIES'
     public boolean insertCat(String cat,String type){
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -108,6 +112,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return res;
     }
 
+
+    //Update entry with ID=id in table 'TRANSACTIONS'
     public boolean updateTxn(String id,String amount,String source,String category,String description,String day,String month,String year){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -122,6 +128,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         db.update("Transactions",contentValues,"ID = ?",new String[] {id});
         return true;
     }
+
+    //Update entry with ID=id in table 'CATEGORIES'
     public boolean updateCat(String id,String cat,String type){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -133,12 +141,17 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return true;
     }
 
-
+    //Delete entry with ID=id in table specified by 'tablename'
     public Integer deleteData(String id, String tablename){
         SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(tablename,"ID = ?",new String[]{id });
 
     }
+
+
+    /* If cond="ex", it returns sum of all expenditure.
+       If cond="in", it returns sum of all income
+     */
     public Integer sumOfTxn(String cond){
         String relOp="";
         if(cond.equalsIgnoreCase("ex"))
