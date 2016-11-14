@@ -40,6 +40,7 @@ public class Home extends AppCompatActivity {
     FloatingActionButton floatingActionButton1, floatingActionButton2;
     int d,m,y;
     LedgerDBManager myDb;
+    int amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class Home extends AppCompatActivity {
         myDb = new LedgerDBManager(this);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-      //  getSupportActionBar().setDisplayShowTitleEnabled(false);
+       getSupportActionBar().setDisplayShowTitleEnabled(true);
         AccountHeader header=new AccountHeaderBuilder()
                 .withActivity(this)
                 .withSelectionListEnabled(false)
@@ -128,7 +129,7 @@ public class Home extends AppCompatActivity {
 
 
 
-                EditText description= (EditText) findViewById(R.id.des);
+                final EditText description= (EditText) findViewById(R.id.des);
 
                 Spinner spinner_src,spinner_cat;
 
@@ -144,11 +145,11 @@ public class Home extends AppCompatActivity {
 
                 List<String> SpinnerArray2 = new ArrayList<String>();
                 SpinnerArray2.add("<Category>");
-                SpinnerArray2.add("1");
-                SpinnerArray2.add("2");
-                SpinnerArray2.add("3");
-                SpinnerArray2.add("4");
-                SpinnerArray2.add("Custom");
+                SpinnerArray2.add("Salary");
+                SpinnerArray2.add("Investment");
+                SpinnerArray2.add("Bonus");
+                SpinnerArray2.add("Other");
+                SpinnerArray2.add("+ Add New");
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray2);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_cat = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
@@ -160,7 +161,7 @@ public class Home extends AppCompatActivity {
                 m=calendar.get(Calendar.MONTH);
                 d=calendar.get(Calendar.DATE);
 
-                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                date.setText("DATE : "+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
 
                 final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -169,7 +170,7 @@ public class Home extends AppCompatActivity {
                         m=month;
                         d=day;
 
-                        date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                        date.setText("DATE : "+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
                     }
                 };
                 final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
@@ -197,8 +198,9 @@ public class Home extends AppCompatActivity {
                                 //Toasting
 
                                 Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
-
-                                //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
+                                    amount =Integer.parseInt(amt.getText().toString());
+                                amount=-amount;
+                                  myDb.insertTxn(String.valueOf(amount),"source","cat",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -228,7 +230,7 @@ public class Home extends AppCompatActivity {
 
 
 
-                EditText description= (EditText) findViewById(R.id.des);
+                final EditText description= (EditText) findViewById(R.id.des);
 
                 Spinner spinner_src,spinner_cat;
 
@@ -244,11 +246,12 @@ public class Home extends AppCompatActivity {
 
                 List<String> SpinnerArray2 = new ArrayList<String>();
                 SpinnerArray2.add("<Category>");
-                SpinnerArray2.add("1");
-                SpinnerArray2.add("2");
-                SpinnerArray2.add("3");
-                SpinnerArray2.add("4");
-                SpinnerArray2.add("Custom");
+                SpinnerArray2.add("Food");
+                SpinnerArray2.add("Shopping");
+                SpinnerArray2.add("Entertainment");
+                SpinnerArray2.add("Travel");
+                SpinnerArray2.add("Other");
+                SpinnerArray2.add("+ Add New");
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray2);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_cat = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
@@ -260,7 +263,7 @@ public class Home extends AppCompatActivity {
                 m=calendar.get(Calendar.MONTH);
                 d=calendar.get(Calendar.DATE);
 
-                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                date.setText("DATE : "+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
 
                 final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -269,7 +272,7 @@ public class Home extends AppCompatActivity {
                         m=month;
                         d=day;
 
-                        date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                        date.setText("DATE :"+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
                     }
                 };
                 final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
@@ -295,10 +298,9 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
-
                                 Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
 
-                                //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
+                               myDb.insertTxn(amt.getText().toString(),"source","cate",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
