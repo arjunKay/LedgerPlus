@@ -177,7 +177,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     }
 
     //Get all category names  of type income/expenditure. type="e" for expenditure and "i" for income
-    public String[] getAllCat(String type)
+    public void getAllCat(String type)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor c = db.rawQuery("select name from categories where type= "+type+"  ;", null);

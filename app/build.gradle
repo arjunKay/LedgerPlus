@@ -26,6 +26,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.github.clans:fab:1.6.2'
+    compile 'com.afollestad.material-dialogs:core:0.9.1.0'
+
     compile('com.mikepenz:materialdrawer:5.7.0@aar') {
         transitive = true
     }

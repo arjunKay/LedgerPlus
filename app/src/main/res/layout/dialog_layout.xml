@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:id="@+id/spinner_type"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/amt_et"
+        android:hint="Amount"
+        android:inputType="number"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:id="@+id/spinner_cat"
+        />
+<TextView
+    android:layout_width="65dp"
+    android:layout_height="40sp"
+    android:text="DATE : "
+    android:textSize="20sp"
+    />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/des"
+        android:hint="Description"
+        android:inputType="text"/>
+
+    <!--    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/save2"
+            />-->
+</LinearLayout
+    >
