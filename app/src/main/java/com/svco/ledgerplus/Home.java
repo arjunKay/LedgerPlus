@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -26,7 +28,9 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
-
+    private String[] arraySpinner=new String[]{"<Select a Category>"};
+    Spinner expSpinner, inSpinner;
+    LedgerDBManager database=new LedgerDBManager(getApplicationContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,8 @@ public class Home extends AppCompatActivity {
                 .build();
 
 
+
+
         //Floating Menu and Button
 
         FloatingActionButton fabexp=new FloatingActionButton(this);
@@ -116,5 +122,29 @@ public class Home extends AppCompatActivity {
         FloatingActionsMenu floatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fam);
         floatingActionsMenu.addButton(fabexp);
         floatingActionsMenu.addButton(fabinc);
+    }
+
+    //Adding items to spinner
+    public void addToCatSpinner(String type)
+    {
+        if(type.equals("e"))
+        {
+            expSpinner.setAdapter(null);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, database.getAllCat(type));
+            expSpinner.setAdapter(adapter);
+        }
+        if(type.equals("i"))
+        {
+                inSpinner.setAdapter(null);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                        android.R.layout.simple_spinner_item, database.getAllCat(type));
+                inSpinner.setAdapter(adapter);
+        }
+            //---------
+
+
     }
 }
