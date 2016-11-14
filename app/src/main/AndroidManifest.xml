@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GraphStats" />
+        <activity android:name=".BalanceSheet" />
+        <activity android:name=".Categories" />
+        <activity android:name=".Reminder" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

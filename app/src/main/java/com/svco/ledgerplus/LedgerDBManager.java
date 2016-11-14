@@ -40,6 +40,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class LedgerDBManager extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "LedgerPlusDB.db";
+    public static final String TABLE_NAME = "money_table";
     public static final String COL1 = "ID";
     public static final String COL2 = "AMOUNT";
     public static final String COL3 = "SOURCE";

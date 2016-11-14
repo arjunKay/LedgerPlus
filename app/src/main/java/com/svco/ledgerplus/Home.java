@@ -4,6 +4,7 @@
 package com.svco.ledgerplus;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
@@ -58,14 +60,41 @@ public class Home extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withName("Settings")
 
-        )
+                      )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        switch (position)
+                        {
+                            case 1:
+                                startActivity(new Intent(Home.this,GraphStats.class) );
+                                break;
+                            case 3:
+                                startActivity(new Intent(Home.this,BalanceSheet.class) );
+                                break;
+                            case 5:
+                                startActivity(new Intent(Home.this,Categories.class) );
+                                break;
+                            case 7:
+                                startActivity(new Intent(Home.this,Reminder.class) );
+                                break;
+                            case 9:
+                                startActivity(new Intent(Home.this,Settings.class) );
+                                break;
+                        }
+
+                        return true;
+                    }
+                })
                 .build();
 
 
         //Floating Menu and Button
 
         FloatingActionButton fabexp=new FloatingActionButton(this);
-      //  fabexp.setIcon(R.drawable.expenditure);
+      fabexp.setIcon(R.drawable.expenditure);
         fabexp.setColorNormalResId(R.color.md_red_500);
         fabexp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +104,7 @@ public class Home extends AppCompatActivity {
         });
 
         FloatingActionButton fabinc=new FloatingActionButton(this);
-     //   fabinc.setIcon(R.drawable.income);
+        fabinc.setIcon(R.drawable.income);
         fabinc.setColorNormalResId(R.color.md_green_500);
         fabinc.setOnClickListener(new View.OnClickListener() {
             @Override
