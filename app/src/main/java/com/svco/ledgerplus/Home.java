@@ -11,14 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -30,19 +31,23 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import static com.svco.ledgerplus.R.id.spinner_type;
 
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
     FloatingActionMenu materialDesignFAM;
     FloatingActionButton floatingActionButton1, floatingActionButton2;
+    int d,m,y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        //Toolbar
+
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
       //  getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -55,6 +60,9 @@ public class Home extends AppCompatActivity {
                 .withHeaderBackground(R.color.colorPrimaryDark)
 
                 .build();
+
+
+        //Nav Drawer
 
         Drawer result = new DrawerBuilder()
                 .withToolbar(toolbar)
@@ -103,6 +111,8 @@ public class Home extends AppCompatActivity {
 
 
         //Floating Menu and Button
+
+
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
@@ -110,23 +120,32 @@ public class Home extends AppCompatActivity {
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LinearLayout dialogLayout= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
-            //    Button date= (Button) dialogLayout.findViewById(R.id.date);
-                final EditText et= (EditText) dialogLayout.findViewById(R.id.amt_et);
-                EditText amt= (EditText) findViewById(R.id.amt_et);
+                final RelativeLayout dialogLayout= (RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
+
+
+                final EditText amt= (EditText) dialogLayout.findViewById(R.id.et_amt);
+
+
+                final TextView date=(TextView)dialogLayout.findViewById(R.id.textdat);
+
+
+
                 EditText description= (EditText) findViewById(R.id.des);
+
                 Spinner spinner_src,spinner_cat;
+
+
                 List<String> SpinnerArray = new ArrayList<String>();
                 SpinnerArray.add("Cash");
                 SpinnerArray.add("Bank");
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_src = (Spinner)dialogLayout.findViewById(spinner_type);
+                spinner_src = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
                 spinner_src.setAdapter(adapter);
 
 
                 List<String> SpinnerArray2 = new ArrayList<String>();
-                SpinnerArray2.add("<Cartegory>");
+                SpinnerArray2.add("<Category>");
                 SpinnerArray2.add("1");
                 SpinnerArray2.add("2");
                 SpinnerArray2.add("3");
@@ -138,6 +157,36 @@ public class Home extends AppCompatActivity {
                 spinner_cat.setAdapter(adapter2);
 
 
+                final Calendar calendar = Calendar.getInstance();
+                y=calendar.get(Calendar.YEAR);
+                m=calendar.get(Calendar.MONTH);
+                d=calendar.get(Calendar.DATE);
+
+                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+
+                final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                        y=year;
+                        m=month;
+                        d=day;
+
+                        date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                    }
+                };
+                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+
+                //for changing date
+                date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        datePickerDialog.show(getSupportFragmentManager(),"TAG");
+                    }
+                });
+
+                //For Dialog Box
+
+
                 MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
                         .title("Income")
                         .customView(dialogLayout,true)
@@ -147,7 +196,17 @@ public class Home extends AppCompatActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //Toasting
+
+                                Toast.makeText(Home.this,"Add Query",Toast.LENGTH_SHORT).show();
+
                                 //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.cancel();
                             }
                         })
                         .build();
@@ -161,21 +220,32 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final LinearLayout dialogLayout= (LinearLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
-               // Button date= (Button) dialogLayout.findViewById(R.id.date);
-                final EditText et= (EditText) dialogLayout.findViewById(R.id.amt_et);
+                final RelativeLayout dialogLayout= (RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
+
+
+                final EditText amt= (EditText) dialogLayout.findViewById(R.id.et_amt);
+
+
+                final TextView date=(TextView)dialogLayout.findViewById(R.id.textdat);
+
+
+
+                EditText description= (EditText) findViewById(R.id.des);
+
                 Spinner spinner_src,spinner_cat;
+
+
                 List<String> SpinnerArray = new ArrayList<String>();
                 SpinnerArray.add("Cash");
                 SpinnerArray.add("Bank");
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_src = (Spinner)dialogLayout.findViewById(spinner_type);
+                spinner_src = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
                 spinner_src.setAdapter(adapter);
 
 
                 List<String> SpinnerArray2 = new ArrayList<String>();
-                SpinnerArray2.add("<Cartegory>");
+                SpinnerArray2.add("<Category>");
                 SpinnerArray2.add("1");
                 SpinnerArray2.add("2");
                 SpinnerArray2.add("3");
@@ -187,6 +257,36 @@ public class Home extends AppCompatActivity {
                 spinner_cat.setAdapter(adapter2);
 
 
+                final Calendar calendar = Calendar.getInstance();
+                y=calendar.get(Calendar.YEAR);
+                m=calendar.get(Calendar.MONTH);
+                d=calendar.get(Calendar.DATE);
+
+                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+
+                final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                        y=year;
+                        m=month;
+                        d=day;
+
+                        date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                    }
+                };
+                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+
+                //for changing date
+                date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        datePickerDialog.show(getSupportFragmentManager(),"TAG");
+                    }
+                });
+
+                //For Dialog Box
+
+
                 MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
                         .title("Expenditure")
                         .customView(dialogLayout,true)
@@ -196,7 +296,17 @@ public class Home extends AppCompatActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                //Toasting
+
+                                Toast.makeText(Home.this,"Add Query",Toast.LENGTH_SHORT).show();
+
                                 //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.cancel();
                             }
                         })
                         .build();
