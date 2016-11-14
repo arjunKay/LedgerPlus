@@ -41,6 +41,8 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     LedgerDBManager myDb;
     int amount;
+    Drawer result= null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +64,7 @@ public class Home extends AppCompatActivity {
 
         //Nav Drawer
 
-        Drawer result = new DrawerBuilder()
+        result = new DrawerBuilder()
                 .withToolbar(toolbar)
                 .withActivity(this)
                 .withAccountHeader(header)
@@ -314,5 +316,14 @@ public class Home extends AppCompatActivity {
                 dialog.show();
             }
         });
+    }
+
+    public void onBackPressed() {
+        //handle the back press :D close the drawer first and if the drawer is closed close the activity
+        if (result != null && result.isDrawerOpen()) {
+            result.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
