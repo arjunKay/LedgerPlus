@@ -35,12 +35,13 @@ import android.database.sqlite.SQLiteOpenHelper;
             -> Integer sumOfTxn(String cond)
                 Description : If cond="ex", it returns sum of all expenditure.
                               If cond="in", it returns sum of all income
- */
+            -> String[] getAllCat(String type)
+                Description: Get all category names  of type income/expenditure. type="e" for expenditure and "i" for income
+    */
 
 public class LedgerDBManager extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "LedgerPlusDB.db";
-    public static final String TABLE_NAME = "money_table";
     public static final String COL1 = "ID";
     public static final String COL2 = "AMOUNT";
     public static final String COL3 = "SOURCE";
@@ -59,7 +60,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(" create table TRANSACTIONS (ID INTEGER PRIMARY KEY AUTOINCREMENT,AMOUNT INTEGER,SOURCE TEXT,CATEGORY TEXT,DESCRIPTION TEXT,DAY INTEGER,MONTH INTEGER,YEAR INTEGER) ");
-        db.execSQL(" create table CATEGORIES (ID INTEGER PRIMARY KEY AUTOINCREMENT,CATEGORY_NAME TEXT,TYPE TEXT");
+        db.execSQL(" create table CATEGORIES (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,TYPE TEXT");
         //Type specifies whether Category is of expenditure or income. "e" for expenditure and "i" for income
 
     }
@@ -97,7 +98,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("Category_name",cat);
+        contentValues.put("name",cat);
         contentValues.put("Type",type);
 
         long result = db.insert("Categories",null,contentValues);
@@ -135,7 +136,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("Id",id);
-        contentValues.put("Category_name",cat);
+        contentValues.put("name",cat);
         contentValues.put("type",type);
 
         db.update("Categories",contentValues,"ID = ?",new String[] {id});
@@ -173,5 +174,20 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             sum = -1;
         c.close();
         return sum;
+    }
+
+    //Get all category names  of type income/expenditure. type="e" for expenditure and "i" for income
+    public String[] getAllCat(String type)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor c = db.rawQuery("select name from categories where type= "+type+"  ;", null);
+        String[] cats = new String[c.getCount()+1];
+        int i = 1;
+        cats[0]="Select the category";
+        while(c.moveToNext()){
+            String name = c.getString(c.getColumnIndex("name"));
+            cats[i] = name;
+            i++;
+        }
     }
 }
