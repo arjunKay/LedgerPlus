@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.svco.ledgerplus.R.id.spinner_type;
-
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
     FloatingActionMenu materialDesignFAM;
@@ -198,7 +196,7 @@ public class Home extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
 
-                                Toast.makeText(Home.this,"Add Query",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
 
                                 //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
                             }
@@ -298,7 +296,7 @@ public class Home extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
 
-                                Toast.makeText(Home.this,"Add Query",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
 
                                 //boolean xx=  myDb.insertData(et.getText().toString(),"expense","null","null","null");
                             }
