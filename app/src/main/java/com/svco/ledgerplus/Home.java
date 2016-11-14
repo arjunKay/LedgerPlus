@@ -34,20 +34,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.svco.ledgerplus.R.id.spinner_type;
+
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
     FloatingActionMenu materialDesignFAM;
     FloatingActionButton floatingActionButton1, floatingActionButton2;
     int d,m,y;
+    LedgerDBManager myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
-        //Toolbar
-
+        myDb = new LedgerDBManager(this);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
       //  getSupportActionBar().setDisplayShowTitleEnabled(false);
