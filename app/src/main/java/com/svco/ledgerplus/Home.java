@@ -41,7 +41,6 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     LedgerDBManager myDb;
     int amount;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +130,7 @@ public class Home extends AppCompatActivity {
 
                 final EditText description= (EditText) findViewById(R.id.des);
 
-                Spinner spinner_src,spinner_cat;
+                final Spinner spinner_src,spinner_cat;
 
 
                 List<String> SpinnerArray = new ArrayList<String>();
@@ -197,10 +196,11 @@ public class Home extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
 
-                                Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
                                     amount =Integer.parseInt(amt.getText().toString());
                                 amount=-amount;
-                                  myDb.insertTxn(String.valueOf(amount),"source","cat",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                String text = spinner_src.getSelectedItem().toString();
+                                Toast.makeText(Home.this,text,Toast.LENGTH_SHORT).show();
+                               //  myDb.insertTxn(String.valueOf(amount),text,"cat",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -232,7 +232,7 @@ public class Home extends AppCompatActivity {
 
                 final EditText description= (EditText) findViewById(R.id.des);
 
-                Spinner spinner_src,spinner_cat;
+                final Spinner spinner_src2,spinner_cat2;
 
 
                 List<String> SpinnerArray = new ArrayList<String>();
@@ -240,8 +240,8 @@ public class Home extends AppCompatActivity {
                 SpinnerArray.add("Bank");
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_src = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
-                spinner_src.setAdapter(adapter);
+                spinner_src2 = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
+                spinner_src2.setAdapter(adapter);
 
 
                 List<String> SpinnerArray2 = new ArrayList<String>();
@@ -254,8 +254,8 @@ public class Home extends AppCompatActivity {
                 SpinnerArray2.add("+ Add New");
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray2);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_cat = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
-                spinner_cat.setAdapter(adapter2);
+                spinner_cat2 = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
+                spinner_cat2.setAdapter(adapter2);
 
 
                 final Calendar calendar = Calendar.getInstance();
@@ -298,9 +298,9 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
-                                Toast.makeText(Home.this,"Add New Query",Toast.LENGTH_SHORT).show();
-
-                               myDb.insertTxn(amt.getText().toString(),"source","cate",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                String text2 = spinner_src2.getSelectedItem().toString();
+                                Toast.makeText(Home.this,text2,Toast.LENGTH_SHORT).show();
+                                //   myDb.insertTxn(amt.getText().toString(),text2,"cate",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {

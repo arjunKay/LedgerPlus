@@ -12,13 +12,11 @@
         layout="@layout/toolbar"
 
         />
+
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/material_design_android_floating_action_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="11dp"
         android:layout_marginLeft="11dp"
         android:layout_marginRight="11dp"
         fab:menu_animationDelayPerItem="55"
@@ -44,7 +42,10 @@
         fab:menu_labels_textColor="#f2f1f1"
         fab:menu_labels_textSize="15sp"
         fab:menu_openDirection="up"
-        >
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/material_design_floating_action_menu_item1"
