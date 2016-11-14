@@ -3,30 +3,27 @@
 
 package com.svco.ledgerplus;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class Home extends AppCompatActivity {
     Toolbar toolbar;
-
+    FloatingActionMenu materialDesignFAM;
+    FloatingActionButton floatingActionButton1, floatingActionButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +37,7 @@ public class Home extends AppCompatActivity {
                 .withSelectionListEnabled(false)
                 .withTextColor(Color.parseColor("#FF0000"))
 
-               .addProfiles(new ProfileDrawerItem().withName("USER"))
+               //.addProfiles(new ProfileDrawerItem().withName("USER"))
                 .withHeaderBackground(R.color.colorPrimaryDark)
 
                 .build();
@@ -92,29 +89,9 @@ public class Home extends AppCompatActivity {
 
 
         //Floating Menu and Button
+        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
 
-        FloatingActionButton fabexp=new FloatingActionButton(this);
-      fabexp.setIcon(R.drawable.expenditure);
-        fabexp.setColorNormalResId(R.color.md_red_500);
-        fabexp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Home.this,"Expenditure Dialog Box",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        FloatingActionButton fabinc=new FloatingActionButton(this);
-        fabinc.setIcon(R.drawable.income);
-        fabinc.setColorNormalResId(R.color.md_green_500);
-        fabinc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Home.this,"Income Dialog Box",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        FloatingActionsMenu floatingActionsMenu=(FloatingActionsMenu)findViewById(R.id.fam);
-        floatingActionsMenu.addButton(fabexp);
-        floatingActionsMenu.addButton(fabinc);
     }
 }
