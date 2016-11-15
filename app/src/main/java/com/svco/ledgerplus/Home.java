@@ -162,7 +162,7 @@ public class Home extends AppCompatActivity {
                 m=calendar.get(Calendar.MONTH);
                 d=calendar.get(Calendar.DATE);
 
-                date.setText("DATE : "+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
 
                 final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -265,7 +265,7 @@ public class Home extends AppCompatActivity {
                 m=calendar.get(Calendar.MONTH);
                 d=calendar.get(Calendar.DATE);
 
-                date.setText("DATE : "+String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
+                date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
 
                 final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
                     @Override
