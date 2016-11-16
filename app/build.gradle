@@ -17,7 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -28,7 +33,7 @@ dependencies {
     compile 'com.github.clans:fab:1.6.2'
     compile 'com.afollestad.material-dialogs:core:0.9.1.0'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
-
+    compile 'com.github.IntruderShanky:scatter-piechart:1.0.0'
     compile('com.mikepenz:materialdrawer:5.7.0@aar') {
         transitive = true
     }

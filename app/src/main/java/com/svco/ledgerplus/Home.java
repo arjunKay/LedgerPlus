@@ -5,13 +5,19 @@ package com.svco.ledgerplus;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.RotateDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +28,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.intrusoft.scatter.ChartData;
+import com.intrusoft.scatter.PieChart;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -41,23 +49,32 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     LedgerDBManager myDb;
     int amount;
-    Drawer result= null;
+        Drawer result= null;
 
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
         myDb = new LedgerDBManager(this);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
+      //  pbar= (ProgressBar) findViewById(R.id.pbar);
+       // pbar.setProgress(50);
+
+
+        //  pbar.setScaleY(3f);
         setSupportActionBar(toolbar);
        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         AccountHeader header=new AccountHeaderBuilder()
                 .withActivity(this)
-                .withSelectionListEnabled(false)
+                .withSelectionListEnabled(true)
                 .withTextColor(Color.parseColor("#FF0000"))
 
                //.addProfiles(new ProfileDrawerItem().withName("USER"))
-                .withHeaderBackground(R.color.colorPrimaryDark)
+                .withHeaderBackground(R.color.cyan)
 
                 .build();
 
@@ -67,6 +84,8 @@ public class Home extends AppCompatActivity {
         result = new DrawerBuilder()
                 .withToolbar(toolbar)
                 .withActivity(this)
+                .withSliderBackgroundColor(Color.parseColor("#B2EBF2"))
+
                 .withAccountHeader(header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Graph Statistics"),
@@ -114,9 +133,16 @@ public class Home extends AppCompatActivity {
 
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
-        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
-        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+        materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#00838F"));
 
+        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+        floatingActionButton1.setColorNormal(Color.parseColor("#4CAF50"));
+        floatingActionButton1.setColorPressed(Color.parseColor("#4CAF50"));
+
+        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+        floatingActionButton2.setColorNormal(Color.parseColor("#F44336"));
+        floatingActionButton2.setColorPressed(Color.parseColor("#F44336"));
+        //floatingActionButton1.setImageDrawable(R.drawable);
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,11 +224,13 @@ public class Home extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
 
-                                    amount =Integer.parseInt(amt.getText().toString());
-                                amount=-amount;
+                                   String amount_text=(amt.getText().toString());
+                                if(amount_text.isEmpty()){
+                                    Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                }
                                 String text = spinner_src.getSelectedItem().toString();
                                 Toast.makeText(Home.this,text,Toast.LENGTH_SHORT).show();
-                               //  myDb.insertTxn(String.valueOf(amount),text,"cat",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                               //  myDb.insertTxn(amt.getText().toString(),text,"cat",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -300,9 +328,16 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
+                                String amount_text1=(amt.getText().toString());
+                                if(amount_text1.isEmpty()){
+                                    Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    amount_text1="-"+amount_text1;
+                                }
+
                                 String text2 = spinner_src2.getSelectedItem().toString();
                                 Toast.makeText(Home.this,text2,Toast.LENGTH_SHORT).show();
-                                //   myDb.insertTxn(amt.getText().toString(),text2,"cate",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                //   myDb.insertTxn(amount_text1,text2,"cate",description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
