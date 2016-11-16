@@ -81,7 +81,7 @@ public class Home extends AppCompatActivity {
                 .withToolbar(toolbar)
                 .withActivity(this)
                 .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
-
+             //   .withDrawer
                 .withAccountHeader(header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName("Graph Statistics"),
@@ -138,14 +138,15 @@ public class Home extends AppCompatActivity {
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#00838F"));
-
+materialDesignFAM.animate();
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
-        floatingActionButton1.setColorNormal(Color.parseColor("#4CAF50"));
-        floatingActionButton1.setColorPressed(Color.parseColor("#4CAF50"));
+        floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
+        floatingActionButton1.setColorPressed(Color.parseColor("#80cbc4"));
+          //  floatingActionButton1.setButtonSize(20);
 
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
-        floatingActionButton2.setColorNormal(Color.parseColor("#F44336"));
-        floatingActionButton2.setColorPressed(Color.parseColor("#F44336"));
+        floatingActionButton2.setColorNormal(Color.parseColor("#ff7043"));
+        floatingActionButton2.setColorPressed(Color.parseColor("#ff7043"));
         //floatingActionButton1.setImageDrawable(R.drawable);
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
