@@ -61,13 +61,16 @@ public class Home extends AppCompatActivity {
         setSupportActionBar(toolbar);
        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
+
         AccountHeader header=new AccountHeaderBuilder()
                 .withActivity(this)
+                .withHeaderBackground(R.drawable.sac)
+
                 .withSelectionListEnabled(true)
                 .withTextColor(Color.parseColor("#FF0000"))
 
                //.addProfiles(new ProfileDrawerItem().withName("USER"))
-                .withHeaderBackground(R.color.cyan)
+                //.withHeaderBackground(R.color.cyan)
 
                 .build();
 
@@ -77,7 +80,7 @@ public class Home extends AppCompatActivity {
         result = new DrawerBuilder()
                 .withToolbar(toolbar)
                 .withActivity(this)
-                .withSliderBackgroundColor(Color.parseColor("#B2EBF2"))
+                .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
 
                 .withAccountHeader(header)
                 .addDrawerItems(
