@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LedgerPlus</string>
+    <string name="expenditure">Expenditure</string>
+    <string name="income">Income</string>
 </resources>

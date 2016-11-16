@@ -6,4 +6,5 @@
     <color name="cyan">#00838F</color>color>
     <color name="first_color">#80cbc4</color>
     <color name="Second_color">#ff7043</color>
+    <color name="colorBlack">#000000</color>
 </resources>

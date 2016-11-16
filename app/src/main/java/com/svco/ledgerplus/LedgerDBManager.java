@@ -29,27 +29,43 @@ import android.database.sqlite.SQLiteOpenHelper;
             ->  boolean updateCat(String id,String cat,String type)
                 Description : Update entry with ID=id in table 'CATEGORIES'
 
-            -> Integer deleteData(String id, String tablename)
-                Description : Delete entry with ID=id in table specified by 'tablename'
+            -> Integer deleteTxn(String id)
+                Description : Delete entry with KEY_ID=id in table TRANSACTIONS
+
+            -> Integer deleteCat(String id)
+                Description : Delete entry with KEY_ID=id in table CATEGORIES
 
             -> Integer sumOfTxn(String cond)
                 Description : If cond="ex", it returns sum of all expenditure.
                               If cond="in", it returns sum of all income
-            -> String[] getAllCat(String type)
-                Description: Get all category names  of type income/expenditure. type="e" for expenditure and "i" for income
-    */
+
+            -> Cursor getExCategory()
+                Description : Get a cursor containing all Expense Categories
+            -> Cursor getInCategory()
+                Description : Get a cursor containing all Income Categories
+ */
 
 public class LedgerDBManager extends SQLiteOpenHelper{
 
     public static final String DATABASE_NAME = "LedgerPlusDB.db";
-    public static final String COL1 = "ID";
-    public static final String COL2 = "AMOUNT";
-    public static final String COL3 = "SOURCE";
-    public static final String COL4 = "CATEGORY";
-    public static final String COL5 = "DESCRIPTION";
-    public static final String COL6 = "DAY";
-    public static final String COL7 = "MONTH";
-    public static final String COL8 = "YEAR";
+
+    public static final String TABLE_TRANSACTIONS = "TRANSACTIONS";
+    public static final String TABLE_CATEGORIES = "CATEGORIES";
+
+    public static final String KEY_ID = "_id";
+
+    public static final String AMOUNT = "AMOUNT";
+    public static final String SOURCE = "SOURCE";
+    public static final String CATEGORY = "CATEGORY";
+    public static final String DESCRIPTION = "DESCRIPTION";
+    public static final String DAY = "DAY";
+    public static final String MONTH = "MONTH";
+    public static final String YEAR = "YEAR";
+
+    public static final String CATEGORY_NAME = "CATEGORY_NAME";
+    public static final String TYPE = "TYPE";
+    private final String[] EX_CATEGORIES = {"Food","Travel","Shopping","Entertainment"};
+    private final String[] IN_CATEGORIES = {"Gift","Salary","Profit"};
 
     public LedgerDBManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -59,9 +75,26 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(" create table TRANSACTIONS (ID INTEGER PRIMARY KEY AUTOINCREMENT,AMOUNT INTEGER,SOURCE TEXT,CATEGORY TEXT,DESCRIPTION TEXT,DAY INTEGER,MONTH INTEGER,YEAR INTEGER) ");
-        db.execSQL(" create table CATEGORIES (ID INTEGER PRIMARY KEY AUTOINCREMENT,NAME TEXT,TYPE TEXT");
-        //Type specifies whether Category is of expenditure or income. "e" for expenditure and "i" for income
+        //Create the tables TRANSACTIONS and CATEGORIES
+        db.execSQL("CREATE TABLE "+TABLE_TRANSACTIONS+" ("+KEY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+AMOUNT+" INTEGER,"+SOURCE+" TEXT,"+CATEGORY+" TEXT,"+DESCRIPTION+" TEXT,"+DAY+" INTEGER,"+MONTH+" INTEGER,"+YEAR+" INTEGER) ");
+        db.execSQL("CREATE TABLE " + TABLE_CATEGORIES +" ( "+ KEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ CATEGORY_NAME +" TEXT, "+ TYPE +" TEXT )");
+
+        //Populate CATEGORIES table with default categories when the database is created for the first time
+        int x=0;
+        ContentValues contentValues = new ContentValues();
+        while(x<4){
+            contentValues.put(CATEGORY_NAME, EX_CATEGORIES[x]);
+            contentValues.put(TYPE, "E");
+            db.insert(TABLE_CATEGORIES, null, contentValues);
+            x++;
+        }
+        x=0;
+        while(x<3){
+            contentValues.put(CATEGORY_NAME, IN_CATEGORIES[x]);
+            contentValues.put(TYPE, "I");
+            db.insert(TABLE_CATEGORIES, null, contentValues);
+            x++;
+        }
 
     }
 
@@ -78,13 +111,13 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL2,amount);
-        contentValues.put(COL3,source);
-        contentValues.put(COL4,category);
-        contentValues.put(COL5,description);
-        contentValues.put(COL6,day);
-        contentValues.put(COL7,month);
-        contentValues.put(COL8,year);
+        contentValues.put(AMOUNT,amount);
+        contentValues.put(SOURCE,source);
+        contentValues.put(CATEGORY,category);
+        contentValues.put(DESCRIPTION,description);
+        contentValues.put(DAY,day);
+        contentValues.put(MONTH,month);
+        contentValues.put(YEAR,year);
         long result = db.insert("Transactions",null,contentValues);
         if(result==-1)
             return false;
@@ -98,19 +131,18 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name",cat);
-        contentValues.put("Type",type);
-
-        long result = db.insert("Categories",null,contentValues);
-        if(result==-1)
+        contentValues.put(CATEGORY_NAME, cat);
+        contentValues.put(TYPE, type);
+        long result = db.insert(TABLE_CATEGORIES, null, contentValues);
+        if (result == -1)
             return false;
         else
             return true;
-
     }
+
     public Cursor getAllData(String tablename){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor res=db.rawQuery("select * from "+tablename,null);
+        Cursor res=db.rawQuery("SELECT * FROM "+tablename,null);
         return res;
     }
 
@@ -119,35 +151,38 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     public boolean updateTxn(String id,String amount,String source,String category,String description,String day,String month,String year){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL1,id);
-        contentValues.put(COL2,amount);
-        contentValues.put(COL3,source);
-        contentValues.put(COL4,category);
-        contentValues.put(COL5,description);
-        contentValues.put(COL6,day);
-        contentValues.put(COL7,month);
-        contentValues.put(COL8,year);
-        db.update("Transactions",contentValues,"ID = ?",new String[] {id});
+        contentValues.put(KEY_ID,id);
+        contentValues.put(AMOUNT,amount);
+        contentValues.put(SOURCE,source);
+        contentValues.put(CATEGORY,category);
+        contentValues.put(DESCRIPTION,description);
+        contentValues.put(DAY,day);
+        contentValues.put(MONTH,month);
+        contentValues.put(YEAR,year);
+        db.update(TABLE_TRANSACTIONS,contentValues,KEY_ID+" = ?",new String[] {id});
         return true;
     }
 
-    //Update entry with ID=id in table 'CATEGORIES'
-    public boolean updateCat(String id,String cat,String type){
+    //Update the Category with KEY_ID=id in table 'CATEGORIES'
+    public void updateCat(String id,String cat){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("Id",id);
-        contentValues.put("name",cat);
-        contentValues.put("type",type);
-
-        db.update("Categories",contentValues,"ID = ?",new String[] {id});
-        return true;
+        contentValues.put(KEY_ID,id);
+        contentValues.put(CATEGORY_NAME,cat);
+        db.update(TABLE_CATEGORIES,contentValues, KEY_ID +" = ?",new String[] {id});
     }
 
-    //Delete entry with ID=id in table specified by 'tablename'
-    public Integer deleteData(String id, String tablename){
+    //Delete entry with KEY_ID=id in table TRANSACTIONS
+    public Integer deleteTxn(String id){
         SQLiteDatabase db=this.getWritableDatabase();
-        return db.delete(tablename,"ID = ?",new String[]{id });
+        return db.delete(TABLE_TRANSACTIONS,KEY_ID+" = ?",new String[]{id });
 
+    }
+
+    //Delete entry with KEY_ID=id in table CATEGORIES
+    public Integer deleteCat(String id) {
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(TABLE_CATEGORIES, KEY_ID +" = ?",new String[]{id });
     }
 
 
@@ -162,7 +197,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             relOp=">";
         SQLiteDatabase db=this.getWritableDatabase();
         int sum;
-        Cursor c = db.rawQuery("select sum(amount) from transactions where Amount "+relOp+" 0 ;", null);
+        Cursor c = db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" where "+AMOUNT+" "+relOp+" 0 ;", null);
         if(c.moveToFirst())
         {
             sum = c.getInt(0);
@@ -176,18 +211,15 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return sum;
     }
 
-    //Get all category names  of type income/expenditure. type="e" for expenditure and "i" for income
-    public void getAllCat(String type)
-    {
-        SQLiteDatabase db=this.getWritableDatabase();
-        Cursor c = db.rawQuery("select name from categories where type= "+type+"  ;", null);
-        String[] cats = new String[c.getCount()+1];
-        int i = 1;
-        cats[0]="Select the category";
-        while(c.moveToNext()){
-            String name = c.getString(c.getColumnIndex("name"));
-            cats[i] = name;
-            i++;
-        }
+    public Cursor getExCategory() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'E'",null);
+        return res;
+    }
+
+    public Cursor getInCategory() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'I'",null);
+        return res;
     }
 }
