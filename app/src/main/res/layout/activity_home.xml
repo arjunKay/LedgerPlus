@@ -14,19 +14,6 @@
         layout="@layout/toolbar"
 
         />
-    <com.github.lzyzsd.circleprogress.DonutProgress
-        android:layout_width="280dp"
-        app:donut_unfinished_color="@color/first_color"
-        app:donut_finished_color="@color/Second_color"
-        app:donut_text_size="0dp"
-        app:donut_finished_stroke_width="50dp"
-        app:donut_unfinished_stroke_width="50dp"
-        android:layout_height="280dp"
-        android:layout_marginTop="60sp"
-        android:id="@+id/circle"
-        android:layout_weight="0.45"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
 
 
     <com.github.clans.fab.FloatingActionMenu
@@ -78,5 +65,56 @@
             fab:fab_size="mini" />
 
            </com.github.clans.fab.FloatingActionMenu>
+
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:layout_width="280dp"
+        app:donut_unfinished_color="@color/first_color"
+        app:donut_finished_color="@color/Second_color"
+        app:donut_text_size="0dp"
+        app:donut_finished_stroke_width="50dp"
+        app:donut_unfinished_stroke_width="50dp"
+        android:layout_height="280dp"
+        android:id="@+id/circle"
+        android:layout_weight="0.45"
+        android:layout_below="@+id/toolbar"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Expenditure"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+        android:id="@+id/ex_text"
+        android:textSize="11sp"
+        android:layout_marginStart="13dp"
+        android:layout_alignTop="@+id/in_color"
+        android:layout_alignStart="@+id/circle" />
+
+    <TextView
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:background="@color/Second_color"
+        android:id="@+id/in_color"
+        android:layout_below="@+id/circle"
+        android:layout_toStartOf="@+id/circle" />
+
+    <TextView
+        android:layout_width="15sp"
+        android:layout_height="15sp"
+        android:background="@color/first_color"
+        android:id="@+id/exp_color"
+        android:layout_below="@+id/circle"
+        android:layout_toStartOf="@+id/textView3"
+        android:layout_marginEnd="14dp" />
+
+    <TextView
+        android:text="Income"
+        android:layout_width="wrap_content"
+        android:layout_height="15sp"
+
+        android:textSize="11sp"
+        android:id="@+id/textView3"
+        android:layout_marginEnd="13dp"
+        android:layout_below="@+id/circle"
+        android:layout_alignEnd="@+id/material_design_android_floating_action_menu" />
 
 </RelativeLayout>
