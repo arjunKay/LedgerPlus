@@ -5,7 +5,6 @@ package com.svco.ledgerplus;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,8 +26,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.intrusoft.scatter.ChartData;
-import com.intrusoft.scatter.PieChart;
+import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -60,8 +57,6 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         myDb = new LedgerDBManager(this);
         toolbar= (Toolbar) findViewById(R.id.toolbar);
-      //  pbar= (ProgressBar) findViewById(R.id.pbar);
-       // pbar.setProgress(50);
 
 
         //  pbar.setScaleY(3f);
@@ -129,7 +124,15 @@ public class Home extends AppCompatActivity {
                 .build();
 
 
-        //Floating Menu and Button
+         //Expense Chart
+
+            DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
+            progress.setMax(100);
+            progress.setProgress(45);
+
+
+
+            //Floating Menu and Button
 
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);

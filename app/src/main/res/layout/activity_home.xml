@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:scatter="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_cyan_100"
+
 
     tools:context="com.svco.ledgerplus.Home">
     <include
@@ -14,6 +14,19 @@
         layout="@layout/toolbar"
 
         />
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:layout_width="280dp"
+        app:donut_unfinished_color="@color/first_color"
+        app:donut_finished_color="@color/Second_color"
+        app:donut_text_size="0dp"
+        app:donut_finished_stroke_width="50dp"
+        app:donut_unfinished_stroke_width="50dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="60sp"
+        android:id="@+id/circle"
+        android:layout_weight="0.45"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 
     <com.github.clans.fab.FloatingActionMenu
