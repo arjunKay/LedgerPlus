@@ -7,7 +7,7 @@
     android:minHeight="?attr/actionBarSize"
     android:fitsSystemWindows="true"
     android:id="@+id/toolbar"
-    android:elevation="4dp"
+    android:elevation="1sp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     >
 
