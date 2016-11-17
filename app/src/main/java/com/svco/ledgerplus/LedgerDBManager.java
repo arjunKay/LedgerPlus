@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 /**
  * Created by user on 11/11/2016.
 /*
@@ -127,18 +129,17 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     }
 
     //For inserting data into table 'CATEGORIES'
-    public boolean insertCat(String cat,String type){
+    public int insertCat(String cat,String type){
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(CATEGORY_NAME, cat);
         contentValues.put(TYPE, type);
         long result = db.insert(TABLE_CATEGORIES, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
+        Log.e("res",""+result);
+        return (int)result;
     }
+
 
     public Cursor getAllData(String tablename){
         SQLiteDatabase db=this.getWritableDatabase();

@@ -23,9 +23,9 @@ import java.util.List;
 
 public class myListAdapter extends ArrayAdapter<String> {
     Activity activity;
-    int[] ids;
+    List<Integer> ids;
     List<String> cats;
-    public myListAdapter(Activity activity, int resource, int[] ids, List<String> cats) {
+    public myListAdapter(Activity activity, int resource, List<Integer> ids, List<String> cats) {
         super(activity, resource,cats);
         this.activity=activity;
         this.ids=ids;
@@ -58,7 +58,7 @@ public class myListAdapter extends ArrayAdapter<String> {
                             public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
                                 LedgerDBManager myDb = new LedgerDBManager(activity);
-                                String id=String.valueOf(ids[position]);
+                                String id=String.valueOf(ids.get(position));
 
                                 String text = editText.getText().toString();
                                 if(text.isEmpty()){
@@ -79,9 +79,11 @@ public class myListAdapter extends ArrayAdapter<String> {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 LedgerDBManager myDb = new LedgerDBManager(activity);
-                                String id=String.valueOf(ids[position]);
+
+                                String id=String.valueOf(ids.get(position));
                                 if(myDb.deleteCat(id)>0){
                                     cats.remove(position);
+                                    ids.remove(position);
                                     myListAdapter.this.notifyDataSetChanged();
                                     Toast.makeText(activity.getApplicationContext(),"Category Deleted",Toast.LENGTH_SHORT).show();
 

@@ -5,12 +5,12 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/md_white_1000</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="myTabStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">20dp</item>>
     </style>
-    <style name="myListStyle" parent="TextAppearance.AppCompat.Widget.ActionMode.Subtitle">
+    <style name="myListStyle" parent="">
         <item name="android:textSize">20dp</item>>
     </style>
 

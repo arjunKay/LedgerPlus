@@ -17,7 +17,10 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class second extends Fragment {
+    public myListAdapter adapter;
 
+    public List<Integer> ids=new ArrayList<>();
+    public List<String> cats = new ArrayList<>();
     LedgerDBManager myDb;
     public second() {
         // Required empty public constructor
@@ -34,16 +37,11 @@ public class second extends Fragment {
 
         ListView myList = (ListView) view.findViewById(R.id.listView2);
 
-        int[] ids = new int[cursor.getCount()];
-        int j = 0;
-        List<String> cats = new ArrayList<>();
         while (cursor.moveToNext()) {
             cats.add(cursor.getString(1));
-            ids[j] = Integer.parseInt(cursor.getString(0));
-            j++;
-
+            ids.add(Integer.parseInt(cursor.getString(0)));
         }
-        myListAdapter adapter = new myListAdapter(getActivity(), R.layout.row_layout, ids, cats);
+       adapter = new myListAdapter(getActivity(), R.layout.row_layout, ids, cats);
         myList.setAdapter(adapter);
 
 
