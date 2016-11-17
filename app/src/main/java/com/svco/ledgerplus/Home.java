@@ -45,98 +45,143 @@ public class Home extends AppCompatActivity {
     FloatingActionButton floatingActionButton1, floatingActionButton2;
     int d,m,y;
     LedgerDBManager myDb;
-    int amount;
+    Spinner this_spinner;
+    int amount,input;
         Drawer result= null;
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_home);
-        myDb = new LedgerDBManager(this);
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+            super.onCreate(savedInstanceState);
+            // requestWindowFeature(Window.FEATURE_NO_TITLE);
+            //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            setContentView(R.layout.activity_home);
+            myDb = new LedgerDBManager(this);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
-        //  pbar.setScaleY(3f);
-        setSupportActionBar(toolbar);
-       getSupportActionBar().setDisplayShowTitleEnabled(true);
+            //  pbar.setScaleY(3f);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
 
 
-        AccountHeader header=new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.sac)
-                .withSelectionListEnabled(true)
-                .withTextColor(Color.parseColor("#FF0000"))
+            AccountHeader header = new AccountHeaderBuilder()
+                    .withActivity(this)
+                    .withHeaderBackground(R.drawable.sac)
+                    .withSelectionListEnabled(true)
+                    .withTextColor(Color.parseColor("#FF0000"))
 
-               //.addProfiles(new ProfileDrawerItem().withName("USER"))
-                //.withHeaderBackground(R.color.cyan)
+                    //.addProfiles(new ProfileDrawerItem().withName("USER"))
+                    //.withHeaderBackground(R.color.cyan)
 
-                .build();
+                    .build();
 
 
-        //Nav Drawer
+            //Nav Drawer
 
-        result = new DrawerBuilder()
-                .withToolbar(toolbar)
-                .withActivity(this)
-                .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
-                .withAccountHeader(header)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName("Home").withSelectable(false),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Graph Statistics").withSelectable(false),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Balance Sheet").withSelectable(false),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Categories").withSelectable(false),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Reminder").withSelectable(false),
-                        new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withName("Settings").withSelectable(false)
+            result = new DrawerBuilder()
+                    .withToolbar(toolbar)
+                    .withActivity(this)
+                    .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
+                    .withAccountHeader(header)
+                    .addDrawerItems(
+                            new PrimaryDrawerItem().withName("Home").withSelectable(false),
+                            new DividerDrawerItem(),
+                            new PrimaryDrawerItem().withName("Graph Statistics").withSelectable(false),
+                            new DividerDrawerItem(),
+                            new PrimaryDrawerItem().withName("Balance Sheet").withSelectable(false),
+                            new DividerDrawerItem(),
+                            new PrimaryDrawerItem().withName("Categories").withSelectable(false),
+                            new DividerDrawerItem(),
+                            new PrimaryDrawerItem().withName("Reminder").withSelectable(false),
+                            new DividerDrawerItem(),
+                            new PrimaryDrawerItem().withName("Settings").withSelectable(false)
 
-                      )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
+                    )
+                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                        @Override
 
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        switch (position)
-                        {
-                            case 3:
-                                result.closeDrawer();
-                                startActivity(new Intent(Home.this,GraphStats.class) );
-                                break;
-                            case 5:
-                                result.closeDrawer();
-                                startActivity(new Intent(Home.this,BalanceSheet.class) );
-                                break;
-                            case 7:
-                                result.closeDrawer();
-                                startActivity(new Intent(Home.this,Categories.class) );
-                                break;
-                            case 9:
-                                result.closeDrawer();
-                                startActivity(new Intent(Home.this,Reminder.class) );
-                                break;
-                            case 11:
-                                result.closeDrawer();
-                                startActivity(new Intent(Home.this,Settings.class) );
-                                break;
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                            // do something with the clicked item :D
+                            switch (position) {
+                                case 3:
+                                    result.closeDrawer();
+                                    startActivity(new Intent(Home.this, GraphStats.class));
+                                    break;
+                                case 5:
+                                    result.closeDrawer();
+                                    startActivity(new Intent(Home.this, BalanceSheet.class));
+                                    break;
+                                case 7:
+                                    result.closeDrawer();
+                                    startActivity(new Intent(Home.this, Categories.class));
+                                    break;
+                                case 9:
+                                    result.closeDrawer();
+                                    startActivity(new Intent(Home.this, Reminder.class));
+                                    break;
+                                case 11:
+                                    result.closeDrawer();
+                                    startActivity(new Intent(Home.this, Settings.class));
+                                    break;
+                            }
+
+                            return true;
                         }
+                    })
+                    .build();
+            this_spinner = (Spinner) findViewById(R.id.this_spinner);
+            final List<String> this_array = new ArrayList<String>();
+            this_array.add("Today");
+            this_array.add("This Week");
+            this_array.add("This Month");
+            this_array.add("This Year");
+            final ArrayAdapter<String> this_adapter = new ArrayAdapter<String>(Home.this, android.R.layout.simple_spinner_item, this_array);
+            this_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            this_spinner.setAdapter(this_adapter);
+            final int position = this_spinner.getSelectedItemPosition();
 
-                        return true;
+            this_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                    if(position == 4){
+
+                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
+                        progress.setMax(100);
+                        progress.setProgress(52);
                     }
-                })
-                .build();
+                    else if(position == 0){
 
+                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
+                        progress.setMax(100);
+                        progress.setProgress(15);
+                    }
+                    else if(position == 1){
 
-         //Expense Chart
+                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
+                        progress.setMax(100);
+                        progress.setProgress(0);
+                    }
+                    else if(position == 2){
+
+                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
+                        progress.setMax(100);
+                        progress.setProgress(45);
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            //Expense Chart
 
             DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
             progress.setMax(100);
-            progress.setProgress(45);
+            progress.setProgress(input);
 
 
 
@@ -266,6 +311,7 @@ materialDesignFAM.animate();
                                     String amount_text=(amt.getText().toString());
                                     if(amount_text.isEmpty()){
                                         Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                  //      dialog.setCanceledOnTouchOutside(false);
                                     }
                                     else {
                                         String text = spinner_cat.getSelectedItem().toString();

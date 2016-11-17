@@ -6,9 +6,9 @@
     android:background="@color/md_cyan_800"
     android:minHeight="?attr/actionBarSize"
     android:fitsSystemWindows="true"
-    android:id="@+id/toolbar"
-    android:elevation="1sp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:id="@+id/toolbar">
+    <!--android:elevation="1sp"-->
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
     >
 
 </android.support.v7.widget.Toolbar>
