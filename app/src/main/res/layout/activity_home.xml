@@ -163,7 +163,29 @@
                         </LinearLayout>-->
         </RelativeLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:text=" "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/md_grey_400"
+            android:textStyle="bold"
+            android:layout_marginBottom="133dp"
+            android:id="@+id/no_dat"
+            android:layout_centerInParent="true" />
 
-
+        <ImageView
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:id="@+id/imageView"
+            android:tint="@color/md_grey_400"
+            android:layout_above="@+id/no_dat"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="33dp"
+            app:srcCompat="@drawable/file" />
+    </RelativeLayout>
 </RelativeLayout>

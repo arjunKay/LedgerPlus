@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,7 +48,9 @@ public class Home extends AppCompatActivity {
     LedgerDBManager myDb;
     Spinner this_spinner;
     int amount,input;
+    int progressint;
         Drawer result= null;
+    DonutProgress progress;
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -59,8 +62,6 @@ public class Home extends AppCompatActivity {
             myDb = new LedgerDBManager(this);
             toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-
-            //  pbar.setScaleY(3f);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
 
@@ -141,32 +142,127 @@ public class Home extends AppCompatActivity {
             this_spinner.setAdapter(this_adapter);
             final int position = this_spinner.getSelectedItemPosition();
 
+
+            //Progress Bar & Spinner
+
+             progress= (DonutProgress) findViewById(R.id.circle);
+
+            final TextView newb=(TextView)findViewById(R.id.no_dat);
+            final TextView in1= (TextView) findViewById(R.id.tv_color1);
+            final TextView in2= (TextView) findViewById(R.id.tv_in);
+            final TextView ex1= (TextView) findViewById(R.id.tv_color2);
+            final TextView ex2= (TextView) findViewById(R.id.tv_ex);
+            final ImageView im=(ImageView)findViewById(R.id.imageView);
+            final TextView noda=(TextView)findViewById(R.id.no_dat);
+
+
             this_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    if(position == 4){
+                    if(position == 3){
+                        progressint=100;
+                        if(progressint!=0)
+                        {
 
-                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
-                        progress.setMax(100);
-                        progress.setProgress(52);
+                            progress.setMax(100);
+                            progress.setProgress(progressint);
+                            im.setVisibility(View.INVISIBLE);
+                            progress.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.VISIBLE);
+                            ex1.setVisibility(View.VISIBLE);
+                            ex2.setVisibility(View.VISIBLE);
+                            noda.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {newb.setText("No Data Available ;(");
+                            progress.setVisibility(View.INVISIBLE);
+                            in1.setVisibility(View.INVISIBLE);
+                            in2.setVisibility(View.INVISIBLE);
+                            ex1.setVisibility(View.INVISIBLE);
+                            ex2.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.VISIBLE);
+                            noda.setVisibility(View.VISIBLE);}
                     }
                     else if(position == 0){
+                        progressint=25;
+                        if(progressint!=0)
+                        {
 
-                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
-                        progress.setMax(100);
-                        progress.setProgress(15);
+                            progress.setMax(100);
+                            progress.setProgress(progressint);
+                            im.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.INVISIBLE);
+                            progress.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.VISIBLE);
+                            ex1.setVisibility(View.VISIBLE);
+                            ex2.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {newb.setText("No Data Available ;(");
+                            progress.setVisibility(View.INVISIBLE);
+                            in1.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.INVISIBLE);
+                            ex1.setVisibility(View.INVISIBLE);
+                            ex2.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.VISIBLE);
+                        }
                     }
                     else if(position == 1){
 
-                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
-                        progress.setMax(100);
-                        progress.setProgress(0);
+                        progressint=50;
+                        if(progressint!=0)
+                        {
+
+                            progress.setMax(100);
+                            progress.setProgress(progressint);
+                            noda.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.INVISIBLE);
+                            progress.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.VISIBLE);
+                            ex1.setVisibility(View.VISIBLE);
+                            ex2.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {newb.setText("No Data Available ;(");
+                            progress.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.INVISIBLE);
+                            in2.setVisibility(View.INVISIBLE);
+                            ex1.setVisibility(View.INVISIBLE);
+                            ex2.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.VISIBLE);
+                        }
                     }
                     else if(position == 2){
 
-                        DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
-                        progress.setMax(100);
-                        progress.setProgress(45);
+                        progressint=0;
+                        if(progressint!=0)
+                        {
+
+                            progress.setMax(100);
+                            noda.setVisibility(View.INVISIBLE);
+                            progress.setProgress(progressint);
+                            im.setVisibility(View.INVISIBLE);
+                            progress.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.VISIBLE);
+                            ex1.setVisibility(View.VISIBLE);
+                            ex2.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {newb.setText("No Data Available ;(");
+                            noda.setVisibility(View.VISIBLE);
+                            progress.setVisibility(View.INVISIBLE);
+                            in1.setVisibility(View.INVISIBLE);
+                            in2.setVisibility(View.INVISIBLE);
+                            ex1.setVisibility(View.INVISIBLE);
+                            ex2.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
@@ -177,12 +273,6 @@ public class Home extends AppCompatActivity {
                 }
             });
 
-            //Expense Chart
-
-            DonutProgress progress= (DonutProgress) findViewById(R.id.circle);
-            progress.setMax(100);
-            progress.setProgress(input);
-
 
 
             //Floating Menu and Button
@@ -190,7 +280,7 @@ public class Home extends AppCompatActivity {
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
         materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#00838F"));
-materialDesignFAM.animate();
+        materialDesignFAM.animate();
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
         floatingActionButton1.setColorPressed(Color.parseColor("#80cbc4"));
