@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_graph_stats"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.svco.ledgerplus.GraphStats">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".GraphStats">
+<include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar_layout"
 
-        />
+    />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
