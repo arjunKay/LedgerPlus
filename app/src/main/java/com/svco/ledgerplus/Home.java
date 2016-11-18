@@ -48,8 +48,11 @@ public class Home extends AppCompatActivity {
     LedgerDBManager myDb;
     Spinner this_spinner;
     int amount,input;
-    int progressint;
-        Drawer result= null;
+    int progressint;//=myDb.sumOfTxn("ex");
+    //  float b=(float)progressint;
+    int a;//=myDb.sumOfTxn("in");
+
+    Drawer result= null;
     DonutProgress progress;
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -62,6 +65,8 @@ public class Home extends AppCompatActivity {
             myDb = new LedgerDBManager(this);
             toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+
+            //  pbar.setScaleY(3f);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
 
@@ -86,15 +91,13 @@ public class Home extends AppCompatActivity {
                     .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
                     .withAccountHeader(header)
                     .addDrawerItems(
-                            new PrimaryDrawerItem().withName("Home").withSelectable(false),
+                            new PrimaryDrawerItem().withName("Overview").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Graph Statistics").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Balance Sheet").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Categories").withSelectable(false),
-                            new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Reminder").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Settings").withSelectable(false)
 
@@ -105,6 +108,10 @@ public class Home extends AppCompatActivity {
                         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                             // do something with the clicked item :D
                             switch (position) {
+                                case 1:
+                                    result.closeDrawer();
+                                    break;
+
                                 case 3:
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, GraphStats.class));
@@ -117,11 +124,11 @@ public class Home extends AppCompatActivity {
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, Categories.class));
                                     break;
+//                                case 9:
+//                                    result.closeDrawer();
+//                                    startActivity(new Intent(Home.this, Reminder.class));
+//                                    break;
                                 case 9:
-                                    result.closeDrawer();
-                                    startActivity(new Intent(Home.this, Reminder.class));
-                                    break;
-                                case 11:
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, Settings.class));
                                     break;
@@ -159,7 +166,7 @@ public class Home extends AppCompatActivity {
             this_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    if(position == 3){
+                    if(position == 0){
                         progressint=100;
                         if(progressint!=0)
                         {
@@ -184,42 +191,15 @@ public class Home extends AppCompatActivity {
                             im.setVisibility(View.VISIBLE);
                             noda.setVisibility(View.VISIBLE);}
                     }
-                    else if(position == 0){
-                        progressint=25;
-                        if(progressint!=0)
-                        {
-
-                            progress.setMax(100);
-                            progress.setProgress(progressint);
-                            im.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.INVISIBLE);
-                            progress.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.VISIBLE);
-                            ex1.setVisibility(View.VISIBLE);
-                            ex2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {newb.setText("No Data Available ;(");
-                            progress.setVisibility(View.INVISIBLE);
-                            in1.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.INVISIBLE);
-                            ex1.setVisibility(View.INVISIBLE);
-                            ex2.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.VISIBLE);
-                        }
-                    }
                     else if(position == 1){
-
-                        progressint=50;
+                        progressint=0;
                         if(progressint!=0)
                         {
 
                             progress.setMax(100);
                             progress.setProgress(progressint);
-                            noda.setVisibility(View.INVISIBLE);
                             im.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.INVISIBLE);
                             progress.setVisibility(View.VISIBLE);
                             in1.setVisibility(View.VISIBLE);
                             in2.setVisibility(View.VISIBLE);
@@ -229,8 +209,8 @@ public class Home extends AppCompatActivity {
                         else
                         {newb.setText("No Data Available ;(");
                             progress.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.VISIBLE);
                             in1.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.VISIBLE);
                             in2.setVisibility(View.INVISIBLE);
                             ex1.setVisibility(View.INVISIBLE);
                             ex2.setVisibility(View.INVISIBLE);
@@ -238,6 +218,34 @@ public class Home extends AppCompatActivity {
                         }
                     }
                     else if(position == 2){
+                            progressint=myDb.sumOfTxn("ex");
+                      //  float b=(float)progressint;
+                         int a=myDb.sumOfTxn("in");
+                        if(progressint!=0||a!=0)
+                        {
+
+                            progress.setMax(100);
+                            progress.setProgress(progressint);
+                            noda.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.INVISIBLE);
+                            progress.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.VISIBLE);
+                            in2.setVisibility(View.VISIBLE);
+                            ex1.setVisibility(View.VISIBLE);
+                            ex2.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {newb.setText("No Data Available ;(");
+                            progress.setVisibility(View.INVISIBLE);
+                            noda.setVisibility(View.VISIBLE);
+                            in1.setVisibility(View.INVISIBLE);
+                            in2.setVisibility(View.INVISIBLE);
+                            ex1.setVisibility(View.INVISIBLE);
+                            ex2.setVisibility(View.INVISIBLE);
+                            im.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else if(position == 3){
 
                         progressint=0;
                         if(progressint!=0)
@@ -410,6 +418,7 @@ public class Home extends AppCompatActivity {
                                         String text3=amt.getText().toString();
                                        String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
+
                                     }
 
                                 }
