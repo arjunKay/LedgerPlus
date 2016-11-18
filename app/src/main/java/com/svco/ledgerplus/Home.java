@@ -534,25 +534,27 @@ public class Home extends AppCompatActivity {
                         .customView(dialogLayout,true)
                         .positiveText("Add")
                         .negativeText("Cancel")
-
+                        .cancelable(false)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
                                 if(spinner_cat2.getSelectedItemPosition()!=0){
                                     String amount_text=(amt.getText().toString());
-                                    amount_text="-"+amount_text;
                                     if(amount_text.isEmpty()){
                                         Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                        //dialog.show();
                                     }
                                     else {
+                                        amount_text="-"+amount_text;
                                         String text = spinner_cat2.getSelectedItem().toString();
-    String text2=spinner_src2.getSelectedItem().toString();
+                                        String text2=spinner_src2.getSelectedItem().toString();
                                         myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
                                     }
 
                                 }
                                 else {
+                                    dialog.show();
                                     Toast.makeText(getApplicationContext(),"Select a category",Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -560,7 +562,7 @@ public class Home extends AppCompatActivity {
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                dialog.cancel();
+                                dialog.dismiss();
                             }
                         })
                         .build();
