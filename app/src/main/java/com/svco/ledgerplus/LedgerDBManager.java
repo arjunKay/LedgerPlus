@@ -43,8 +43,12 @@ import android.util.Log;
 
             -> Cursor getExCategory()
                 Description : Get a cursor containing all Expense Categories
+
             -> Cursor getInCategory()
                 Description : Get a cursor containing all Income Categories
+
+            ->Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
+                Description: Retrieve data based on filter conditions
  */
 
 public class LedgerDBManager extends SQLiteOpenHelper{
@@ -222,5 +226,76 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'I'",null);
         return res;
+    }
+
+
+    //Description - Retrieve data based on filter conditions
+    public Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
+    {
+        String thequery="Select * from "+TABLE_TRANSACTIONS+" WHERE ";
+        String temp=thequery;
+        String startDateCond="", endDateCond="";
+        Cursor c;
+        if(startDate.equals("0")==false)
+        {
+            startDateCond="((Year*10000)+(Month*100)+Day)>="+startDate+" ";
+            thequery=thequery+startDateCond+" AND ";
+        }
+        if(endDate.equals("0")==false)
+        {
+            endDateCond="((Year*10000)+(Month*100)+Day)<="+endDate+" ";
+            thequery=thequery+endDateCond+" AND ";
+        }
+
+        String srcCond="";
+        if(cashOrBank.equals("")==false)
+        {
+            srcCond="Source='"+cashOrBank+"' ";
+            thequery=thequery+srcCond+" AND ";
+        }
+
+
+        String inOrExCond="";
+        if(inOrEx.equals("e"))
+        {
+            inOrExCond=" Amount<0 ";
+            thequery=thequery+inOrExCond+" AND ";
+        }
+        if(inOrEx.equals("i"))
+        {
+            inOrExCond=" Amount>0 ";
+            thequery=thequery+inOrExCond+" AND ";
+        }
+
+        String catCond="";
+        if(category.equals("")==false)
+        {
+            catCond="category='"+category+"'";
+            thequery=thequery+catCond+" AND ";
+        }
+
+        String minAmtCond="";
+        if(!minAmt.equals("0"))
+        {
+            minAmtCond=" ABS(Amount)>"+minAmt;
+            thequery=thequery+minAmtCond+" AND ";
+        }
+        String maxAmtCond="";
+        if(!maxAmt.equals("-1"))
+        {
+            maxAmtCond=" ABS(Amount)<"+maxAmt;
+            thequery=thequery+maxAmtCond+" AND ";
+        }
+
+        if(thequery.equals(temp))
+            return getAllData(TABLE_TRANSACTIONS);
+        else
+        {
+            thequery=thequery.substring(0,thequery.lastIndexOf("AND"));
+            SQLiteDatabase db=this.getWritableDatabase();
+            c=db.rawQuery(thequery,null);
+            return c;
+        }
+
     }
 }
