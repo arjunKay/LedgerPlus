@@ -51,6 +51,13 @@ public class Home extends AppCompatActivity {
     int progressint;//=myDb.sumOfTxn("ex");
     //  float b=(float)progressint;
     int a;//=myDb.sumOfTxn("in");
+     TextView newb;
+    TextView in1;
+     TextView in2;
+    TextView ex1;
+    TextView ex2;
+    ImageView im;
+    TextView noda;
 
     Drawer result= null;
     DonutProgress progress;
@@ -154,123 +161,35 @@ public class Home extends AppCompatActivity {
 
              progress= (DonutProgress) findViewById(R.id.circle);
 
-            final TextView newb=(TextView)findViewById(R.id.no_dat);
-            final TextView in1= (TextView) findViewById(R.id.tv_color1);
-            final TextView in2= (TextView) findViewById(R.id.tv_in);
-            final TextView ex1= (TextView) findViewById(R.id.tv_color2);
-            final TextView ex2= (TextView) findViewById(R.id.tv_ex);
-            final ImageView im=(ImageView)findViewById(R.id.imageView);
-            final TextView noda=(TextView)findViewById(R.id.no_dat);
+          newb=(TextView)findViewById(R.id.no_dat);
+            in1= (TextView) findViewById(R.id.tv_color1);
+            in2= (TextView) findViewById(R.id.tv_in);
+            ex1= (TextView) findViewById(R.id.tv_color2);
+            ex2= (TextView) findViewById(R.id.tv_ex);
+             im=(ImageView)findViewById(R.id.imageView);
+             noda=(TextView)findViewById(R.id.no_dat);
 
 
             this_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                     if(position == 0){
-                        progressint=100;
-                        if(progressint!=0)
-                        {
-
-                            progress.setMax(100);
-                            progress.setProgress(progressint);
-                            im.setVisibility(View.INVISIBLE);
-                            progress.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.VISIBLE);
-                            ex1.setVisibility(View.VISIBLE);
-                            ex2.setVisibility(View.VISIBLE);
-                            noda.setVisibility(View.INVISIBLE);
-                        }
-                        else
-                        {newb.setText("No Data Available ;(");
-                            progress.setVisibility(View.INVISIBLE);
-                            in1.setVisibility(View.INVISIBLE);
-                            in2.setVisibility(View.INVISIBLE);
-                            ex1.setVisibility(View.INVISIBLE);
-                            ex2.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.VISIBLE);
-                            noda.setVisibility(View.VISIBLE);}
+                      //  progressint=80;
+                        spinnerChnage(80,5);
                     }
                     else if(position == 1){
-                        progressint=0;
-                        if(progressint!=0)
-                        {
+                        spinnerChnage(50,5);
 
-                            progress.setMax(100);
-                            progress.setProgress(progressint);
-                            im.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.INVISIBLE);
-                            progress.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.VISIBLE);
-                            ex1.setVisibility(View.VISIBLE);
-                            ex2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {newb.setText("No Data Available ;(");
-                            progress.setVisibility(View.INVISIBLE);
-                            in1.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.INVISIBLE);
-                            ex1.setVisibility(View.INVISIBLE);
-                            ex2.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.VISIBLE);
-                        }
                     }
                     else if(position == 2){
                             progressint=myDb.sumOfTxn("ex");
                       //  float b=(float)progressint;
-                         int a=myDb.sumOfTxn("in");
-                        if(progressint!=0||a!=0)
-                        {
-
-                            progress.setMax(100);
-                            progress.setProgress(progressint);
-                            noda.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.INVISIBLE);
-                            progress.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.VISIBLE);
-                            ex1.setVisibility(View.VISIBLE);
-                            ex2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {newb.setText("No Data Available ;(");
-                            progress.setVisibility(View.INVISIBLE);
-                            noda.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.INVISIBLE);
-                            in2.setVisibility(View.INVISIBLE);
-                            ex1.setVisibility(View.INVISIBLE);
-                            ex2.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.VISIBLE);
-                        }
+                        spinnerChnage(65,5);
                     }
                     else if(position == 3){
 
                         progressint=0;
-                        if(progressint!=0)
-                        {
-
-                            progress.setMax(100);
-                            noda.setVisibility(View.INVISIBLE);
-                            progress.setProgress(progressint);
-                            im.setVisibility(View.INVISIBLE);
-                            progress.setVisibility(View.VISIBLE);
-                            in1.setVisibility(View.VISIBLE);
-                            in2.setVisibility(View.VISIBLE);
-                            ex1.setVisibility(View.VISIBLE);
-                            ex2.setVisibility(View.VISIBLE);
-                        }
-                        else
-                        {newb.setText("No Data Available ;(");
-                            noda.setVisibility(View.VISIBLE);
-                            progress.setVisibility(View.INVISIBLE);
-                            in1.setVisibility(View.INVISIBLE);
-                            in2.setVisibility(View.INVISIBLE);
-                            ex1.setVisibility(View.INVISIBLE);
-                            ex2.setVisibility(View.INVISIBLE);
-                            im.setVisibility(View.VISIBLE);
-                        }
+                        spinnerChnage(20,5);
                     }
 
                 }
@@ -418,6 +337,8 @@ public class Home extends AppCompatActivity {
                                         String text3=amt.getText().toString();
                                        String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                        //spinnerChnage(20,5);
+
 
                                     }
 
@@ -589,5 +510,33 @@ public class Home extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    public void spinnerChnage(int expense,int income){
+
+        if(expense!=0)
+        {
+
+            progress.setMax(100);
+            progress.setProgress(expense);
+            im.setVisibility(View.INVISIBLE);
+            progress.setVisibility(View.VISIBLE);
+            in1.setVisibility(View.VISIBLE);
+            in2.setVisibility(View.VISIBLE);
+            ex1.setVisibility(View.VISIBLE);
+            ex2.setVisibility(View.VISIBLE);
+            noda.setVisibility(View.INVISIBLE);
+        }
+        else
+        {newb.setText("No Data Available ;(");
+            progress.setVisibility(View.INVISIBLE);
+            in1.setVisibility(View.INVISIBLE);
+            in2.setVisibility(View.INVISIBLE);
+            ex1.setVisibility(View.INVISIBLE);
+            ex2.setVisibility(View.INVISIBLE);
+            im.setVisibility(View.VISIBLE);
+            noda.setVisibility(View.VISIBLE);}
+
     }
 }
