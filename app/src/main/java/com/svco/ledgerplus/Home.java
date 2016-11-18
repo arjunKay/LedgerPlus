@@ -375,9 +375,10 @@ public class Home extends AppCompatActivity {
                                         String text = spinner_cat.getSelectedItem().toString();
 
                                         String text2 = spinner_src.getSelectedItem().toString();
-                                        String text3=amt.getText().toString();
+                                         final String text3=amt.getText().toString();
                                        String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
+
 
 
 
@@ -518,10 +519,12 @@ public class Home extends AppCompatActivity {
                                         //dialog.show();
                                     }
                                     else {
+                                        final String value=amount_text;
                                         amount_text="-"+amount_text;
                                         String text = spinner_cat2.getSelectedItem().toString();
                                         String text2=spinner_src2.getSelectedItem().toString();
                                         myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+
 
 
                                     }
