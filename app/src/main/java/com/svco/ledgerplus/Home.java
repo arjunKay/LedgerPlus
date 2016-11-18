@@ -47,8 +47,12 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     LedgerDBManager myDb;
     Spinner this_spinner;
-    int amount,input;
-    int progressint;//=myDb.sumOfTxn("ex");
+    int sum,spin_in,spin_ex;
+    float spin_fin,spin_fex;
+
+    int amount;
+      int progressint;
+    //=myDb.sumOfTxn("ex");
     //  float b=(float)progressint;
     int a;//=myDb.sumOfTxn("in");
      TextView newb;
@@ -175,21 +179,55 @@ public class Home extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                     if(position == 0){
                       //  progressint=80;
-                        spinnerChnage(80,5);
+                        final Calendar calendar = Calendar.getInstance();
+                        y=calendar.get(Calendar.YEAR);
+                        m=calendar.get(Calendar.MONTH);
+                        d=calendar.get(Calendar.DATE);
+//Toast.makeText(Home.this,String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y),Toast.LENGTH_SHORT).show();
+                        spin_ex=myDb.sumOfExpToday(String.valueOf(y),String.valueOf(m),String.valueOf(d));
+                        spin_in=myDb.sumOfInToday(String.valueOf(y),String.valueOf(m),String.valueOf(d));
+                        sum=spin_in+spin_ex;
+                        if(sum==0){
+                            spinnerChnage(0,0);
+
+                        }
+                        else{
+
+                        }
                     }
                     else if(position == 1){
-                        spinnerChnage(50,5);
 
                     }
-                    else if(position == 2){
-                            progressint=myDb.sumOfTxn("ex");
-                      //  float b=(float)progressint;
-                        spinnerChnage(65,5);
-                    }
-                    else if(position == 3){
+                    else if(position == 2) {
+                        final Calendar calendar = Calendar.getInstance();
+                        y = calendar.get(Calendar.YEAR);
+                        m = calendar.get(Calendar.MONTH);
+//Toast.makeText(Home.this,String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y),Toast.LENGTH_SHORT).show();
+                        spin_in = myDb.sumOfInThisMonth(String.valueOf(y), String.valueOf(m));
+                        spin_ex = myDb.sumOfExpThisMonth(String.valueOf(y), String.valueOf(m));
+                         sum = spin_ex + spin_in;
+                        if (sum == 0) {
+                            spinnerChnage(0, 0);
 
-                        progressint=0;
-                        spinnerChnage(20,5);
+                        } else {
+
+                        }
+                    }
+                        else if(position == 3){
+                        final Calendar calendar = Calendar.getInstance();
+                        y=calendar.get(Calendar.YEAR);
+                        spin_in=myDb.sumOfInThisYear(String.valueOf(y));
+                        spin_ex=myDb.sumOfExpThisYear(String.valueOf(y));
+                        sum=spin_ex+spin_in;
+
+                        if(sum==0){
+                            spinnerChnage(0,0);
+
+                        }
+                        else{
+
+                        }
+
                     }
 
                 }
@@ -209,13 +247,13 @@ public class Home extends AppCompatActivity {
         materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#00838F"));
         materialDesignFAM.animate();
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
-        floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
-        floatingActionButton1.setColorPressed(Color.parseColor("#80cbc4"));
+        floatingActionButton1.setColorNormal(Color.parseColor("#ff7043"));
+        floatingActionButton1.setColorPressed(Color.parseColor("#ff7043"));
           //  floatingActionButton1.setButtonSize(20);
 
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
-        floatingActionButton2.setColorNormal(Color.parseColor("#ff7043"));
-        floatingActionButton2.setColorPressed(Color.parseColor("#ff7043"));
+        floatingActionButton2.setColorNormal(Color.parseColor("#80cbc4"));
+        floatingActionButton2.setColorPressed(Color.parseColor("#80cbc4"));
         //floatingActionButton1.setImageDrawable(R.drawable);
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,7 +375,8 @@ public class Home extends AppCompatActivity {
                                         String text3=amt.getText().toString();
                                        String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
-                                        //spinnerChnage(20,5);
+
+
 
 
                                     }
@@ -480,6 +519,8 @@ public class Home extends AppCompatActivity {
                                         String text = spinner_cat2.getSelectedItem().toString();
                                         String text2=spinner_src2.getSelectedItem().toString();
                                         myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+
+
                                     }
 
                                 }
@@ -515,7 +556,17 @@ public class Home extends AppCompatActivity {
 
     public void spinnerChnage(int expense,int income){
 
-        if(expense!=0)
+        if((expense==0) &&( income ==0))
+        {newb.setText("No Data Available ;(");
+            progress.setVisibility(View.INVISIBLE);
+            in1.setVisibility(View.INVISIBLE);
+            in2.setVisibility(View.INVISIBLE);
+            ex1.setVisibility(View.INVISIBLE);
+            ex2.setVisibility(View.INVISIBLE);
+            im.setVisibility(View.VISIBLE);
+            noda.setVisibility(View.VISIBLE);}
+
+        else
         {
 
             progress.setMax(100);
@@ -528,15 +579,6 @@ public class Home extends AppCompatActivity {
             ex2.setVisibility(View.VISIBLE);
             noda.setVisibility(View.INVISIBLE);
         }
-        else
-        {newb.setText("No Data Available ;(");
-            progress.setVisibility(View.INVISIBLE);
-            in1.setVisibility(View.INVISIBLE);
-            in2.setVisibility(View.INVISIBLE);
-            ex1.setVisibility(View.INVISIBLE);
-            ex2.setVisibility(View.INVISIBLE);
-            im.setVisibility(View.VISIBLE);
-            noda.setVisibility(View.VISIBLE);}
 
     }
 }

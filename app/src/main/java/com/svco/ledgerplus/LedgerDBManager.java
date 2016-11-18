@@ -215,19 +215,99 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         c.close();
         return sum;
     }
-//    public Integer sumOfExpToday(String currentYear,String currentMonth){
-//        String relOp="<";
-//        String eq ="=";
-//        SQLiteDatabase db=this.getWritableDatabase();
-//        int sum;
-//
-//        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" where "+AMOUNT+" "+relOp+" 0 "+" AND "+MONTH+" "+eq+ "currentMonth"+" AND "+YEAR+" "+eq+ "currentYear  ;",null);
-//        if(c.moveToFirst()){
-//            sum=c.getInt(0);
-//            sum=sum*-1;
-//        }c.close();
-//        return sum;
-//    }
+   public Integer sumOfExpToday(String currentYear,String currentMonth,String currentDay){
+        String relOp="<";
+        String eq ="=";
+       int a= Integer.parseInt(currentDay);
+       int d=Integer.parseInt(currentYear);
+       int b=Integer.parseInt(currentMonth);
+       SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+" AND "+MONTH+" = "+b+" AND "+DAY+"="+a+"; ",null);
+       if(c.moveToFirst()){
+           sum=c.getInt(0);
+            sum=sum*-1;
+        }c.close();
+       
+        return sum;
+    }
+
+    public Integer sumOfInToday(String currentYear,String currentMonth,String currentDay){
+        String relOp=">";
+        String eq ="=";
+        int a= Integer.parseInt(currentDay);
+        int d=Integer.parseInt(currentYear);
+        int b=Integer.parseInt(currentMonth);
+        SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+" AND "+MONTH+" = "+b+" AND "+DAY+"="+a+"; ",null);
+        if(c.moveToFirst()){
+            sum=c.getInt(0);
+        }c.close();
+
+        return sum;
+    }
+
+
+    public Integer sumOfInThisMonth(String currentYear,String currentMonth){
+        String relOp=">";
+        String eq ="=";
+        int d=Integer.parseInt(currentYear);
+        int b=Integer.parseInt(currentMonth);
+        SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+" AND "+MONTH+" = "+b+"; ",null);
+        if(c.moveToFirst()){
+            sum=c.getInt(0);
+        }c.close();
+
+        return sum;
+    }
+    public Integer sumOfExpThisMonth(String currentYear,String currentMonth){
+        String relOp="<";
+        String eq ="=";
+        int d=Integer.parseInt(currentYear);
+        int b=Integer.parseInt(currentMonth);
+        SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+" AND "+MONTH+" = "+b+"; ",null);
+        if(c.moveToFirst()){
+            sum=c.getInt(0);
+            sum=sum*-1;
+        }c.close();
+
+        return sum;
+    }
+
+    public Integer sumOfExpThisYear(String currentYear){
+        String relOp="<";
+        String eq ="=";
+        int d=Integer.parseInt(currentYear);
+        SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+"; ",null);
+        if(c.moveToFirst()){
+            sum=c.getInt(0);
+            sum=sum*-1;
+        }c.close();
+
+        return sum;
+    }
+    public Integer sumOfInThisYear(String currentYear){
+        String relOp=">";
+        String eq ="=";
+        int d=Integer.parseInt(currentYear);
+        SQLiteDatabase db=this.getWritableDatabase();
+        int sum =0;
+        Cursor c=db.rawQuery("SELECT SUM("+AMOUNT+") FROM "+TABLE_TRANSACTIONS+" WHERE "+AMOUNT+" "+relOp+" 0 AND  "+YEAR+"="+d+"; ",null);
+        if(c.moveToFirst()){
+            sum=c.getInt(0);
+        }c.close();
+
+        return sum;
+    }
+
+
 
     public Cursor getExCategory() {
         SQLiteDatabase db = this.getWritableDatabase();
