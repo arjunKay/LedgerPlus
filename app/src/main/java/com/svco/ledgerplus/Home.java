@@ -47,7 +47,7 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     LedgerDBManager myDb;
     Spinner this_spinner;
-    int sum,spin_in,spin_ex;
+    int sum=0,spin_in=0,spin_ex=0;
     float spin_fin,spin_fex;
     int input1,input2;
 
@@ -161,7 +161,6 @@ public class Home extends AppCompatActivity {
             ex1 = (TextView) findViewById(R.id.tv_color2);
             ex2 = (TextView) findViewById(R.id.tv_ex);
             im = (ImageView) findViewById(R.id.imageView);
-            noda = (TextView) findViewById(R.id.no_dat);
 
 
             spin_ex = myDb.sumOfTxn("ex");
@@ -169,12 +168,9 @@ public class Home extends AppCompatActivity {
             sum = spin_ex + spin_in;
 
             if (sum == 0)
-                    spinnerChnage(0,0);
+                    spinnerChnage(0,0,0);
             else {
-                float val1=(spin_ex*100)/sum;
-                int val2=(int)val1;
-                int val3=100-val2;
-                spinnerChnage(val2, val3);
+                spinnerChnage(spin_ex,spin_in,sum);
             }
                 //Floating Menu and Button
 
@@ -309,23 +305,17 @@ public class Home extends AppCompatActivity {
 
                                         String text2 = spinner_src.getSelectedItem().toString();
                                          final String text3=amt.getText().toString();
-                                       String text4= description.getText().toString();
+                                        String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
+                                        int x1=spin_in+Integer.parseInt(amount_text);
+                                        sum = x1 + spin_ex;
 
-                                        spin_ex = myDb.sumOfTxn("ex");
-                                        int x1=spin_ex+Integer.parseInt(amount_text);
-                                        spin_in = myDb.sumOfTxn("in");
-                                        sum = x1 + spin_in;
+                                        spinnerChnage(spin_ex,x1,sum);
 
-                                        if (sum == 0)
-                                            spinnerChnage(0,0);
-                                        else {
-                                            float val1=(x1*100)/sum;
-                                            int val2=(int)val1;
-                                            int val3=100-val2;
-                                            spinnerChnage(val2, val3);
-                                        }
+                                        spin_ex=myDb.sumOfTxn("ex");
+                                        spin_in=myDb.sumOfTxn("in");
+
 
                                     }
 
@@ -469,21 +459,15 @@ public class Home extends AppCompatActivity {
                                         String text2=spinner_src2.getSelectedItem().toString();
                                         myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
+                                        int x1=spin_ex+Integer.parseInt(value);
+                                        sum = x1 + spin_in;
 
-                                        spin_ex = myDb.sumOfTxn("ex");
+                                        spinnerChnage(x1,spin_in,sum);
+                                        spin_ex=myDb.sumOfTxn("ex");
+                                        spin_in=myDb.sumOfTxn("in");
 
-                                        spin_in = myDb.sumOfTxn("in");
-                                        int x1=spin_in+Integer.parseInt(value);
-                                        sum = x1 + spin_ex;
 
-                                        if (sum == 0)
-                                            spinnerChnage(0,0);
-                                        else {
-                                            float val1=(spin_ex*100)/sum;
-                                            int val2=(int)val1;
-                                            int val3=100-val2;
-                                            spinnerChnage(val2, val3);
-                                        }
+
                                     }
 
                                 }
@@ -517,7 +501,7 @@ public class Home extends AppCompatActivity {
     }
 
 
-    public void spinnerChnage(int expense,int income){
+    public void spinnerChnage(int expense,int income,int sum){
 
         if((expense==0) &&( income ==0))
         {newb.setText("No Data Available ;(");
@@ -527,12 +511,12 @@ public class Home extends AppCompatActivity {
             ex1.setVisibility(View.INVISIBLE);
             ex2.setVisibility(View.INVISIBLE);
             im.setVisibility(View.VISIBLE);
-            noda.setVisibility(View.VISIBLE);}
+            newb.setVisibility(View.VISIBLE);}
 
         else
         {
 
-            progress.setMax(100);
+            progress.setMax(sum);
             progress.setProgress(expense);
             im.setVisibility(View.INVISIBLE);
             progress.setVisibility(View.VISIBLE);
@@ -540,7 +524,7 @@ public class Home extends AppCompatActivity {
             in2.setVisibility(View.VISIBLE);
             ex1.setVisibility(View.VISIBLE);
             ex2.setVisibility(View.VISIBLE);
-            noda.setVisibility(View.INVISIBLE);
+            newb.setVisibility(View.INVISIBLE);
         }
 
     }
