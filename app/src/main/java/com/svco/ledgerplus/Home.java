@@ -49,6 +49,7 @@ public class Home extends AppCompatActivity {
     Spinner this_spinner;
     int sum,spin_in,spin_ex;
     float spin_fin,spin_fex;
+    int input1,input2;
 
     int amount;
       int progressint;
@@ -188,11 +189,11 @@ public class Home extends AppCompatActivity {
                         spin_in=myDb.sumOfInToday(String.valueOf(y),String.valueOf(m),String.valueOf(d));
                         sum=spin_in+spin_ex;
                         if(sum==0){
-                            spinnerChnage(0,0);
+                            spinnerChnage(0,0,0);
 
                         }
                         else{
-
+                            spinnerChnage(spin_ex,spin_in,sum);
                         }
                     }
                     else if(position == 1){
@@ -207,10 +208,10 @@ public class Home extends AppCompatActivity {
                         spin_ex = myDb.sumOfExpThisMonth(String.valueOf(y), String.valueOf(m));
                          sum = spin_ex + spin_in;
                         if (sum == 0) {
-                            spinnerChnage(0, 0);
+                            spinnerChnage(0, 0,0);
 
                         } else {
-
+                            spinnerChnage(spin_ex,spin_in,sum);
                         }
                     }
                         else if(position == 3){
@@ -221,11 +222,13 @@ public class Home extends AppCompatActivity {
                         sum=spin_ex+spin_in;
 
                         if(sum==0){
-                            spinnerChnage(0,0);
+                            spinnerChnage(0,0,0);
 
                         }
                         else{
 
+
+                            spinnerChnage(spin_ex,spin_in,sum);
                         }
 
                     }
@@ -247,13 +250,13 @@ public class Home extends AppCompatActivity {
         materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#00838F"));
         materialDesignFAM.animate();
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
-        floatingActionButton1.setColorNormal(Color.parseColor("#ff7043"));
-        floatingActionButton1.setColorPressed(Color.parseColor("#ff7043"));
+        floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
+        floatingActionButton1.setColorPressed(Color.parseColor("#80cbc4"));
           //  floatingActionButton1.setButtonSize(20);
 
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
-        floatingActionButton2.setColorNormal(Color.parseColor("#80cbc4"));
-        floatingActionButton2.setColorPressed(Color.parseColor("#80cbc4"));
+        floatingActionButton2.setColorNormal(Color.parseColor("#ff7043"));
+        floatingActionButton2.setColorPressed(Color.parseColor("#ff7043"));
         //floatingActionButton1.setImageDrawable(R.drawable);
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -554,7 +557,7 @@ public class Home extends AppCompatActivity {
     }
 
 
-    public void spinnerChnage(int expense,int income){
+    public void spinnerChnage(int expense,int income,int sum){
 
         if((expense==0) &&( income ==0))
         {newb.setText("No Data Available ;(");
@@ -569,7 +572,7 @@ public class Home extends AppCompatActivity {
         else
         {
 
-            progress.setMax(100);
+            progress.setMax(sum);
             progress.setProgress(expense);
             im.setVisibility(View.INVISIBLE);
             progress.setVisibility(View.VISIBLE);
