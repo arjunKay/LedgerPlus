@@ -150,100 +150,33 @@ public class Home extends AppCompatActivity {
                         }
                     })
                     .build();
-            this_spinner = (Spinner) findViewById(R.id.this_spinner);
-            final List<String> this_array = new ArrayList<String>();
-            this_array.add("Today");
-            this_array.add("This Week");
-            this_array.add("This Month");
-            this_array.add("This Year");
-            final ArrayAdapter<String> this_adapter = new ArrayAdapter<String>(Home.this, android.R.layout.simple_spinner_item, this_array);
-            this_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            this_spinner.setAdapter(this_adapter);
-            final int position = this_spinner.getSelectedItemPosition();
-
 
             //Progress Bar & Spinner
 
-             progress= (DonutProgress) findViewById(R.id.circle);
+            progress = (DonutProgress) findViewById(R.id.circle);
 
-          newb=(TextView)findViewById(R.id.no_dat);
-            in1= (TextView) findViewById(R.id.tv_color1);
-            in2= (TextView) findViewById(R.id.tv_in);
-            ex1= (TextView) findViewById(R.id.tv_color2);
-            ex2= (TextView) findViewById(R.id.tv_ex);
-             im=(ImageView)findViewById(R.id.imageView);
-             noda=(TextView)findViewById(R.id.no_dat);
-
-
-            this_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                    if(position == 0){
-                      //  progressint=80;
-                        final Calendar calendar = Calendar.getInstance();
-                        y=calendar.get(Calendar.YEAR);
-                        m=calendar.get(Calendar.MONTH);
-                        d=calendar.get(Calendar.DATE);
-//Toast.makeText(Home.this,String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y),Toast.LENGTH_SHORT).show();
-                        spin_ex=myDb.sumOfExpToday(String.valueOf(y),String.valueOf(m),String.valueOf(d));
-                        spin_in=myDb.sumOfInToday(String.valueOf(y),String.valueOf(m),String.valueOf(d));
-                        sum=spin_in+spin_ex;
-                        if(sum==0){
-                            spinnerChnage(0,0,0);
-
-                        }
-                        else{
-                            spinnerChnage(spin_ex,spin_in,sum);
-                        }
-                    }
-                    else if(position == 1){
-
-                    }
-                    else if(position == 2) {
-                        final Calendar calendar = Calendar.getInstance();
-                        y = calendar.get(Calendar.YEAR);
-                        m = calendar.get(Calendar.MONTH);
-//Toast.makeText(Home.this,String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y),Toast.LENGTH_SHORT).show();
-                        spin_in = myDb.sumOfInThisMonth(String.valueOf(y), String.valueOf(m));
-                        spin_ex = myDb.sumOfExpThisMonth(String.valueOf(y), String.valueOf(m));
-                         sum = spin_ex + spin_in;
-                        if (sum == 0) {
-                            spinnerChnage(0, 0,0);
-
-                        } else {
-                            spinnerChnage(spin_ex,spin_in,sum);
-                        }
-                    }
-                        else if(position == 3){
-                        final Calendar calendar = Calendar.getInstance();
-                        y=calendar.get(Calendar.YEAR);
-                        spin_in=myDb.sumOfInThisYear(String.valueOf(y));
-                        spin_ex=myDb.sumOfExpThisYear(String.valueOf(y));
-                        sum=spin_ex+spin_in;
-
-                        if(sum==0){
-                            spinnerChnage(0,0,0);
-
-                        }
-                        else{
+            newb = (TextView) findViewById(R.id.no_dat);
+            in1 = (TextView) findViewById(R.id.tv_color1);
+            in2 = (TextView) findViewById(R.id.tv_in);
+            ex1 = (TextView) findViewById(R.id.tv_color2);
+            ex2 = (TextView) findViewById(R.id.tv_ex);
+            im = (ImageView) findViewById(R.id.imageView);
+            noda = (TextView) findViewById(R.id.no_dat);
 
 
-                            spinnerChnage(spin_ex,spin_in,sum);
-                        }
+            spin_ex = myDb.sumOfTxn("ex");
+            spin_in = myDb.sumOfTxn("in");
+            sum = spin_ex + spin_in;
 
-                    }
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
-
-
-            //Floating Menu and Button
+            if (sum == 0)
+                    spinnerChnage(0,0);
+            else {
+                float val1=(spin_ex*100)/sum;
+                int val2=(int)val1;
+                int val3=100-val2;
+                spinnerChnage(val2, val3);
+            }
+                //Floating Menu and Button
 
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
@@ -380,8 +313,19 @@ public class Home extends AppCompatActivity {
                                         myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
 
+                                        spin_ex = myDb.sumOfTxn("ex");
+                                        int x1=spin_ex+Integer.parseInt(amount_text);
+                                        spin_in = myDb.sumOfTxn("in");
+                                        sum = x1 + spin_in;
 
-
+                                        if (sum == 0)
+                                            spinnerChnage(0,0);
+                                        else {
+                                            float val1=(x1*100)/sum;
+                                            int val2=(int)val1;
+                                            int val3=100-val2;
+                                            spinnerChnage(val2, val3);
+                                        }
 
                                     }
 
@@ -526,7 +470,20 @@ public class Home extends AppCompatActivity {
                                         myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
 
+                                        spin_ex = myDb.sumOfTxn("ex");
 
+                                        spin_in = myDb.sumOfTxn("in");
+                                        int x1=spin_in+Integer.parseInt(value);
+                                        sum = x1 + spin_ex;
+
+                                        if (sum == 0)
+                                            spinnerChnage(0,0);
+                                        else {
+                                            float val1=(spin_ex*100)/sum;
+                                            int val2=(int)val1;
+                                            int val3=100-val2;
+                                            spinnerChnage(val2, val3);
+                                        }
                                     }
 
                                 }
@@ -560,7 +517,7 @@ public class Home extends AppCompatActivity {
     }
 
 
-    public void spinnerChnage(int expense,int income,int sum){
+    public void spinnerChnage(int expense,int income){
 
         if((expense==0) &&( income ==0))
         {newb.setText("No Data Available ;(");
@@ -575,7 +532,7 @@ public class Home extends AppCompatActivity {
         else
         {
 
-            progress.setMax(sum);
+            progress.setMax(100);
             progress.setProgress(expense);
             im.setVisibility(View.INVISIBLE);
             progress.setVisibility(View.VISIBLE);

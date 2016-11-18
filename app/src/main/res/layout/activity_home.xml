@@ -72,13 +72,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="150sp"
-                android:layout_marginTop="1sp"
-                android:id="@+id/this_spinner"
-                />
+
 
 
 
@@ -95,7 +89,7 @@
                 android:layout_weight="0.45"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="26dp" />
+                android:layout_marginTop="20dp" />
             <TextView
                 android:layout_width="15sp"
                 android:layout_height="15sp"
@@ -119,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
                 android:layout_marginLeft="200sp"
-                android:text="Income"
+                android:text="Expenditure"
                 android:textSize="11sp"
                 android:id="@+id/tv_ex"
                 android:layout_marginStart="12dp"
@@ -129,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="15sp"
                 android:layout_marginLeft="200sp"
-                android:text="Expenditure"
+                android:text="Income"
                 android:textSize="11sp"
 
                 android:id="@+id/tv_in"
