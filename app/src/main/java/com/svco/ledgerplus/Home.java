@@ -45,9 +45,11 @@ public class Home extends AppCompatActivity {
     FloatingActionMenu materialDesignFAM;
     FloatingActionButton floatingActionButton1, floatingActionButton2;
     int d,m,y;
+    int dt,dm,dy;
     LedgerDBManager myDb;
     Spinner this_spinner;
-    int sum=0,spin_in=0,spin_ex=0;
+    int sum=0,spin_in=0,spin_ex=0,diff=0;
+    int ex_to=0,in_to=0;
     float spin_fin,spin_fex;
     int input1,input2;
 
@@ -56,13 +58,14 @@ public class Home extends AppCompatActivity {
     //=myDb.sumOfTxn("ex");
     //  float b=(float)progressint;
     int a;//=myDb.sumOfTxn("in");
-     TextView newb;
+    TextView newb;
     TextView in1;
-     TextView in2;
+    TextView in2;
     TextView ex1;
     TextView ex2;
+
+    TextView st1,st2,st3,st4,st5,st6,st7,st8,st9,st10;
     ImageView im;
-    TextView noda;
 
     Drawer result= null;
     DonutProgress progress;
@@ -151,6 +154,18 @@ public class Home extends AppCompatActivity {
                     })
                     .build();
 
+
+            //Calendar Instance
+
+            final Calendar calendar = Calendar.getInstance();
+            y=calendar.get(Calendar.YEAR);
+            m=calendar.get(Calendar.MONTH);
+            d=calendar.get(Calendar.DATE);
+
+            dt=d;
+            dm=m;
+            dy=y;
+
             //Progress Bar & Spinner
 
             progress = (DonutProgress) findViewById(R.id.circle);
@@ -162,16 +177,46 @@ public class Home extends AppCompatActivity {
             ex2 = (TextView) findViewById(R.id.tv_ex);
             im = (ImageView) findViewById(R.id.imageView);
 
+            st1=(TextView)findViewById(R.id.cur_bal);
+            st2=(TextView)findViewById(R.id.cur_bal_val);
+            st3=(TextView)findViewById(R.id.tot_exp);
+            st4=(TextView)findViewById(R.id.tot_exp_val);
+            st5=(TextView)findViewById(R.id.tot_inc);
+            st6=(TextView)findViewById(R.id.tot_inc_val);
+            st7=(TextView)findViewById(R.id.exp_tod);
+            st8=(TextView)findViewById(R.id.exp_tod_val);
+            st9=(TextView)findViewById(R.id.inc_tod);
+            st10=(TextView)findViewById(R.id.inc_tod_val);
+
 
             spin_ex = myDb.sumOfTxn("ex");
             spin_in = myDb.sumOfTxn("in");
+            ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+            in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
             sum = spin_ex + spin_in;
+            diff=spin_in - spin_ex;
 
             if (sum == 0)
                     spinnerChnage(0,0,0);
             else {
                 spinnerChnage(spin_ex,spin_in,sum);
             }
+
+            st4.setText(String.valueOf(spin_ex));
+            st6.setText(String.valueOf(spin_in));
+            st8.setText(String.valueOf(ex_to));
+            st10.setText(String.valueOf(in_to));
+
+            if(diff>0){
+                st2.setText(String.valueOf(diff));
+                st2.setTextColor(Color.parseColor("#4caf50"));
+            }
+            else{
+                st2.setText(String.valueOf(diff));
+                st2.setTextColor(Color.parseColor("#f44336"));
+            }
+
+
                 //Floating Menu and Button
 
 
@@ -254,10 +299,6 @@ public class Home extends AppCompatActivity {
                     }
                 });
 
-                final Calendar calendar = Calendar.getInstance();
-                y=calendar.get(Calendar.YEAR);
-                m=calendar.get(Calendar.MONTH);
-                d=calendar.get(Calendar.DATE);
 
                 date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
 
@@ -316,6 +357,24 @@ public class Home extends AppCompatActivity {
                                         spin_ex=myDb.sumOfTxn("ex");
                                         spin_in=myDb.sumOfTxn("in");
 
+                                        ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+                                        in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+
+                                        diff=spin_in - spin_ex;
+                                        st4.setText(String.valueOf(spin_ex));
+                                        st6.setText(String.valueOf(spin_in));
+                                        st8.setText(String.valueOf(ex_to));
+                                        st10.setText(String.valueOf(in_to));
+
+
+                                        if(diff>0){
+                                            st2.setText(String.valueOf(diff));
+                                            st2.setTextColor(Color.parseColor("#4caf50"));
+                                        }
+                                        else{
+                                            st2.setText(String.valueOf(diff));
+                                            st2.setTextColor(Color.parseColor("#f44336"));
+                                        }
 
                                     }
 
@@ -466,7 +525,26 @@ public class Home extends AppCompatActivity {
                                         spin_ex=myDb.sumOfTxn("ex");
                                         spin_in=myDb.sumOfTxn("in");
 
+                                        ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+                                        in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
 
+
+                                        st4.setText(String.valueOf(spin_ex));
+                                        st6.setText(String.valueOf(spin_in));
+
+                                        st8.setText(String.valueOf(ex_to));
+                                        st10.setText(String.valueOf(in_to));
+
+                                        diff=spin_in - spin_ex;
+
+                                        if(diff>0){
+                                            st2.setText(String.valueOf(diff));
+                                            st2.setTextColor(Color.parseColor("#4caf50"));
+                                        }
+                                        else{
+                                            st2.setText(String.valueOf(diff));
+                                            st2.setTextColor(Color.parseColor("#f44336"));
+                                        }
 
                                     }
 
