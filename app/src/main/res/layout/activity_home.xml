@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="15sp"
             android:layout_marginLeft="200sp"
-            android:text="Expenditure"
+            android:text="Total Expenditure"
             android:textSize="11sp"
             android:id="@+id/tv_ex"
             android:layout_marginStart="12dp"
@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="15sp"
             android:layout_marginLeft="200sp"
-            android:text="Income"
+            android:text="Total Income"
             android:textSize="11sp"
 
             android:id="@+id/tv_in"
@@ -125,14 +125,15 @@
                 android:text="Current Balance :"
                 android:id="@+id/cur_bal"
                 android:layout_marginBottom="15dp"
-                android:textSize="30dp"
-                android:layout_marginStart="30dp"
+                android:textSize="25dp"
+                android:layout_marginStart="15dp"
+
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cur_bal_val"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:layout_toEndOf="@id/cur_bal"
                 android:text="0.00"
                 android:layout_marginStart="10sp"

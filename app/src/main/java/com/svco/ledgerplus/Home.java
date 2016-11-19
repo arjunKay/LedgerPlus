@@ -203,17 +203,17 @@ public class Home extends AppCompatActivity {
                 spinnerChnage(spin_ex,spin_in,sum);
             }
 
-            st4.setText(String.valueOf(spin_ex));
-            st6.setText(String.valueOf(spin_in));
-            st8.setText(String.valueOf(ex_to));
-            st10.setText(String.valueOf(in_to));
+            st4.setText("Rs."+String.valueOf(spin_ex));
+            st6.setText("Rs."+String.valueOf(spin_in));
+            st8.setText("Rs."+String.valueOf(ex_to));
+            st10.setText("Rs."+String.valueOf(in_to));
 
             if(diff>0){
-                st2.setText(String.valueOf(diff));
+                st2.setText("Rs."+String.valueOf(diff));
                 st2.setTextColor(Color.parseColor("#4caf50"));
             }
             else{
-                st2.setText(String.valueOf(diff));
+                st2.setText("Rs."+String.valueOf(diff));
                 st2.setTextColor(Color.parseColor("#f44336"));
             }
 
