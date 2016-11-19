@@ -80,9 +80,17 @@
             android:id="@+id/tv_in"
             android:layout_marginStart="12dp"
             android:layout_below="@+id/tv_ex"
+            android:layout_marginBottom="15sp"
 
             android:layout_alignStart="@+id/circle" />
 
+        <View
+            android:layout_width="350dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@id/tv_in"></View>
 
 
         <!--
@@ -126,14 +134,15 @@
                 android:id="@+id/cur_bal"
                 android:layout_marginBottom="15dp"
                 android:textSize="25dp"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
 
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cur_bal_val"
-                android:textSize="25sp"
+                android:maxLines="1"
+                android:textSize="25dp"
                 android:layout_toEndOf="@id/cur_bal"
                 android:text="0.00"
                 android:layout_marginStart="10sp"
@@ -165,6 +174,7 @@
                 android:id="@+id/tot_exp_val"
                 android:textSize="20sp"
                 android:layout_marginTop="20sp"
+                android:maxLines="1"
                 android:layout_marginEnd="30sp"
                 android:layout_below="@id/view1"
                 android:layout_toEndOf="@+id/tot_exp"
@@ -185,6 +195,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tot_inc_val"
                 android:layout_marginBottom="15dp"
+                android:maxLines="1"
                 android:textSize="20sp"
                 android:layout_alignStart="@+id/tot_exp_val"
                 android:layout_marginEnd="30sp"
@@ -217,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/exp_tod_val"
                 android:layout_marginTop="15sp"
+                android:maxLines="1"
                 android:textSize="20sp"
                 android:layout_alignStart="@+id/tot_exp_val"
                 android:layout_marginEnd="30sp"
@@ -232,7 +244,7 @@
                 android:id="@+id/inc_tod"
                 android:textSize="18sp"
                 android:layout_below="@+id/exp_tod"
-                android:text="Today's Income     :"/>
+                android:text="Today's Income         :"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -242,6 +254,7 @@
                 android:layout_alignStart="@+id/tot_exp_val"
                 android:layout_marginEnd="30sp"
                 android:layout_below="@+id/exp_tod_val"
+                android:maxLines="1"
                 android:layout_toEndOf="@+id/inc_tod"
                 android:text="0.00"
                 />
