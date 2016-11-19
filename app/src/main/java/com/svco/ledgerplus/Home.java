@@ -189,6 +189,7 @@ public class Home extends AppCompatActivity {
             st10=(TextView)findViewById(R.id.inc_tod_val);
 
 
+
             spin_ex = myDb.sumOfTxn("ex");
             spin_in = myDb.sumOfTxn("in");
             ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
