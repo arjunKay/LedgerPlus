@@ -47,6 +47,9 @@ import android.util.Log;
             -> Cursor getInCategory()
                 Description : Get a cursor containing all Income Categories
 
+            -> Cursor executeQuery(String query)
+                Description : Execute query specified in 'query'
+
             ->Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
                 Description: Retrieve data based on filter conditions
  */
@@ -321,8 +324,16 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return res;
     }
 
+    //Execute query specified in 'query'
+    public Cursor executeQuery(String query)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cur=db.rawQuery(query,null);
+        return cur;
+    }
 
-    //Description - Retrieve data based on filter conditions
+
+    //Retrieve data based on filter conditions
     public Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
     {
         String thequery="Select * from "+TABLE_TRANSACTIONS+" WHERE ";
