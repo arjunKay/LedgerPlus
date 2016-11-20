@@ -100,7 +100,7 @@ public class GraphStats extends AppCompatActivity {
                         entries_in.add(new Entry(((float)inCur.getInt(8)*100)/myDB.sumOfTxn("in"),10));}
 
                     PieDataSet dataSet=new PieDataSet(entries_in,"");
-                    dataSet.setSliceSpace(2f);
+                    dataSet.setSliceSpace(0);
 
                     dataSet.setColors(colors);
 
@@ -125,7 +125,7 @@ public class GraphStats extends AppCompatActivity {
                         entries_ex.add(new Entry((((float)inCur.getInt(8)*-1)*100)/myDB.sumOfTxn("ex"),10));}
 
                     PieDataSet dataSet=new PieDataSet(entries_ex,"");
-                    dataSet.setSliceSpace(2f);
+                    dataSet.setSliceSpace(0);
 
                     dataSet.setColors(colors);
 
