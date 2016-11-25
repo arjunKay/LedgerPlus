@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;
@@ -30,6 +31,7 @@ public class GraphStats extends AppCompatActivity {
     PieChart mchart;
     Toolbar toolbar;
     LedgerDBManager myDB;
+    FloatingActionButton fil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +82,7 @@ public class GraphStats extends AppCompatActivity {
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
 
-
+        fil=(FloatingActionButton)findViewById(R.id.filter);
 
 
 

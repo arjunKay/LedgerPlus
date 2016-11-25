@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="myTabStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textSize">20dp</item>>
+        <item name="android:textSize">15dp</item>>
     </style>
     <style name="myListStyle" parent="">
         <item name="android:textSize">20dp</item>>
