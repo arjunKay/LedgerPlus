@@ -60,8 +60,13 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
     public static final String TABLE_TRANSACTIONS = "TRANSACTIONS";
     public static final String TABLE_CATEGORIES = "CATEGORIES";
+    public static final String TABLE_PROFILE = "PROFILE";
+
 
     public static final String KEY_ID = "_id";
+
+    public static final String NAME = "NAME";
+    public static final String EMAIL = "EMAIL";
 
     public static final String AMOUNT = "AMOUNT";
     public static final String SOURCE = "SOURCE";
@@ -84,6 +89,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //create table for PROFILE
+        db.execSQL("CREATE TABLE " + TABLE_PROFILE +" ( "+ KEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ NAME +" TEXT, "+ EMAIL+" TEXT) ");
         //Create the tables TRANSACTIONS and CATEGORIES
         db.execSQL("CREATE TABLE "+TABLE_TRANSACTIONS+" ("+KEY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+AMOUNT+" INTEGER,"+SOURCE+" TEXT,"+CATEGORY+" TEXT,"+DESCRIPTION+" TEXT,"+DAY+" INTEGER,"+MONTH+" INTEGER,"+YEAR+" INTEGER) ");
         db.execSQL("CREATE TABLE " + TABLE_CATEGORIES +" ( "+ KEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ CATEGORY_NAME +" TEXT, "+ TYPE +" TEXT )");
@@ -111,9 +118,27 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS TRANSACTIONS");
         db.execSQL("DROP TABLE IF EXISTS CATEGORIES");
+        db.execSQL("DROP TABLE IF EXISTS PROFILE");
         onCreate(db);
     }
+//adding profiles
+public boolean addProfileName(String name,String email){
+    SQLiteDatabase db=this.getWritableDatabase();
+    ContentValues contentValues=new ContentValues();
+    contentValues.put(NAME,name);
+    contentValues.put(EMAIL,email);
+    long result = db.insert(TABLE_PROFILE,null,contentValues);
+    if(result==-1)
+        return false;
+    else
+        return true;
 
+}
+    public Cursor getProfileName(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor res=db.rawQuery("SELECT * FROM "+TABLE_PROFILE,null);
+        return res;
+    }
 
     // For inserting data into table 'TRANSACTIONS'
     public boolean insertTxn(String amount,String source,String category,String description,String day,String month,String year){
