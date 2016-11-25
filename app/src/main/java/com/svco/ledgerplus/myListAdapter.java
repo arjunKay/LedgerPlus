@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +34,7 @@ public class myListAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final LinearLayout dialogLayout= (LinearLayout) activity.getLayoutInflater().inflate(R.layout.row_layout,null);
+        final RelativeLayout dialogLayout= (RelativeLayout) activity.getLayoutInflater().inflate(R.layout.row_layout,null);
         TextView v= (TextView) dialogLayout.findViewById(R.id.textViewLayoutCategory);
         v.setText(cats.get(position));
         Button edit= (Button) dialogLayout.findViewById(R.id.buttonRowDelete);
