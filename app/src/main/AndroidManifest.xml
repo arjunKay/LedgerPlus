@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".GraphStats" />
         <activity android:name=".BalanceSheet" />
         <activity android:name=".Categories" />

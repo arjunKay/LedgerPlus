@@ -3,6 +3,10 @@
 
 package com.svco.ledgerplus;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -10,7 +14,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -81,12 +87,9 @@ public class Home extends AppCompatActivity {
             setContentView(R.layout.activity_home);
             myDb = new LedgerDBManager(this);
             toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-
             //  pbar.setScaleY(3f);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
-
 
             AccountHeader header = new AccountHeaderBuilder()
                     .withActivity(this)
@@ -266,8 +269,6 @@ public class Home extends AppCompatActivity {
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_src = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
                 spinner_src.setAdapter(adapter);
-
-
                 final List<String> incomeSpinnerArray = new ArrayList<String>();
                 Cursor inCur=myDb.getInCategory();
                 incomeSpinnerArray.add("<Select Category>");
@@ -284,7 +285,9 @@ public class Home extends AppCompatActivity {
                     public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                         if(position == catSpinnerAdapter.getCount()-1){
                             MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
+
                                     .widgetColorRes(R.color.colorAccent)
+                                    .title("New Category")
                                     .input("Add Category", null, false, new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
@@ -458,6 +461,7 @@ public class Home extends AppCompatActivity {
                         if(position == expSpinnerAdapter.getCount()-1){
                             MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
                                     .widgetColorRes(R.color.colorAccent)
+                                    .title("New Category")
                                     .input("Add Category", null, false, new MaterialDialog.InputCallback() {
                                         @Override
                                         public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
@@ -636,4 +640,5 @@ public class Home extends AppCompatActivity {
             t.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
         }
     }
+
 }

@@ -52,6 +52,7 @@ public class Categories extends AppCompatActivity {
 
         MaterialDialog dialog=new MaterialDialog.Builder(this)
                 .widgetColorRes(R.color.colorAccent)
+                .title("New Category")
                 //.customView(dialogLay,true)
                 .input("Add Category", null, false, new MaterialDialog.InputCallback() {
                     @Override
