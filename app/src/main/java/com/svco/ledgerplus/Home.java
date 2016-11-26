@@ -248,23 +248,23 @@ public class Home extends AppCompatActivity {
                 spinnerChnage(spin_ex,spin_in,sum);
             }
 
-            st4.setText("₹"+String.valueOf(spin_ex));
+            st4.setText("₹ "+String.valueOf(spin_ex));
             //ScaleTextSize(st4,spin_ex);
-            st6.setText("₹"+String.valueOf(spin_in));
+            st6.setText("₹ "+String.valueOf(spin_in));
             //ScaleTextSize(st6,spin_in);
-            st8.setText("₹"+String.valueOf(ex_to));
+            st8.setText("₹ "+String.valueOf(ex_to));
             //ScaleTextSize(st8,ex_to);
-            st10.setText("₹"+String.valueOf(in_to));
+            st10.setText("₹ "+String.valueOf(in_to));
            // ScaleTextSize(st10,in_to);
 
             if(diff>0){
                 ScaleTextSize(st2,diff);
-                st2.setText("₹"+String.valueOf(diff));
+                st2.setText("₹ "+String.valueOf(diff));
                 st2.setTextColor(Color.parseColor("#4caf50"));
             }
             else{
                 ScaleTextSize(st2,diff);
-                st2.setText("₹"+String.valueOf(diff));
+                st2.setText("₹ "+String.valueOf(diff));
                 st2.setTextColor(Color.parseColor("#f44336"));
             }
 
@@ -417,20 +417,20 @@ public class Home extends AppCompatActivity {
                                         //ScaleTextSize(st10,in_to);
 
                                         diff=spin_in - spin_ex;
-                                        st4.setText("₹"+String.valueOf(spin_ex));
-                                        st6.setText("₹"+String.valueOf(spin_in));
-                                        st8.setText("₹"+String.valueOf(ex_to));
-                                        st10.setText("₹"+String.valueOf(in_to));
+                                        st4.setText("₹ "+String.valueOf(spin_ex));
+                                        st6.setText("₹ "+String.valueOf(spin_in));
+                                        st8.setText("₹ "+String.valueOf(ex_to));
+                                        st10.setText("₹ "+String.valueOf(in_to));
 
 
                                         if(diff>0){
                                             ScaleTextSize(st2,diff);
-                                            st2.setText("₹"+String.valueOf(diff));
+                                            st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#4caf50"));
                                         }
                                         else{
                                             ScaleTextSize(st2,diff);
-                                            st2.setText("₹"+String.valueOf(diff));
+                                            st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
 
@@ -590,22 +590,22 @@ public class Home extends AppCompatActivity {
                                         in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
                                         //ScaleTextSize(st10,in_to);
 
-                                        st4.setText("₹"+String.valueOf(spin_ex));
+                                        st4.setText("₹ "+String.valueOf(spin_ex));
                                         st6.setText("₹"+String.valueOf(spin_in));
 
-                                        st8.setText("₹"+String.valueOf(ex_to));
-                                        st10.setText("₹"+String.valueOf(in_to));
+                                        st8.setText("₹ "+String.valueOf(ex_to));
+                                        st10.setText("₹ "+String.valueOf(in_to));
 
                                         diff=spin_in - spin_ex;
 
                                         if(diff>0){
                                             ScaleTextSize(st2,diff);
-                                            st2.setText("₹"+String.valueOf(diff));
+                                            st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#4caf50"));
                                         }
                                         else{
                                             ScaleTextSize(st2,diff);
-                                            st2.setText("₹"+String.valueOf(diff));
+                                            st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
 
