@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,9 +90,15 @@ public class Home extends AppCompatActivity {
             Cursor cursor;
             cursor=myDb.getProfileName();
             cursor.moveToFirst();
-            name=cursor.getString(1);
-            email=cursor.getString(2);
-
+//            if(cursor.getCount()==0){
+//                name="user";
+//                email="user@example.com";
+//            }
+//            else {
+//
+              name = cursor.getString(1);
+                email = cursor.getString(2);
+            //}
 
 
             AccountHeader header = new AccountHeaderBuilder()
@@ -99,10 +107,39 @@ public class Home extends AppCompatActivity {
                     .withSelectionListEnabled(false)
                     .withTextColor(Color.parseColor("#FFFFFF"))
 
-                    .addProfiles(new ProfileDrawerItem().withName(name).withEmail(email))
+                    .addProfiles(new ProfileDrawerItem().withName(name).withEmail(email).withSelectable(true))
                     //.withHeaderBackground(R.color.cyan)
+                    .withOnAccountHeaderSelectionViewClickListener(
+                            new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
+                                @Override
+                                public boolean onClick(View view, IProfile profile) {
+
+                                    Snackbar.make(findViewById(android.R.id.content), "Hey "+name+",  Wanna change name?", Snackbar.LENGTH_LONG)
+                                            .setAction("Change", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+
+                                                   Intent x=new Intent(Home.this,Settings.class);
+                                                    startActivity(x);
+
+                                                    // Perform anything for the action selected
+                                                }
+                                            }).setActionTextColor(Color.YELLOW)
+                                            .setDuration(2000).show();
+
+                                    return false;
+                                }
+
+
+                            }
+
+                    )
+
 
                     .build();
+
+
 
 
             //Nav Drawer

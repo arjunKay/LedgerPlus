@@ -98,6 +98,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         //Populate CATEGORIES table with default categories when the database is created for the first time
         int x=0;
         ContentValues contentValues = new ContentValues();
+
         while(x<4){
             contentValues.put(CATEGORY_NAME, EX_CATEGORIES[x]);
             contentValues.put(TYPE, "E");
