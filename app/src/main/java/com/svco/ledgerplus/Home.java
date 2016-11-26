@@ -118,7 +118,7 @@ public class Home extends AppCompatActivity {
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Graph Statistics").withSelectable(false),
                             new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Balance Sheet").withSelectable(false),
+                            new PrimaryDrawerItem().withName("Journal").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Categories").withSelectable(false),
                             new DividerDrawerItem(),
@@ -141,7 +141,7 @@ public class Home extends AppCompatActivity {
                                     break;
                                 case 5:
                                     result.closeDrawer();
-                                    startActivity(new Intent(Home.this, BalanceSheet.class));
+                                    startActivity(new Intent(Home.this, Journal.class));
                                     break;
                                 case 7:
                                     result.closeDrawer();

@@ -8,4 +8,14 @@
     <color name="Second_color">#ff7043</color>
     <color name="colorBlack">#000000</color>
     <color name="Background">#0089cc</color>
+    <color name="jrnlColorPrimary">#2cf08e</color>
+    <color name="jrnlColorPrimaryDark">#21d7d7</color>
+    <color name="jrnlColorAccent">#FF4081</color>
+    <color name="jrnlBgColor1">#411d97</color>
+    <color name="jrnlBgColor2">#07fceb</color>
+    <color name="jrnlBgColor3">#f0e54a</color>
+    <color name="jrnlBgColor4">#dbc5cc</color>
+    <color name="jrnlBgColor31">#3bbfa5</color>
+    <color name="jrnlBgColor12">#d4c0bf</color>
+    <color name="colorTeal">#05b9b3</color>
 </resources>

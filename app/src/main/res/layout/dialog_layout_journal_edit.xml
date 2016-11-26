@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="Amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_alignBaseline="@+id/diagAmtIn"
+        android:layout_alignBottom="@+id/diagAmtIn"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:id="@+id/diagAmtIn"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView8"
+        android:layout_marginLeft="40dp" />
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_height="40dp"
+        android:weightSum="1"
+        android:id="@+id/jrnlDiagInExRG"
+        android:layout_width="match_parent"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/jrnlDiagSourceRG"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RadioButton
+            android:text="Expenditure"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/jrnlExpRB"
+            android:layout_marginEnd="26dp"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/jrnlInRB"
+            android:layout_alignBottom="@+id/jrnlInRB"
+            android:layout_toStartOf="@+id/spinner"
+            android:layout_weight="0.25"
+            android:checked="true" />
+
+        <RadioButton
+            android:text="Income"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/jrnlInRB"
+            android:textSize="18sp"
+            android:layout_weight="0.57" />
+
+    </RadioGroup>
+
+    <TextView
+        android:text="Category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/jrnlDiagInExRG"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp" />
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:id="@+id/jrnlDiagSourceRG"
+        android:layout_height="40dp"
+        android:layout_below="@+id/diagAmtIn"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RadioButton
+            android:text="Cash"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/jrnlCashRB"
+            android:layout_weight="0.58"
+            android:textSize="18sp"
+            android:layout_above="@+id/textView4"
+            android:layout_alignStart="@+id/textView4"
+            android:checked="true" />
+
+        <RadioButton
+            android:text="Bank"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/jrnlBankRB"
+            android:layout_weight="0.69"
+            android:textSize="18sp"
+            android:layout_marginStart="11dp"
+            android:layout_alignTop="@+id/jrnlCashRB"
+            android:layout_alignStart="@+id/diagSourceSpinner" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/diagDateIn"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_below="@+id/diagCatSpinner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:id="@+id/diagCatSpinner"
+        android:layout_height="35dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/diagDescIn"
+        android:layout_below="@+id/diagCatSpinner"
+        android:layout_marginTop="11dp"
+        android:layout_alignEnd="@+id/diagDateIn"
+        android:layout_toEndOf="@+id/textView4" />
+
+    <TextView
+        android:text="Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:layout_alignBaseline="@+id/diagDescIn"
+        android:layout_alignBottom="@+id/diagDescIn"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>
