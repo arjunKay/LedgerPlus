@@ -106,8 +106,24 @@ public class Journal extends AppCompatActivity {
                 dataAdapterInEx.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 journalInExSpinner.setAdapter(dataAdapterInEx);
                 ArrayAdapter<String> dataAdapterSrc = new ArrayAdapter<String>(Journal.this, android.R.layout.simple_spinner_item, srcList);
-                dataAdapterSrc.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                dataAdapterSrc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 journalSrcSpinner.setAdapter(dataAdapterSrc);
+                Cursor cur=filterDB.executeQuery("Select * from CATEGORIES;");
+                if(cur.moveToFirst())
+                {
+                    while(cur.moveToNext())
+                    {
+                        do {
+
+                            catList.add(cur.getString(1));
+                        }while (cur.moveToNext());
+
+                    }
+                }
+                ArrayAdapter<String> dataAdapterCat = new ArrayAdapter<String>(Journal.this, android.R.layout.simple_spinner_item, catList);
+                dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                journalCatSpinner.setAdapter(dataAdapterCat);
+
                 journalInExSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -127,7 +143,7 @@ public class Journal extends AppCompatActivity {
 
                                         catList.add(cur.getString(1));
                                     }while (cur.moveToNext());
-                                    ;
+
                                 }
                             }
                         }
@@ -145,7 +161,7 @@ public class Journal extends AppCompatActivity {
                             }
                         }
                         ArrayAdapter<String> dataAdapterCat = new ArrayAdapter<String>(Journal.this, android.R.layout.simple_spinner_item, catList);
-                        dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                        dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         journalCatSpinner.setAdapter(dataAdapterCat);
                     }
 
