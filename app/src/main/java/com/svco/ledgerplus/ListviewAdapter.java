@@ -277,7 +277,7 @@ public class ListviewAdapter implements ListAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return amount.length;
+        return 1;
     }
 
     @Override

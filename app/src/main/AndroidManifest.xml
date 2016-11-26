@@ -16,12 +16,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".GraphStats" />
-        <activity android:name=".BalanceSheet" />
+        <activity android:name=".Journal" />
         <activity android:name=".Categories" />
         <activity android:name=".Reminder" />
         <activity android:name=".Settings" />
         <activity android:name=".Home" />
-        <activity android:name=".SecondTime"></activity>
     </application>
 
 </manifest>

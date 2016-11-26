@@ -44,6 +44,7 @@ public class OneTime extends AppCompatActivity {
         if (isFirstTime) {
             editor.putBoolean("isFirstTime", false);
             editor.commit();
+
             next.setOnClickListener(
                     new View.OnClickListener() {
                         @Override

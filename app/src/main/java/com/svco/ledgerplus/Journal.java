@@ -45,7 +45,7 @@ public class Journal extends AppCompatActivity {
         final RelativeLayout activityMain=(RelativeLayout)findViewById(R.id.activity_main);
         final ListView theListView = (ListView) findViewById(R.id.recyclerVi);
         adapter = new ListviewAdapter(getApplicationContext());
-        theListView.setAdapter( adapter);
+        theListView.setAdapter(adapter);
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

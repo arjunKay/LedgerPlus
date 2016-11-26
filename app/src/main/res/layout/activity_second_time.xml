@@ -3,31 +3,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_second_time"
     android:layout_width="match_parent"
+    android:background="@color/md_cyan_400"
     android:layout_height="match_parent"
 
     tools:context="com.svco.ledgerplus.SecondTime">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout"
 
-        />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/wallet_layout"
-        android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="Skip >>"
+        android:textSize="15sp"
+        android:id="@+id/skip"
+        android:textColor="@color/md_white_1000"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/next" />
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:text="Current Statistics"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:id="@+id/textView3"
+        android:textColor="@color/md_white_1000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="25dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40sp"
+        android:text="Finish Setup"
+        android:textSize="20sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textColor="@color/md_white_1000"
+        android:id="@+id/next"
+        android:layout_above="@+id/skip"
+        android:layout_alignEnd="@+id/bank"
+        android:layout_marginBottom="31dp" />
+
+    <EditText
+        android:background="@color/md_white_1000"
+        android:layout_width="300sp"
+        android:layout_height="45sp"
+        android:hint="  in Bank"
+       android:inputType="number"
+        android:id="@+id/bank"
+        android:layout_alignBottom="@+id/next"
+        android:layout_alignStart="@+id/wallet"
+        android:layout_marginBottom="113dp" />
 
     <EditText
         android:id="@+id/wallet"
         android:layout_width="300sp"
         android:layout_height="45sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
         android:ems="10"
-        android:hint="Current Amount in Wallet"
-        />
+        android:hint="  in Wallet"
+        android:background="@color/md_white_1000"
+        android:inputType="number"
+        android:layout_above="@+id/bank"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp" />
 
 
 </RelativeLayout>
