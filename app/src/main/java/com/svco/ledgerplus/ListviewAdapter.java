@@ -26,6 +26,7 @@ import java.util.List;
  */
 
 public class ListviewAdapter implements ListAdapter {
+    //Declare variables
     Context con;
     String[] amount;
     String[] date;
