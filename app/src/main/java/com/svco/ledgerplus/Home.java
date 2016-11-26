@@ -3,10 +3,6 @@
 
 package com.svco.ledgerplus;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -14,9 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -41,6 +35,7 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
@@ -71,7 +66,7 @@ public class Home extends AppCompatActivity {
     TextView in2;
     TextView ex1;
     TextView ex2;
-
+    String name,email;
     TextView st1,st2,st3,st4,st5,st6,st7,st8,st9,st10;
     ImageView im;
 
@@ -90,14 +85,21 @@ public class Home extends AppCompatActivity {
             //  pbar.setScaleY(3f);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
+            Cursor cursor;
+            cursor=myDb.getProfileName();
+            cursor.moveToFirst();
+            name=cursor.getString(1);
+            email=cursor.getString(2);
+
+
 
             AccountHeader header = new AccountHeaderBuilder()
                     .withActivity(this)
                     .withHeaderBackground(R.drawable.sac)
-                    .withSelectionListEnabled(true)
-                    .withTextColor(Color.parseColor("#FF0000"))
+                    .withSelectionListEnabled(false)
+                    .withTextColor(Color.parseColor("#FFFFFF"))
 
-                    //.addProfiles(new ProfileDrawerItem().withName("USER"))
+                    .addProfiles(new ProfileDrawerItem().withName(name).withEmail(email))
                     //.withHeaderBackground(R.color.cyan)
 
                     .build();
@@ -108,6 +110,7 @@ public class Home extends AppCompatActivity {
             result = new DrawerBuilder()
                     .withToolbar(toolbar)
                     .withActivity(this)
+                    .withCloseOnClick(true)
                     .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
                     .withAccountHeader(header)
                     .addDrawerItems(
