@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ public class Journal extends AppCompatActivity {
     public FloatingActionButton fab;
     public String  clickflag="fromDate";
     ListviewAdapter adapter;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,18 @@ public class Journal extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);*/
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Journal");
+        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
         final RelativeLayout activityMain=(RelativeLayout)findViewById(R.id.activity_main);
         final ListView theListView = (ListView) findViewById(R.id.recyclerVi);
         adapter = new ListviewAdapter(getApplicationContext());
