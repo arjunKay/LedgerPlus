@@ -25,18 +25,15 @@ public class OneTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_time);
         name= (EditText) findViewById(R.id.name);
-        name_layout= (TextInputLayout) findViewById(R.id.name_layout);
-        name_layout.animate();
+       // name_layout= (TextInputLayout) findViewById(R.id.name_layout);
 
         email= (EditText) findViewById(R.id.email);
         email_layout= (TextInputLayout) findViewById(R.id.email_layout);
-        email_layout.animate();
+//        email_layout.animate();
         next= (Button) findViewById(R.id.next);
         myDb = new LedgerDBManager(this);
-
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Welcome to LedgerPlus");
-
+        name.requestFocus();
+        email.requestFocus();
         SharedPreferences app_preferences = PreferenceManager
                 .getDefaultSharedPreferences(OneTime.this);
         isFirstTime = app_preferences.getBoolean("isFirstTime", true);
@@ -51,6 +48,7 @@ public class OneTime extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            isFirstTime=false;
                             String n=name.getText().toString();
                             String e=email.getText().toString();
                             if(n.isEmpty() ){
@@ -65,7 +63,7 @@ public class OneTime extends AppCompatActivity {
                             else{
                             myDb.addProfileName(n,e);
 
-                            Intent x = new Intent (OneTime.this,SecondTime.class);
+                            Intent x = new Intent (OneTime.this,Home.class);
                             startActivity(x);
                             finish();}
                         }
@@ -82,5 +80,16 @@ public class OneTime extends AppCompatActivity {
             finish();
         }
     }
+    public void onBackPressed() {
+        //handle the back press :D close the drawer first and if the drawer is closed close the activity
 
+        myDb.addProfileName("user","user@svco.com");
+        isFirstTime=true;
+
+        if (!isFirstTime) {
+            isFirstTime=true;
+             } else {
+            super.onBackPressed();
+        }
+    }
 }
