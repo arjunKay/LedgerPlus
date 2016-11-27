@@ -1,6 +1,3 @@
-//Haris 9:40 drawer ittind..some changes have to be done
-
-
 package com.svco.ledgerplus;
 
 import android.content.Intent;
