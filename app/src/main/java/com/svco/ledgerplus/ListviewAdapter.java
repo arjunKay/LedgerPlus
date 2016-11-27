@@ -1,19 +1,24 @@
 package com.svco.ledgerplus;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -33,6 +38,7 @@ public class ListviewAdapter implements ListAdapter {
     String[] type;
     String[] source;
     String[] desc;
+    List idList =new ArrayList<String>();
     LedgerDBManager database;
     LayoutInflater jrnlLayoutInflater;
     View diagView;
@@ -57,7 +63,8 @@ public class ListviewAdapter implements ListAdapter {
     {
 
         //Cursor c=database.getAllData("Transactions");
-        final List idList =new ArrayList<String>();
+
+         idList.clear();
         amount=new String[c.getCount()];
         date=new String[c.getCount()];
         type=new String[c.getCount()];
@@ -121,6 +128,7 @@ public class ListviewAdapter implements ListAdapter {
         FoldingCell cell = (FoldingCell) convertView;
        final  ViewHolder holder;
         if (cell == null) {
+            Log.v("GGTag>>>",""+position);
 
             holder = new ViewHolder();
             LayoutInflater view = LayoutInflater.from(parent.getContext());
@@ -167,16 +175,45 @@ public class ListviewAdapter implements ListAdapter {
 
             @Override
             public void onClick(View v) {
-                Log.v("GGG>>",">>>>>>>>>>>>>>");
-                MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
+
+                final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
                         .title("Edit/Delete")
                         .customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
                         .positiveText("Update")
                         .negativeText("Delete")
+                        .onNegative(new MaterialDialog.SingleButtonCallback(){
+
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                final AlertDialog.Builder alertDialog=new AlertDialog.Builder(parent.getContext());
+                                alertDialog.setTitle("Delete");
+                                alertDialog.setMessage("Are you sure you want to delete this entry?");
+                                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                       database.deleteTxn(idList.get(position).toString());
+                                        Cursor c=database.getAllData("TRANSACTIONS");
+                                        setJournalValues(c);
+                                        ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
+                                        lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
+                                    }
+                                });
+                                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                alertDialog.show();
+                            }
+                        })
                         .build();
                 dialogEditDelete.show();
+
+
             }
         });
+
         // bind data from selected element to view through view holder
         holder.amtOut.setText("₹"+amount[position]);
         holder.amtTx2.setText("₹"+amount[position]);

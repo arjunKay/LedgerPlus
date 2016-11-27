@@ -200,7 +200,7 @@ public class Journal extends AppCompatActivity {
                     }
                 });
 
-                MaterialDialog dialogJournal=new MaterialDialog.Builder(Journal.this)
+                final MaterialDialog dialogJournal=new MaterialDialog.Builder(Journal.this)
                         .title("Filter Results")
                         .customView(dialogLayoutJournal,true)
                         .positiveText("Update")
@@ -316,7 +316,7 @@ public class Journal extends AppCompatActivity {
                 // ------------------
             }
         });
-       //fc=(FoldingCell)c
+
 
 
 
