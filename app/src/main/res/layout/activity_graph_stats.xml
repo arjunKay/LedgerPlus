@@ -12,26 +12,6 @@
 
     />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
-        android:layout_width="350dp"
-        android:layout_marginTop="20dp"
-        android:layout_height="400dp"
-        android:layout_below="@+id/spinner"
-        android:layout_centerHorizontal="true"
-
-        android:layout_above="@+id/floatingActionButton" />
-
-    <Spinner
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:popupElevation="4dp"
-        android:layout_marginStart="20dp"
-        android:id="@+id/spinner"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignStart="@+id/chart" />
-
     <android.support.design.widget.FloatingActionButton
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
@@ -47,17 +27,36 @@
         app:backgroundTint="#008fcc"
         app:borderWidth="0dp"/>
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="25dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        fab:srcCompat="@drawable/file"
+        android:id="@+id/imgdat"
+        android:tint="@android:color/darker_gray"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="No Data Available ;("
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgdat"
+     android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:id="@+id/tvxt" />
+
 
     />
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:tint="@color/md_grey_400"
-        fab:srcCompat="@drawable/file"
-        android:id="@+id/imageView2"
-        android:layout_alignTop="@+id/chart"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="102dp" />
+
 
 </RelativeLayout>

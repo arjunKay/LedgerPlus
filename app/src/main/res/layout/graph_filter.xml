@@ -6,8 +6,25 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checkedButton="@+id/radioButton2"
+        android:checkedButton="@+id/radioButton4"
         android:id="@+id/newgroup">
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/spinner2"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="All"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton4"
+            android:layout_weight="1" />
 
         <RadioButton
             android:text="Today"
@@ -35,5 +52,6 @@
             android:textSize="20dp"
             android:id="@+id/radioButton"
             android:layout_weight="1" />
+
     </RadioGroup>
 </LinearLayout>
