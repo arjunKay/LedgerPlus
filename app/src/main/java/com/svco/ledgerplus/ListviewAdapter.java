@@ -217,6 +217,8 @@ public class ListviewAdapter implements ListAdapter {
         // bind data from selected element to view through view holder
         holder.amtOut.setText("₹"+amount[position]);
         holder.amtTx2.setText("₹"+amount[position]);
+        holder.jrnlCatIndTx.setText("Recieved as");
+        holder.jrnlSrcIndTx.setText("Credited to");
         if(Integer.parseInt(amount[position])<0)
         {
 
@@ -225,6 +227,9 @@ public class ListviewAdapter implements ListAdapter {
             holder.jrnlSrcTx.setBackgroundColor(Color.parseColor("#F9966B"));
             holder.jrnlCatTx.setBackgroundColor(Color.parseColor("#F9966B"));
             holder.jrnlRelLayout.setBackgroundColor(Color.parseColor("#2CF08E"));
+            holder.jrnlCatIndTx.setText("Spent on");
+            holder.jrnlSrcIndTx.setText("Debited from");
+
 
         }
        /* holder.jrnlEditDelete.setOnClickListener(new View.OnClickListener() {
@@ -271,17 +276,14 @@ public class ListviewAdapter implements ListAdapter {
         holder.jrnlCatTx.setText(type[position]);
         holder.sourceOut.setText(source[position]);
         holder.jrnlSrcTx.setText(source[position]);
-        holder.jrnlCatIndTx.setText("Recieved as");
-        holder.jrnlSrcIndTx.setText("Credited to");
         if(!desc[position].isEmpty())
         {
             holder.descOut.setText(desc[position]);
             holder.descOut.setTypeface(holder.descOut.getTypeface(), Typeface.NORMAL);
             holder.descOut.setText(desc[position]);
-            holder.jrnlCatIndTx.setText("Spent on");
-            holder.jrnlSrcIndTx.setText("Debited from");
-        }
 
+        }
+        else
         {
             holder.descOut.setTypeface(holder.descOut.getTypeface(), Typeface.ITALIC);
             holder.descOut.setTypeface(holder.descOut.getTypeface(), Typeface.NORMAL);
