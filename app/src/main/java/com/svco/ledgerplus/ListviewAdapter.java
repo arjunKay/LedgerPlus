@@ -122,18 +122,13 @@ public class ListviewAdapter implements ListAdapter {
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
 
-        // get item for selected view
-        // if cell is exists - reuse it, if not - create the new one from resource
         RelativeLayout rljrnl, jrnlDiagEditDelete;
         FoldingCell cell = (FoldingCell) convertView;
        final  ViewHolder holder;
         if (cell == null) {
-            Log.v("GGTag>>>",""+position);
-
             holder = new ViewHolder();
             LayoutInflater view = LayoutInflater.from(parent.getContext());
             rljrnl=(RelativeLayout)view.inflate(R.layout.fcell,parent,false);
-            //cell = (FoldingCell) view.inflate(R.layou)t.fcell, parent, false);
             cell=(FoldingCell)rljrnl.findViewById(R.id.foldingCell);
             holder.jrnlEditDelete=(Button)cell.findViewById(R.id.jrnlEditDelete);
             holder.jrnlRelLayout=(RelativeLayout)cell.findViewById(R.id.jrnlRelLayout);
@@ -150,15 +145,6 @@ public class ListviewAdapter implements ListAdapter {
             holder.jrnlSrcTx=(TextView)cell.findViewById(R.id.jrnlSrcTx);
             holder.jrnlSrcIndTx=(TextView)cell.findViewById(R.id.jrnlSrcIndTx);
             holder.jrnlCatIndTx=(TextView)cell.findViewById(R.id.jrnlCatIndTx);
-            // binding view parts to view holder
-           /* viewHolder.price = (TextView) cell.findViewById(R.id.title_price);
-            viewHolder.time = (TextView) cell.findViewById(R.id.title_time_label);
-            viewHolder.date = (TextView) cell.findViewById(R.id.title_date_label);
-            viewHolder.fromAddress = (TextView) cell.findViewById(R.id.title_from_address);
-            viewHolder.toAddress = (TextView) cell.findViewById(R.id.title_to_address);
-            viewHolder.requestsCount = (TextView) cell.findViewById(R.id.title_requests_count);
-            viewHolder.pledgePrice = (TextView) cell.findViewById(R.id.title_pledge);
-            viewHolder.contentRequestBtn = (TextView) cell.findViewById(R.id.content_request_btn);*/
             cell.setTag(holder);
         } else {
 
@@ -265,9 +251,6 @@ public class ListviewAdapter implements ListAdapter {
 
                 holder.fc.toggle(false);
 
-  //              if(!(position==getItemCount()-1))
-//                    holder.activityMain.setPadding(28,53,28,0);
-
             }
         });
         holder.jrnlInDateTx.setText(date[position]);
@@ -289,22 +272,6 @@ public class ListviewAdapter implements ListAdapter {
             holder.descOut.setTypeface(holder.descOut.getTypeface(), Typeface.NORMAL);
             holder.descOut.setHint("No description");
         }
-
-
-        if(position==getItemCount()-1)
-        {
-//            holder.activityMain.setPadding(28,53,28,500);
-        }
-       /* viewHolder.price.setText(item.getPrice());
-        viewHolder.time.setText(item.getTime());
-        viewHolder.date.setText(item.getDate());
-        viewHolder.fromAddress.setText(item.getFromAddress());
-        viewHolder.toAddress.setText(item.getToAddress());
-        viewHolder.requestsCount.setText(String.valueOf(item.getRequestsCount()));
-        viewHolder.pledgePrice.setText(item.getPledgePrice());*/
-
-        // set custom btn handler for list item from that item
-
 
         return cell;
     }

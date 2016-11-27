@@ -38,12 +38,6 @@ public class Journal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.journal_home);
-       /* recyclerView=(RecyclerView)findViewById(R.id.recyclerVi);
-        adapter=new RecyclerAdapter(getApplicationContext());
-        layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);*/
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Journal");
         setSupportActionBar(toolbar);
@@ -295,13 +289,6 @@ public class Journal extends AppCompatActivity {
                                 filterCur=filterDB.filterData(fromDate,toDate,jrnlCashBank,jrnlInEx,jrnlCat,minAmt,maxAmt);
                                 adapter=new ListviewAdapter(getApplicationContext(), filterCur);
                                 theListView.setAdapter(adapter);
-                                //
-                                //recyclerView.setAdapter(null);
-                                //layoutManager=new LinearLayoutManager(Journal.this);
-                               // recyclerView.setLayoutManager(layoutManager);
-                               // recyclerView.setHasFixedSize(true);
-                              //  recyclerView.setAdapter(adapter);
-                                //
 
                             }
                         }).onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -312,8 +299,6 @@ public class Journal extends AppCompatActivity {
                         }).build();
                 dialogJournal.show();
 
-
-                // ------------------
             }
         });
 
