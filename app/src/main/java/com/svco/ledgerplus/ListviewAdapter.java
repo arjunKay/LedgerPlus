@@ -182,7 +182,7 @@ public class ListviewAdapter implements ListAdapter {
                         .positiveText("Update")
                         .negativeText("Delete")
                         .onNegative(new MaterialDialog.SingleButtonCallback(){
-
+                            //Delete entry.
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 final AlertDialog.Builder alertDialog=new AlertDialog.Builder(parent.getContext());
