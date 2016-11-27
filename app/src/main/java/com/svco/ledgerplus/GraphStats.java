@@ -66,7 +66,7 @@ public class GraphStats extends AppCompatActivity {
 
         calendar=Calendar.getInstance();
         day=calendar.get(Calendar.DATE);
-        month=calendar.get(Calendar.MONTH);
+        month=calendar.get(Calendar.MONTH)+1;
         year=calendar.get(Calendar.YEAR);
 
         myDB = new LedgerDBManager(this);

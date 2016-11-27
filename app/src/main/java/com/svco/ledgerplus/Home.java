@@ -204,7 +204,7 @@ public class Home extends AppCompatActivity {
 
             final Calendar calendar = Calendar.getInstance();
             y=calendar.get(Calendar.YEAR);
-            m=calendar.get(Calendar.MONTH);
+            m=calendar.get(Calendar.MONTH)+1;
             d=calendar.get(Calendar.DATE);
 
             dt=d;
@@ -358,7 +358,7 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                         y=year;
-                        m=month;
+                        m=month+1;
                         d=day;
 
                         date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
@@ -526,7 +526,7 @@ public class Home extends AppCompatActivity {
 
                 final Calendar calendar = Calendar.getInstance();
                 y=calendar.get(Calendar.YEAR);
-                m=calendar.get(Calendar.MONTH);
+                m=calendar.get(Calendar.MONTH)+1;
                 d=calendar.get(Calendar.DATE);
 
                 date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
@@ -535,7 +535,7 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                         y=year;
-                        m=month;
+                        m=month+1;
                         d=day;
 
                         date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
