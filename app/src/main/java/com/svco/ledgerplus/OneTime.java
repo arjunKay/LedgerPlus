@@ -25,6 +25,7 @@ public class OneTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_time);
         name= (EditText) findViewById(R.id.name);
+        name.requestFocusFromTouch();
        // name_layout= (TextInputLayout) findViewById(R.id.name_layout);
 
         email= (EditText) findViewById(R.id.email);
@@ -32,23 +33,21 @@ public class OneTime extends AppCompatActivity {
 //        email_layout.animate();
         next= (Button) findViewById(R.id.next);
         myDb = new LedgerDBManager(this);
-        name.requestFocus();
-        email.requestFocus();
         SharedPreferences app_preferences = PreferenceManager
                 .getDefaultSharedPreferences(OneTime.this);
         isFirstTime = app_preferences.getBoolean("isFirstTime", true);
 
-        SharedPreferences.Editor editor = app_preferences.edit();
+        final SharedPreferences.Editor editor = app_preferences.edit();
 
         //Check if that this activity is running for first time
         if (isFirstTime) {
-            editor.putBoolean("isFirstTime", false);
-            editor.commit();
-
             next.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            editor.putBoolean("isFirstTime", false);
+                            editor.commit();
+
                             isFirstTime=false;
                             String n=name.getText().toString();
                             String e=email.getText().toString();

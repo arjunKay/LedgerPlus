@@ -273,7 +273,7 @@ public class Home extends AppCompatActivity {
 
 
         materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
-        materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#0089cc"));
+        materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#008fcc"));
         materialDesignFAM.animate();
         floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
