@@ -14,7 +14,7 @@
         android:layout_below="@+id/toolbar"
         android:scrollbars="vertical"
         android:id="@+id/list_settings"
-        android:dividerHeight="5dp"
+        android:divider="@null"
         android:layout_width="match_parent"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
