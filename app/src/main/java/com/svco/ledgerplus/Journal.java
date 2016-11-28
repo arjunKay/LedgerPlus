@@ -126,6 +126,23 @@ public class Journal extends AppCompatActivity {
                         int index;
                         Cursor cur;
                         index=journalInExSpinner.getSelectedItemPosition();
+                        if(index==0)
+                        {
+                            catList.clear();;
+                            catList.add("Select Category");
+                            cur=filterDB.executeQuery("Select * from CATEGORIES;");
+                            if(cur.moveToFirst())
+                            {
+                                while(cur.moveToNext())
+                                {
+                                    do {
+
+                                        catList.add(cur.getString(1));
+                                    }while (cur.moveToNext());
+
+                                }
+                            }
+                        }
                         if(index==1)
                         {
                             catList.clear();
