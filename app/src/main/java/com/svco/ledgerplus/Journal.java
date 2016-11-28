@@ -185,15 +185,15 @@ public class Journal extends AppCompatActivity {
                 });
 
                 final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-                        String dateToSet=""+day+"/"+(month+1)+"/"+year;
+                        @Override
+                        public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                            String dateToSet=""+day+"/"+(month+1)+"/"+year;
 
-                        if(clickflag.equals("fromDate"))
-                            fromDateIn.setText(dateToSet);
-                        if(clickflag.equals("toDate"))
-                            toDateIn.setText(dateToSet);
-                    }
+                            if(clickflag.equals("fromDate"))
+                                fromDateIn.setText(dateToSet);
+                            if(clickflag.equals("toDate"))
+                                toDateIn.setText(dateToSet);
+                        }
 
 
                 };

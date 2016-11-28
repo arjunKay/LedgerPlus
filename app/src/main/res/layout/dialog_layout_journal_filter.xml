@@ -10,7 +10,9 @@
         android:id="@+id/textView13"
         android:textSize="23sp"
         android:layout_below="@+id/catSpinner"
-        android:textColor="@color/material_drawer_dark_background" />
+        android:textColor="@color/material_drawer_dark_background"
+        android:layout_alignEnd="@+id/textView5"
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_height="50dp"
@@ -42,79 +44,69 @@
         android:layout_alignParentEnd="true"
         android:padding="10dp" />
 
-    <TextView
-        android:text="Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:textSize="23sp"
-        android:textColor="@color/material_drawer_dark_background"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp" />
-
-
-    <TextView
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/toDateIn"
-        android:layout_height="40dp"
-        android:layout_width="110dp"
-        android:hint="To"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:layout_above="@+id/srcSpinner"
-        android:layout_marginStart="10dp"
-        android:layout_below="@id/textView5"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/fromDateIn"
-        android:layout_marginEnd="15dp" />
-
-    <TextView
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/fromDateIn"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_width="110dp"
-        android:hint="From"
-        android:textSize="20sp"
-        android:layout_below="@+id/textView5"
-        android:layout_marginStart="20dp"
-         />
-
-    <EditText
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/maxAmtIn"
-        android:textSize="18sp"
-        android:layout_marginStart="10dp"
-        android:hint="Max.Value"
-        android:layout_marginEnd="8dp"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="5dp"
-        android:layout_below="@id/textView13"
-        android:layout_toEndOf="@+id/minAmtIn"
-        android:layout_alignBaseline="@+id/minAmtIn"
-        android:layout_alignBottom="@+id/minAmtIn"
-        />
 
     <EditText
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/minAmtIn"
-        android:layout_below="@id/textView13"
         android:textSize="18sp"
         android:hint="Min.Value"
         android:textColor="@android:color/black"
-        android:layout_marginTop="5dp"
-        android:layout_width="120dp"
-        android:layout_marginStart="8dp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/textView13"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_toStartOf="@+id/maxAmtIn"
+        android:layout_alignEnd="@+id/textView13" />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/maxAmtIn"
+        android:textSize="18sp"
+        android:hint="Max.Value"
+        android:textColor="@android:color/black"
+        android:layout_alignBaseline="@+id/minAmtIn"
+        android:layout_alignBottom="@+id/minAmtIn"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/toDateIn"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:hint="To"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_above="@+id/srcSpinner"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/fromDateIn" />
+
+    <TextView
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/fromDateIn"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:hint="From"
+        android:textSize="20sp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView5" />
+
+    <TextView
+        android:text="Date"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textSize="23sp"
+        android:textColor="@color/material_drawer_dark_background"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

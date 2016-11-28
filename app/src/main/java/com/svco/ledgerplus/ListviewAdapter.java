@@ -7,22 +7,32 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.ramotion.foldingcell.FoldingCell;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
@@ -48,17 +58,13 @@ public class ListviewAdapter implements ListAdapter {
         database=new LedgerDBManager(con);
         Cursor c=database.getAllData("Transactions");
         setJournalValues(c);
-        jrnlLayoutInflater  = (LayoutInflater) con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View diagView=jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null);
 
     }
-    public ListviewAdapter(Context con, Cursor cur)
-    {
-        database=new LedgerDBManager(con);
+    public ListviewAdapter(Context con, Cursor cur) {
+        database = new LedgerDBManager(con);
         setJournalValues(cur);
-         jrnlLayoutInflater = (LayoutInflater) con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-       View diagView=jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null);
     }
+
     public void setJournalValues(Cursor c)
     {
 
@@ -75,14 +81,19 @@ public class ListviewAdapter implements ListAdapter {
         {
             do {
 
-                amount[i]=c.getString(1);
-                idList.add(c.getString(0));
-                String xx=c.getString(0);
-                date[i]=c.getString(5)+"/"+c.getString(6)+"/"+c.getString(7);
-                source[i]=c.getString(2);
-                type[i]=c.getString(3);
-                desc[i]=c.getString(4);
-                i++;
+
+                    amount[i]=c.getString(1);
+               // if(amount[i].equals("-"))
+                  //  database.deleteTxn(c.getString(0));
+                    idList.add(c.getString(0));
+                    String xx=c.getString(0);
+                    date[i]=c.getString(5)+"/"+c.getString(6)+"/"+c.getString(7);
+                    source[i]=c.getString(2);
+                    type[i]=c.getString(3);
+                    desc[i]=c.getString(4);
+                    i++;
+
+
 
             }while(c.moveToNext());
         }
@@ -119,17 +130,20 @@ public class ListviewAdapter implements ListAdapter {
         return false;
     }
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
 
+        jrnlLayoutInflater  = (LayoutInflater) (parent.getContext()).getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        diagView=jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null);
 
-        RelativeLayout rljrnl, jrnlDiagEditDelete;
-        FoldingCell cell = (FoldingCell) convertView;
+        RelativeLayout rljrnl = null, jrnlDiagEditDelete;
+       FoldingCell cell=null ;//(FoldingCell) convertView;
        final  ViewHolder holder;
+
         if (cell == null) {
             holder = new ViewHolder();
             LayoutInflater view = LayoutInflater.from(parent.getContext());
             rljrnl=(RelativeLayout)view.inflate(R.layout.fcell,parent,false);
-            cell=(FoldingCell)rljrnl.findViewById(R.id.foldingCell);
+           cell=(FoldingCell)rljrnl.findViewById(R.id.foldingCell);
             holder.jrnlEditDelete=(Button)cell.findViewById(R.id.jrnlEditDelete);
             holder.jrnlRelLayout=(RelativeLayout)cell.findViewById(R.id.jrnlRelLayout);
             holder.activityMain=(RelativeLayout)parent.findViewById(R.id.activity_main);
@@ -148,7 +162,7 @@ public class ListviewAdapter implements ListAdapter {
             cell.setTag(holder);
         } else {
 
-            // for existing cell set valid valid state(without animation)
+
             if (unfoldedIndexes.contains(position)) {
                 cell.unfold(true);
             } else {
@@ -156,18 +170,179 @@ public class ListviewAdapter implements ListAdapter {
             }
             holder = (ViewHolder) cell.getTag();
         }
+
         holder.jrnlEditDelete.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
             public void onClick(View v) {
 
+                final Spinner catIn=(Spinner)diagView.findViewById(R.id.diagCatSpinner);
+                final RadioGroup inExRG, sourceRG;
+                final EditText amountIn, descIn;
+                final TextView dateIn;
+                dateIn=(TextView)diagView.findViewById(R.id.diagDateIn);
+                amountIn=(EditText)diagView.findViewById(R.id.diagAmtIn);
+                descIn=(EditText)diagView.findViewById(R.id.diagDescIn);
+                inExRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagInExRG);
+                sourceRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagSourceRG);
+                final  RadioButton inRB,exRB,cashRb,bankRB;
+                inRB=(RadioButton)diagView.findViewById(R.id.jrnlInRB);
+                exRB=(RadioButton)diagView.findViewById(R.id.jrnlExpRB);
+                cashRb=(RadioButton)diagView.findViewById(R.id.jrnlCashRB);
+                bankRB=(RadioButton)diagView.findViewById(R.id.jrnlBankRB);
+                final List<String> catList=new ArrayList<String>();
+                int tempint = 0;
+                if(Integer.parseInt(amount[position])>=0)
+                {
+                    inRB.setChecked(true);
+                    amountIn.setText(""+(Integer.parseInt(amount[position])));
+                    catList.clear();
+                    catList.add("Select a Category");
+                    Cursor c=database.getInCategory();
+                    if(c.moveToFirst())
+                    {
+                        do
+                        {
+                            catList.add(c.getString(1));
+                            if(c.getString(1).equals(type[position]))
+                                tempint=catList.size()-1;
+                        }while(c.moveToNext());
+                    }
+                    ArrayAdapter<String> dataAdapterCat= new ArrayAdapter<String>(parent.getContext(), android.R.layout.simple_spinner_item, catList);
+                    dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    catIn.setAdapter(dataAdapterCat);
+                    catIn.setSelection(tempint);
+                }
+                else
+                {
+                    exRB.setChecked(true);
+                    amountIn.setText(""+(Integer.parseInt(amount[position])));
+                    catList.clear();
+                    catList.add("Select a Category");
+                    Cursor c=database.getExCategory();
+                    if(c.moveToFirst())
+                    {
+                        do
+                        {
+                            catList.add(c.getString(1));
+                            if(c.getString(1).equals(type[position]))
+                                tempint=catList.size()-1;
+                        }while(c.moveToNext());
+                    }
+                    ArrayAdapter<String> dataAdapterCat= new ArrayAdapter<String>(parent.getContext(), android.R.layout.simple_spinner_item, catList);
+                    dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    catIn.setAdapter(dataAdapterCat);
+                    catIn.setSelection(tempint);
+                }
+                if(source[position].equalsIgnoreCase("cash"))
+                    cashRb.setChecked(true);
+                else
+                    bankRB.setChecked(true);
+                descIn.setText(desc[position]);
+                dateIn.setHint(""+date[position]);
+                inRB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        catList.clear();
+                        catList.add("Select a Category");
+                        Cursor c=database.getInCategory();
+                        if(c.moveToFirst())
+                        {
+                            do
+                            {
+                                catList.add(c.getString(1));
+                            }while(c.moveToNext());
+                        }
+                        ArrayAdapter<String> dataAdapterCat= new ArrayAdapter<String>(parent.getContext(), android.R.layout.simple_spinner_item, catList);
+                        dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        catIn.setAdapter(dataAdapterCat);
+
+                    }
+
+                });
+                exRB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        catList.clear();
+                        catList.add("Select a Category");
+                        Cursor c=database.getExCategory();
+                        if(c.moveToFirst())
+                        {
+                            do
+                            {
+                                catList.add(c.getString(1));
+                            }while(c.moveToNext());
+                        }
+                        ArrayAdapter<String> dataAdapterCat= new ArrayAdapter<String>(parent.getContext(), android.R.layout.simple_spinner_item, catList);
+                        dataAdapterCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        catIn.setAdapter(dataAdapterCat);
+                    }
+                });
+                //DatePicker
+                Calendar cal=Calendar.getInstance();
+                dateIn.setHint(date[position]);
+
+                final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+                        String dateToSet = "" + day + "/" + (month + 1) + "/" + year;
+                        dateIn.setHint(dateToSet);
+                    }
+                };
+
+                    final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), false);
+                    dateIn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //datePickerDialog.show(getSupportFragmentManager(),"TAG");
+                        }
+                    });
                 final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
                         .title("Edit/Delete")
-                        .customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
+                        //.customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
+                        .customView((RelativeLayout)diagView,true)
                         .positiveText("Update")
-                        .negativeText("Delete")
-                        .onNegative(new MaterialDialog.SingleButtonCallback(){
+                        .negativeText("Cancel")
+                        .neutralText("Delete")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                String[] tempDate=new String[3];
+                                String source, inEx;
+                                if(inExRG.getCheckedRadioButtonId()==R.id.jrnlInRB)
+                                {
+                                    inEx="i";
+                                }
+                                else
+                                    inEx="e";
+                                if(sourceRG.getCheckedRadioButtonId()==R.id.jrnlBankRB)
+                                {
+                                    source="Bank";
+                                }
+                                else
+                                {
+                                    source="Cash";
+                                }
+                                tempDate=dateIn.getHint().toString().split("/");
+                                String updatedAmount=amountIn.getText().toString();
+                                if(inEx.equals("e"))
+                                    updatedAmount="-"+updatedAmount;
+                                String updatedCategory=catIn.getSelectedItem().toString();
+
+                                String updatedDescription=descIn.getText().toString();
+
+                               database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
+                               Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
+                                Cursor c=database.getAllData("TRANSACTIONS");
+                               ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
+                                lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
+
+                            }
+                        })
+
+
+                        .onNeutral(new MaterialDialog.SingleButtonCallback(){
                             //Delete entry.
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -205,26 +380,28 @@ public class ListviewAdapter implements ListAdapter {
         holder.amtTx2.setText("₹"+amount[position]);
         holder.jrnlCatIndTx.setText("Recieved as");
         holder.jrnlSrcIndTx.setText("Credited to");
-        if(Integer.parseInt(amount[position])<0)
-        {
 
-            holder.amtOut.setText("₹"+(-1*(Integer.parseInt(amount[position]))));
-            holder.amtTx2.setText(holder.amtOut.getText().toString());
-            holder.jrnlSrcTx.setBackgroundColor(Color.parseColor("#F9966B"));
-            holder.jrnlCatTx.setBackgroundColor(Color.parseColor("#F9966B"));
-            holder.jrnlRelLayout.setBackgroundColor(Color.parseColor("#2CF08E"));
-            holder.jrnlCatIndTx.setText("Spent on");
-            holder.jrnlSrcIndTx.setText("Debited from");
+            if(Integer.parseInt(amount[position])<0)
+            {
+
+                holder.amtOut.setText("₹"+(-1*(Integer.parseInt(amount[position]))));
+                holder.amtTx2.setText(holder.amtOut.getText().toString());
+                holder.jrnlSrcTx.setBackgroundColor(Color.parseColor("#F9966B"));
+                holder.jrnlCatTx.setBackgroundColor(Color.parseColor("#F9966B"));
+                holder.jrnlRelLayout.setBackgroundColor(Color.parseColor("#2CF08E"));
+                holder.jrnlCatIndTx.setText("Spent on");
+                holder.jrnlSrcIndTx.setText("Debited from");
 
 
-        }
-       /* holder.jrnlEditDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
+            }
 
-            public void onClick(View v) {
+
+
+      //--DO NOT DELETE-----------------------------------------------------------------------
+        //
                 //final List<String> inexList=new ArrayList<String>();
                // inexList.add("Expenditure/Income");
-                EditText amountIn=(EditText)diagView.findViewById(R.id.diagAmtIn);
+              /*  EditText amountIn=(EditText)diagView.findViewById(R.id.diagAmtIn);
                 EditText descriptionIn=(EditText)diagView.findViewById(R.id.diagDescIn) ;
                 String source="cash", inEx="e";
                 Spinner catIn=(Spinner)diagView.findViewById(R.id.diagCatSpinner);
@@ -239,12 +416,13 @@ public class ListviewAdapter implements ListAdapter {
                 {
                     source="bank";
                 }
+
                 String updatedAmount=amountIn.getText().toString();
                 String updatedCategory=catIn.getSelectedItem().toString();
-                String updatedDescription=descriptionIn.getText().toString();
-            }
-        });
-*/
+                String updatedDescription=descriptionIn.getText().toString();*/
+        //---------------------------------------------------------------------------------------
+
+
         holder.fc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -273,7 +451,7 @@ public class ListviewAdapter implements ListAdapter {
             holder.descOut.setHint("No description");
         }
 
-        return cell;
+        return rljrnl;
     }
 
     @Override
