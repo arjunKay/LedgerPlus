@@ -24,14 +24,19 @@ public class Categories extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
         myDb = new LedgerDBManager(this);
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Categories");
+        toolbar.setTitle(R.string.Categories);
         setSupportActionBar(toolbar);
+
         frag_first=new first();
         frag_second=new second();
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,9 +45,11 @@ public class Categories extends AppCompatActivity {
         });
         tablayout = (TabLayout) findViewById(R.id.tab_layout);
         viewpager = (ViewPager) findViewById(R.id.viewpager);
+
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(frag_first, getString(R.string.expenditure));
         viewPagerAdapter.addFragments(frag_second, getString(R.string.income));
+
         viewpager.setAdapter(viewPagerAdapter);
         tablayout.setupWithViewPager(viewpager);
 
@@ -53,7 +60,6 @@ public class Categories extends AppCompatActivity {
         MaterialDialog dialog=new MaterialDialog.Builder(this)
                 .widgetColorRes(R.color.colorAccent)
                 .title("New Category")
-                //.customView(dialogLay,true)
                 .input("Add Category", null, false, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {

@@ -1,6 +1,5 @@
 package com.svco.ledgerplus;
 
-
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,16 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class first extends Fragment {
 
     public myListAdapter adapter;
-
     public List<Integer> ids=new ArrayList<>();
     public List<String> cats = new ArrayList<>();
+
     LedgerDBManager myDb;
+
     public first() {
         // Required empty public constructor
     }
@@ -42,6 +39,7 @@ public class first extends Fragment {
             cats.add(cursor.getString(1));
             ids.add(Integer.parseInt(cursor.getString(0)));
         }
+
         adapter= new myListAdapter(getActivity(),R.layout.row_layout,ids,cats);
         myList.setAdapter(adapter);
         return view;

@@ -1,10 +1,13 @@
 package com.svco.ledgerplus;
 
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +20,8 @@ public class Settings extends AppCompatActivity {
     List<String> titleList = new ArrayList<>();
     List<String> detailList = new ArrayList<>();
     String[] titles= new String[]{"Reset Data","Edit Profile","About us"};
-    String[] details = new String[]{"Clear database and remove all transactions","Edit Name and e-mail id",""};
-    Integer[] image_id= {R.drawable.ic_reset,R.drawable.ic_profile,R.drawable.ic_about};
+    String[] details = new String[]{"Clear all data and start fresh","Edit Name and e-mail id",""};
+    Integer[] image_id= {R.drawable.ic_reset,R.drawable.ic_profile,R.drawable.ic_about_us};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +39,31 @@ public class Settings extends AppCompatActivity {
         titleList = new ArrayList<>(Arrays.asList(titles));
         detailList = new ArrayList<>(Arrays.asList(details));
 
-        SettingsAdapter adapter = new SettingsAdapter(Settings.this,R.id.activity_settings,titleList,detailList,image_id);
+        SettingsAdapter adapter = new SettingsAdapter(Settings.this,R.layout.settings_list_item,titleList,detailList,image_id);
         list=(ListView)findViewById(R.id.list_settings);
-        list.setAdapter(adapter);
-    }
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+
+                switch(position){
+                    case 0: //clicked Reset Data
+                        Toast.makeText(getApplicationContext(), "You Clicked at "+titles[0], Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1: //clicked Edit Profile
+                        Toast.makeText(getApplicationContext(), "You Clicked at "+titles[1], Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2: //clicked About Us
+                        Toast.makeText(getApplicationContext(), "You Clicked at "+titles[2], Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+            }
+        });
+
+        list.setAdapter(adapter);
+
+    }
 }
