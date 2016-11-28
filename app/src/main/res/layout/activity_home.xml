@@ -285,7 +285,7 @@
             android:textSize="20sp"
             android:textColor="@color/md_grey_400"
             android:textStyle="bold"
-            android:layout_below="@id/imageView"
+            android:layout_below="@+id/imageView"
             android:layout_marginTop="19dp"
             android:id="@+id/no_dat"
             android:layout_centerHorizontal="true" />
