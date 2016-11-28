@@ -94,7 +94,19 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         //Create the tables TRANSACTIONS and CATEGORIES
         db.execSQL("CREATE TABLE "+TABLE_TRANSACTIONS+" ("+KEY_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+AMOUNT+" INTEGER,"+SOURCE+" TEXT,"+CATEGORY+" TEXT,"+DESCRIPTION+" TEXT,"+DAY+" INTEGER,"+MONTH+" INTEGER,"+YEAR+" INTEGER) ");
         db.execSQL("CREATE TABLE " + TABLE_CATEGORIES +" ( "+ KEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "+ CATEGORY_NAME +" TEXT, "+ TYPE +" TEXT )");
+        this.defCategory(db);
+    }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS TRANSACTIONS");
+        db.execSQL("DROP TABLE IF EXISTS CATEGORIES");
+        db.execSQL("DROP TABLE IF EXISTS PROFILE");
+        onCreate(db);
+    }
+
+
+    void defCategory (SQLiteDatabase db) {
         //Populate CATEGORIES table with default categories when the database is created for the first time
         int x=0;
         ContentValues contentValues = new ContentValues();
@@ -112,15 +124,6 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             db.insert(TABLE_CATEGORIES, null, contentValues);
             x++;
         }
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS TRANSACTIONS");
-        db.execSQL("DROP TABLE IF EXISTS CATEGORIES");
-        db.execSQL("DROP TABLE IF EXISTS PROFILE");
-        onCreate(db);
     }
     //adding profiles
     boolean addProfileName(String name, String email){
@@ -130,8 +133,8 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         contentValues.put(EMAIL,email);
         long result = db.insert(TABLE_PROFILE,null,contentValues);
         return result != -1;
-
     }
+
     Cursor getProfileName(){
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor res=db.rawQuery("SELECT * FROM "+TABLE_PROFILE,null);

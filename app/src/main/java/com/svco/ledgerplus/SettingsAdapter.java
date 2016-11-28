@@ -45,8 +45,8 @@ class SettingsAdapter extends ArrayAdapter<String> {
 
         if(settingsDetail.length()==0)
             settingsDetail.setVisibility(View.GONE);
-
         return rowView;
     }
+
 }
 
