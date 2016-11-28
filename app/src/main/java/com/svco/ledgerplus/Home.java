@@ -240,9 +240,9 @@ public class Home extends AppCompatActivity {
             diff=spin_in - spin_ex;
 
             if (sum == 0)
-                    spinnerChnage(0,0,0);
+                    spinnerChange(0,0,0);
             else {
-                spinnerChnage(spin_ex,spin_in,sum);
+                spinnerChange(spin_ex,spin_in,sum);
             }
 
             st4.setText("₹ "+String.valueOf(spin_ex));
@@ -401,7 +401,7 @@ public class Home extends AppCompatActivity {
                                         int x1=spin_in+Integer.parseInt(amount_text);
                                         sum = x1 + spin_ex;
 
-                                        spinnerChnage(spin_ex,x1,sum);
+                                        spinnerChange(spin_ex,x1,sum);
 
                                         spin_ex=myDb.sumOfTxn("ex");
                                        // ScaleTextSize(st4,spin_ex);
@@ -577,7 +577,7 @@ public class Home extends AppCompatActivity {
                                         int x1=spin_ex+Integer.parseInt(value);
                                         sum = x1 + spin_in;
 
-                                        spinnerChnage(x1,spin_in,sum);
+                                        spinnerChange(x1,spin_in,sum);
                                         spin_ex=myDb.sumOfTxn("ex");
                                         //ScaleTextSize(st4,spin_ex);
                                         spin_in=myDb.sumOfTxn("in");
@@ -651,6 +651,7 @@ public class Home extends AppCompatActivity {
         exp=temp.sumOfTxn("ex");
         inc=temp.sumOfTxn("in");
         bal=inc-exp;
+        spinnerChange(exp,inc,exp+inc);
         totalExp.setText("₹ "+ exp);
         totalIn.setText("₹ "+inc);
         if(bal>0){
@@ -676,7 +677,7 @@ public class Home extends AppCompatActivity {
     }
 
 
-    public void spinnerChnage(int expense,int income,int sum){
+    public void spinnerChange(int expense, int income, int sum){
 
         if((expense==0) &&( income ==0))
         {newb.setText("No Data Available ;(");
