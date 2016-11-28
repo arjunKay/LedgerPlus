@@ -125,6 +125,13 @@ public class LedgerDBManager extends SQLiteOpenHelper{
             x++;
         }
     }
+
+    void resetDB () {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_TRANSACTIONS);
+        db.execSQL("delete from "+ TABLE_CATEGORIES);
+        this.defCategory(db);
+    }
     //adding profiles
     boolean addProfileName(String name, String email){
         SQLiteDatabase db=this.getWritableDatabase();
