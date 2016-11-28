@@ -17,7 +17,7 @@ public class Settings extends AppCompatActivity {
     List<String> titleList = new ArrayList<>();
     List<String> detailList = new ArrayList<>();
     String[] titles= new String[]{"Reset Data","Edit Profile","About us"};
-    String[] details = new String[]{"Clear all data and start fresh","Edit Name and e-mail id",""};
+    String[] details = new String[]{"Clear all data and start fresh","Edit name and e-mail id",""};
     Integer[] image_id= {R.drawable.ic_reset,R.drawable.ic_profile,R.drawable.ic_about};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
