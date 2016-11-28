@@ -48,18 +48,10 @@ public class Home extends AppCompatActivity {
     int d,m,y;
     int dt,dm,dy;
     LedgerDBManager myDb;
-    Spinner this_spinner;
     int sum=0,spin_in=0,spin_ex=0;
     long diff=0;
     int ex_to=0,in_to=0;
-    float spin_fin,spin_fex;
-    int input1,input2;
 
-    int amount;
-      int progressint;
-    //=myDb.sumOfTxn("ex");
-    //  float b=(float)progressint;
-    int a;//=myDb.sumOfTxn("in");
     TextView newb;
     TextView in1;
     TextView in2;
@@ -72,75 +64,54 @@ public class Home extends AppCompatActivity {
     Drawer result= null;
     DonutProgress progress;
 
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            // requestWindowFeature(Window.FEATURE_NO_TITLE);
-            //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            setContentView(R.layout.activity_home);
-            myDb = new LedgerDBManager(this);
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
-            //  pbar.setScaleY(3f);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            Cursor cursor;
-            cursor=myDb.getProfileName();
-            cursor.moveToFirst();
-//            if(cursor.getCount()==0){
-//                name="user";
-//                email="user@example.com";
-//            }
-//            else {
-//
-              name = cursor.getString(1);
-                email = cursor.getString(2);
-            //}
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        myDb = new LedgerDBManager(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        Cursor cursor;
+        cursor=myDb.getProfileName();
+        cursor.moveToFirst();
+        name = cursor.getString(1);
+        email = cursor.getString(2);
 
 
-            AccountHeader header = new AccountHeaderBuilder()
-                    .withActivity(this)
-                    .withHeaderBackground(R.drawable.sac)
-                    .withSelectionListEnabled(false)
-                    .withTextColor(Color.parseColor("#FFFFFF"))
-
-                    .addProfiles(new ProfileDrawerItem().withName(name).withEmail(email).withSelectable(true))
-                    //.withHeaderBackground(R.color.cyan)
-                    .withOnAccountHeaderSelectionViewClickListener(
-                            new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
-                                @Override
-                                public boolean onClick(View view, IProfile profile) {
-
-                                    Snackbar.make(findViewById(android.R.id.content), "Hey "+name+",  Wanna change name?", Snackbar.LENGTH_LONG)
-                                            .setAction("Change", new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-
-                                                   Intent x=new Intent(Home.this,Settings.class);
-                                                    startActivity(x);
-
-                                                    // Perform anything for the action selected
-                                                }
-                                            }).setActionTextColor(Color.YELLOW)
-                                            .setDuration(2000).show();
-
-                                    return false;
-                                }
-
-
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.sac)
+                .withSelectionListEnabled(false)
+                .withTextColor(Color.parseColor("#FFFFFF"))
+                .addProfiles(new ProfileDrawerItem()
+                        .withName(name)
+                        .withEmail(email)
+                        .withSelectable(true))
+                .withOnAccountHeaderSelectionViewClickListener(
+                        new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
+                            @Override
+                            public boolean onClick(View view, IProfile profile) {
+                                Snackbar.make(findViewById(android.R.id.content),
+                                        "Hi "+name+", want to change name?",
+                                        Snackbar.LENGTH_LONG)
+                                        .setAction("Change", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent x=new Intent(Home.this,Settings.class);
+                                                startActivity(x);
+                                            }
+                                        }).setActionTextColor(Color.YELLOW)
+                                        .setDuration(2000).show();
+                                return false;
                             }
-
+                        }
                     )
-
-
                     .build();
 
 
-
-
             //Nav Drawer
-
             result = new DrawerBuilder()
                     .withToolbar(toolbar)
                     .withActivity(this)
@@ -150,25 +121,24 @@ public class Home extends AppCompatActivity {
                     .addDrawerItems(
                             new PrimaryDrawerItem().withName("Overview").withSelectable(false),
                             new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Graph Statistics").withSelectable(false),
+                            new PrimaryDrawerItem().withName("Graph Statistics")
+                                    .withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Journal").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Categories").withSelectable(false),
                             new DividerDrawerItem(),
                             new PrimaryDrawerItem().withName("Settings").withSelectable(false)
-
                     )
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
 
-                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                            // do something with the clicked item :D
+                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
+                            // do something with the clicked item
                             switch (position) {
                                 case 1:
                                     result.closeDrawer();
                                     break;
-
                                 case 3:
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, GraphStats.class));
@@ -181,16 +151,11 @@ public class Home extends AppCompatActivity {
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, Categories.class));
                                     break;
-//                                case 9:
-//                                    result.closeDrawer();
-//                                    startActivity(new Intent(Home.this, Reminder.class));
-//                                    break;
                                 case 9:
                                     result.closeDrawer();
                                     startActivity(new Intent(Home.this, Settings.class));
                                     break;
                             }
-
                             return true;
                         }
                     })
@@ -203,10 +168,10 @@ public class Home extends AppCompatActivity {
             y=calendar.get(Calendar.YEAR);
             m=calendar.get(Calendar.MONTH)+1;
             d=calendar.get(Calendar.DATE);
-
             dt=d;
             dm=m;
             dy=y;
+
 
             //Progress Bar & Spinner
 
@@ -230,8 +195,6 @@ public class Home extends AppCompatActivity {
             st9=(TextView)findViewById(R.id.inc_tod);
             st10=(TextView)findViewById(R.id.inc_tod_val);
 
-
-
             spin_ex = myDb.sumOfTxn("ex");
             spin_in = myDb.sumOfTxn("in");
             ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
@@ -246,13 +209,9 @@ public class Home extends AppCompatActivity {
             }
 
             st4.setText("₹ "+String.valueOf(spin_ex));
-            //ScaleTextSize(st4,spin_ex);
             st6.setText("₹ "+String.valueOf(spin_in));
-            //ScaleTextSize(st6,spin_in);
             st8.setText("₹ "+String.valueOf(ex_to));
-            //ScaleTextSize(st8,ex_to);
             st10.setText("₹ "+String.valueOf(in_to));
-           // ScaleTextSize(st10,in_to);
 
             if(diff>0){
                 ScaleTextSize(st2,diff);
@@ -266,74 +225,75 @@ public class Home extends AppCompatActivity {
             }
 
 
-                //Floating Menu and Button
+        //Floating Menu and Button
 
-
-        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        materialDesignFAM =(FloatingActionMenu)findViewById(R.id.material_design_android_floating_action_menu);
         materialDesignFAM.setMenuButtonColorNormal(Color.parseColor("#008fcc"));
         materialDesignFAM.animate();
-        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+
+        floatingActionButton1 =(FloatingActionButton)findViewById(R.id.material_design_floating_action_menu_item1);
         floatingActionButton1.setColorNormal(Color.parseColor("#80cbc4"));
         floatingActionButton1.setColorPressed(Color.parseColor("#80cbc4"));
-          //  floatingActionButton1.setButtonSize(20);
 
         floatingActionButton2 = (FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
         floatingActionButton2.setColorNormal(Color.parseColor("#ff7043"));
         floatingActionButton2.setColorPressed(Color.parseColor("#ff7043"));
-        //floatingActionButton1.setImageDrawable(R.drawable);
+
         floatingActionButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final RelativeLayout dialogLayout= (RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
-
+                final RelativeLayout dialogLayout= (RelativeLayout)getLayoutInflater()
+                        .inflate(R.layout.dialog_layout,null);
 
                 final EditText amt= (EditText) dialogLayout.findViewById(R.id.et_amt);
-
-
                 final TextView date=(TextView)dialogLayout.findViewById(R.id.textdat);
-
-
-
                 final EditText description= (EditText)dialogLayout.findViewById(R.id.des);
-
                 final Spinner spinner_src,spinner_cat;
 
-
-                List<String> SpinnerArray = new ArrayList<String>();
+                List<String> SpinnerArray = new ArrayList<>();
                 SpinnerArray.add("Cash");
                 SpinnerArray.add("Bank");
-                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray);
+
+                final ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this,
+                        android.R.layout.simple_spinner_item, SpinnerArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
                 spinner_src = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
                 spinner_src.setAdapter(adapter);
-                final List<String> incomeSpinnerArray = new ArrayList<String>();
+
+                final List<String> incomeSpinnerArray = new ArrayList<>();
                 Cursor inCur=myDb.getInCategory();
                 incomeSpinnerArray.add("<Select Category>");
                 while (inCur.moveToNext()){
                     incomeSpinnerArray.add(inCur.getString(1));
                 }
-                incomeSpinnerArray.add("Add new ++");
-                final ArrayAdapter<String> catSpinnerAdapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, incomeSpinnerArray);
+                incomeSpinnerArray.add("++ Add new category");
+
+                final ArrayAdapter<String> catSpinnerAdapter = new ArrayAdapter<>(Home.this,
+                        android.R.layout.simple_spinner_item, incomeSpinnerArray);
                 catSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_cat = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
                 spinner_cat.setAdapter(catSpinnerAdapter);
                 spinner_cat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                    public void onItemSelected(AdapterView<?> parent, View view, final int position,
+                                               long id) {
                         if(position == catSpinnerAdapter.getCount()-1){
                             MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
-
                                     .widgetColorRes(R.color.colorAccent)
                                     .title("New Category")
-                                    .input("Add Category", null, false, new MaterialDialog.InputCallback() {
+                                    .input("Add Category", null, false, new MaterialDialog
+                                            .InputCallback() {
                                         @Override
-                                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                        public void onInput(@NonNull MaterialDialog dialog,
+                                                            CharSequence input) {
                                             //Add to database
                                             myDb.insertCat(input.toString(),"I");
                                             incomeSpinnerArray.set(position,input.toString());
                                             incomeSpinnerArray.add("Add new ++");
                                             catSpinnerAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(), "Category  : " + input, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Category  : " + input, Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .build();
@@ -344,13 +304,10 @@ public class Home extends AppCompatActivity {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
-
                 date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
-
                 final DatePickerDialog.OnDateSetListener listener=new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
@@ -361,7 +318,11 @@ public class Home extends AppCompatActivity {
                         date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
                     }
                 };
-                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+
+                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH), false);
 
                 //for changing date
                 date.setOnClickListener(new View.OnClickListener() {
@@ -371,15 +332,13 @@ public class Home extends AppCompatActivity {
                     }
                 });
 
+
                 //For Dialog Box
-
-
                 MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
-                        .title("Income")
+                        .title(R.string.income)
                         .customView(dialogLayout,true)
-                        .positiveText("Add")
-                        .negativeText("Cancel")
-
+                        .positiveText(R.string.add)
+                        .negativeText(R.string.cancel)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -388,15 +347,14 @@ public class Home extends AppCompatActivity {
                                     String amount_text=(amt.getText().toString());
                                     if(amount_text.isEmpty()){
                                         Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
-                                  //      dialog.setCanceledOnTouchOutside(false);
                                     }
                                     else {
                                         String text = spinner_cat.getSelectedItem().toString();
-
                                         String text2 = spinner_src.getSelectedItem().toString();
-                                         final String text3=amt.getText().toString();
+                                        final String text3=amt.getText().toString();
                                         String text4= description.getText().toString();
-                                        myDb.insertTxn(text3,text2,text,text4,String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                        myDb.insertTxn(text3,text2,text,text4,
+                                                String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
                                         int x1=spin_in+Integer.parseInt(amount_text);
                                         sum = x1 + spin_ex;
@@ -404,21 +362,21 @@ public class Home extends AppCompatActivity {
                                         spinnerChange(spin_ex,x1,sum);
 
                                         spin_ex=myDb.sumOfTxn("ex");
-                                       // ScaleTextSize(st4,spin_ex);
                                         spin_in=myDb.sumOfTxn("in");
-                                       // ScaleTextSize(st6,spin_in);
-
-                                        ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-                                       // ScaleTextSize(st8,ex_to);
-                                        in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-                                        //ScaleTextSize(st10,in_to);
+                                        ex_to=myDb.sumOfExpToday(
+                                                String.valueOf(dy),
+                                                String.valueOf(dm),
+                                                String.valueOf(dt));
+                                        in_to=myDb.sumOfInToday(
+                                                String.valueOf(dy),
+                                                String.valueOf(dm),
+                                                String.valueOf(dt));
 
                                         diff=spin_in - spin_ex;
                                         st4.setText("₹ "+String.valueOf(spin_ex));
                                         st6.setText("₹ "+String.valueOf(spin_in));
                                         st8.setText("₹ "+String.valueOf(ex_to));
                                         st10.setText("₹ "+String.valueOf(in_to));
-
 
                                         if(diff>0){
                                             ScaleTextSize(st2,diff);
@@ -430,9 +388,8 @@ public class Home extends AppCompatActivity {
                                             st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
-
+                                        materialDesignFAM.close(true);
                                     }
-
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(),"Select a category",Toast.LENGTH_SHORT).show();
@@ -446,49 +403,42 @@ public class Home extends AppCompatActivity {
                             }
                         })
                         .build();
-
                 dialog.show();
-
             }
         });
 
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final RelativeLayout dialogLayout= (RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_layout,null);
 
-
                 final EditText amt= (EditText) dialogLayout.findViewById(R.id.et_amt);
-
-
                 final TextView date=(TextView)dialogLayout.findViewById(R.id.textdat);
-
-
-
                 final EditText description= (EditText) dialogLayout.findViewById(R.id.des);
 
                 final Spinner spinner_src2,spinner_cat2;
 
-
-                List<String> SpinnerArray = new ArrayList<String>();
+                List<String> SpinnerArray = new ArrayList<>();
                 SpinnerArray.add("Cash");
                 SpinnerArray.add("Bank");
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, SpinnerArray);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(Home.this, android.R.layout.simple_spinner_item, SpinnerArray);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_src2 = (Spinner)dialogLayout.findViewById(R.id.spinner_src);
                 spinner_src2.setAdapter(adapter);
 
-
-                final List<String> expSpinnerArray = new ArrayList<String>();
+                final List<String> expSpinnerArray = new ArrayList<>();
                 Cursor expCursor= myDb.getExCategory();
                 expSpinnerArray.add("<Select Category>");
 
                 while (expCursor.moveToNext()){
                     expSpinnerArray.add(expCursor.getString(1));
                 }
-                expSpinnerArray.add("Add New++");
-                final ArrayAdapter<String> expSpinnerAdapter = new ArrayAdapter<String>(Home.this,android.R.layout.simple_spinner_item, expSpinnerArray);
+                expSpinnerArray.add("++ Add new category");
+
+                final ArrayAdapter<String> expSpinnerAdapter = new ArrayAdapter<>(Home.this,
+                        android.R.layout.simple_spinner_item,
+                        expSpinnerArray);
                 expSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_cat2 = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
                 spinner_cat2.setAdapter(expSpinnerAdapter);
@@ -507,7 +457,9 @@ public class Home extends AppCompatActivity {
                                             expSpinnerArray.set(position,input.toString());
                                             expSpinnerArray.add("Add new ++");
                                             expSpinnerAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(), "Category  : " + input, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(),
+                                                    "Category  : " + input,
+                                                    Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .build();
@@ -517,7 +469,6 @@ public class Home extends AppCompatActivity {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
 
@@ -534,11 +485,13 @@ public class Home extends AppCompatActivity {
                         y=year;
                         m=month+1;
                         d=day;
-
                         date.setText(String.valueOf(d)+"/"+String.valueOf(m)+"/"+String.valueOf(y));
                     }
                 };
-                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+                final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener,
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH), false);
 
                 //for changing date
                 date.setOnClickListener(new View.OnClickListener() {
@@ -548,14 +501,13 @@ public class Home extends AppCompatActivity {
                     }
                 });
 
+
                 //For Dialog Box
-
-
                 MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
-                        .title("Expenditure")
+                        .title(R.string.expenditure)
                         .customView(dialogLayout,true)
-                        .positiveText("Add")
-                        .negativeText("Cancel")
+                        .positiveText(R.string.add)
+                        .negativeText(R.string.cancel)
                         .cancelable(false)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -565,30 +517,27 @@ public class Home extends AppCompatActivity {
                                     String amount_text=(amt.getText().toString());
                                     if(amount_text.isEmpty()){
                                         Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
-                                        //dialog.show();
                                     }
                                     else {
                                         final String value=amount_text;
                                         amount_text="-"+amount_text;
                                         String text = spinner_cat2.getSelectedItem().toString();
                                         String text2=spinner_src2.getSelectedItem().toString();
-                                        myDb.insertTxn(amount_text,text2,text,description.getText().toString(),String.valueOf(d),String.valueOf(m),String.valueOf(y));
+                                        myDb.insertTxn(amount_text,text2,text,
+                                                description.getText().toString(),
+                                                String.valueOf(d),String.valueOf(m),String.valueOf(y));
 
                                         int x1=spin_ex+Integer.parseInt(value);
                                         sum = x1 + spin_in;
 
                                         spinnerChange(x1,spin_in,sum);
                                         spin_ex=myDb.sumOfTxn("ex");
-                                        //ScaleTextSize(st4,spin_ex);
                                         spin_in=myDb.sumOfTxn("in");
-                                        //ScaleTextSize(st6,spin_in);
                                         ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-                                        //ScaleTextSize(st8,ex_to);
                                         in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-                                        //ScaleTextSize(st10,in_to);
 
                                         st4.setText("₹ "+String.valueOf(spin_ex));
-                                        st6.setText("₹"+String.valueOf(spin_in));
+                                        st6.setText("₹ "+String.valueOf(spin_in));
 
                                         st8.setText("₹ "+String.valueOf(ex_to));
                                         st10.setText("₹ "+String.valueOf(in_to));
@@ -605,9 +554,8 @@ public class Home extends AppCompatActivity {
                                             st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
-
+                                        materialDesignFAM.close(true);
                                     }
-
                                 }
                                 else {
                                     dialog.show();
@@ -622,9 +570,7 @@ public class Home extends AppCompatActivity {
                             }
                         })
                         .build();
-
                 dialog.show();
-
             }
         });
     }
@@ -637,23 +583,29 @@ public class Home extends AppCompatActivity {
     public void updateHomeScreenValues()
     {
         TextView currentBal, totalExp, totalIn,todayExp, todayIn;
+
         currentBal=(TextView)findViewById(R.id.cur_bal_val);
         totalExp=(TextView)findViewById(R.id.tot_exp_val);
         totalIn=(TextView)findViewById(R.id.tot_inc_val);
         todayExp=(TextView)findViewById(R.id.exp_tod_val);
         todayIn=(TextView)findViewById(R.id.inc_tod_val);
+
         LedgerDBManager temp=new LedgerDBManager(getApplicationContext());
+
         final Calendar calendar = Calendar.getInstance();
         int y=calendar.get(Calendar.YEAR);
         int m=calendar.get(Calendar.MONTH)+1;
         int d=calendar.get(Calendar.DATE);
         int bal, exp, inc;
+
         exp=temp.sumOfTxn("ex");
         inc=temp.sumOfTxn("in");
         bal=inc-exp;
+
         spinnerChange(exp,inc,exp+inc);
         totalExp.setText("₹ "+ exp);
         totalIn.setText("₹ "+inc);
+
         if(bal>0){
             ScaleTextSize(currentBal,bal);
             currentBal.setText("₹ "+bal);
@@ -664,6 +616,7 @@ public class Home extends AppCompatActivity {
             currentBal.setText("₹ "+bal);
             currentBal.setTextColor(Color.parseColor("#f44336"));
         }
+
         todayExp.setText("₹ "+temp.sumOfExpToday(""+y,""+m,""+d));
         todayIn.setText("₹ "+temp.sumOfInToday(""+y,""+m,""+d));
     }
@@ -671,27 +624,29 @@ public class Home extends AppCompatActivity {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (result != null && result.isDrawerOpen()) {
             result.closeDrawer();
-        } else {
+        }
+        else if (materialDesignFAM.isOpened()){
+            materialDesignFAM.close(true);
+        }
+        else {
             super.onBackPressed();
         }
     }
 
-
     public void spinnerChange(int expense, int income, int sum){
-
-        if((expense==0) &&( income ==0))
-        {newb.setText("No Data Available ;(");
+        if((expense==0) &&( income ==0)) {
+            newb.setText(R.string.no_data_available);
             progress.setVisibility(View.INVISIBLE);
             in1.setVisibility(View.INVISIBLE);
             in2.setVisibility(View.INVISIBLE);
             ex1.setVisibility(View.INVISIBLE);
             ex2.setVisibility(View.INVISIBLE);
             im.setVisibility(View.VISIBLE);
-            newb.setVisibility(View.VISIBLE);}
+            newb.setVisibility(View.VISIBLE);
+        }
 
         else
         {
-
             progress.setMax(sum);
             progress.setProgress(expense);
             im.setVisibility(View.INVISIBLE);
@@ -702,7 +657,6 @@ public class Home extends AppCompatActivity {
             ex2.setVisibility(View.VISIBLE);
             newb.setVisibility(View.INVISIBLE);
         }
-
     }
 
     public void ScaleTextSize(TextView t,long value)
@@ -715,5 +669,4 @@ public class Home extends AppCompatActivity {
             t.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
         }
     }
-
 }

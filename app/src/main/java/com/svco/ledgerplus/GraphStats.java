@@ -100,10 +100,6 @@ public class GraphStats extends AppCompatActivity {
 
         filter=(FloatingActionButton)findViewById(R.id.filter);
 
-
-
-
-
         colors = new ArrayList<Integer>();
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);

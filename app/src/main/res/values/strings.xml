@@ -2,4 +2,8 @@
     <string name="app_name">LedgerPlus</string>
     <string name="expenditure">EXPENDITURE</string>
     <string name="income">INCOME</string>
+    <string name="no_data_available">No Data Available ;(</string>
+    <string name="Categories">Categories</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>

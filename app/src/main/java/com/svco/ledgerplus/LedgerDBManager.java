@@ -56,28 +56,28 @@ import android.util.Log;
 
 public class LedgerDBManager extends SQLiteOpenHelper{
 
-    public static final String DATABASE_NAME = "LedgerPlusDB.db";
+    private static final String DATABASE_NAME = "LedgerPlusDB.db";
 
-    public static final String TABLE_TRANSACTIONS = "TRANSACTIONS";
-    public static final String TABLE_CATEGORIES = "CATEGORIES";
-    public static final String TABLE_PROFILE = "PROFILE";
+    static final String TABLE_TRANSACTIONS = "TRANSACTIONS";
+    private static final String TABLE_CATEGORIES = "CATEGORIES";
+    private static final String TABLE_PROFILE = "PROFILE";
 
 
-    public static final String KEY_ID = "_id";
+    private static final String KEY_ID = "_id";
 
-    public static final String NAME = "NAME";
-    public static final String EMAIL = "EMAIL";
+    private static final String NAME = "NAME";
+    private static final String EMAIL = "EMAIL";
 
-    public static final String AMOUNT = "AMOUNT";
-    public static final String SOURCE = "SOURCE";
-    public static final String CATEGORY = "CATEGORY";
-    public static final String DESCRIPTION = "DESCRIPTION";
-    public static final String DAY = "DAY";
-    public static final String MONTH = "MONTH";
-    public static final String YEAR = "YEAR";
+    static final String AMOUNT = "AMOUNT";
+    private static final String SOURCE = "SOURCE";
+    static final String CATEGORY = "CATEGORY";
+    private static final String DESCRIPTION = "DESCRIPTION";
+    static final String DAY = "DAY";
+    static final String MONTH = "MONTH";
+    static final String YEAR = "YEAR";
 
-    public static final String CATEGORY_NAME = "CATEGORY_NAME";
-    public static final String TYPE = "TYPE";
+    private static final String CATEGORY_NAME = "CATEGORY_NAME";
+    private static final String TYPE = "TYPE";
     private final String[] EX_CATEGORIES = {"Food","Travel","Shopping","Entertainment"};
     private final String[] IN_CATEGORIES = {"Gift","Salary","Profit"};
 
@@ -122,27 +122,24 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS PROFILE");
         onCreate(db);
     }
-//adding profiles
-public boolean addProfileName(String name,String email){
-    SQLiteDatabase db=this.getWritableDatabase();
-    ContentValues contentValues=new ContentValues();
-    contentValues.put(NAME,name);
-    contentValues.put(EMAIL,email);
-    long result = db.insert(TABLE_PROFILE,null,contentValues);
-    if(result==-1)
-        return false;
-    else
-        return true;
+    //adding profiles
+    boolean addProfileName(String name, String email){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(NAME,name);
+        contentValues.put(EMAIL,email);
+        long result = db.insert(TABLE_PROFILE,null,contentValues);
+        return result != -1;
 
-}
-    public Cursor getProfileName(){
+    }
+    Cursor getProfileName(){
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor res=db.rawQuery("SELECT * FROM "+TABLE_PROFILE,null);
         return res;
     }
 
     // For inserting data into table 'TRANSACTIONS'
-    public boolean insertTxn(String amount,String source,String category,String description,String day,String month,String year){
+    boolean insertTxn(String amount, String source, String category, String description, String day, String month, String year){
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -154,15 +151,12 @@ public boolean addProfileName(String name,String email){
         contentValues.put(MONTH,month);
         contentValues.put(YEAR,year);
         long result = db.insert("Transactions",null,contentValues);
-        if(result==-1)
-            return false;
-        else
-            return true;
+        return result != -1;
 
     }
 
     //For inserting data into table 'CATEGORIES'
-    public int insertCat(String cat,String type){
+    int insertCat(String cat, String type){
 
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -174,10 +168,9 @@ public boolean addProfileName(String name,String email){
     }
 
 
-    public Cursor getAllData(String tablename){
+    Cursor getAllData(String tablename){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor res=db.rawQuery("SELECT * FROM "+tablename,null);
-        return res;
+        return db.rawQuery("SELECT * FROM "+tablename,null);
     }
 
 
@@ -198,7 +191,7 @@ public boolean addProfileName(String name,String email){
     }
 
     //Update the Category with KEY_ID=id in table 'CATEGORIES'
-    public void updateCat(String id,String cat){
+    void updateCat(String id, String cat){
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ID,id);
@@ -207,14 +200,14 @@ public boolean addProfileName(String name,String email){
     }
 
     //Delete entry with KEY_ID=id in table TRANSACTIONS
-    public Integer deleteTxn(String id){
+    Integer deleteTxn(String id){
         SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(TABLE_TRANSACTIONS,KEY_ID+" = ?",new String[]{id });
 
     }
 
     //Delete entry with KEY_ID=id in table CATEGORIES
-    public Integer deleteCat(String id) {
+    Integer deleteCat(String id) {
         SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(TABLE_CATEGORIES, KEY_ID +" = ?",new String[]{id });
     }
@@ -223,7 +216,7 @@ public boolean addProfileName(String name,String email){
     /* If cond="ex", it returns sum of all expenditure.
        If cond="in", it returns sum of all income
      */
-    public Integer sumOfTxn(String cond){
+    Integer sumOfTxn(String cond){
         String relOp="";
         if(cond.equalsIgnoreCase("ex"))
             relOp="<";
@@ -244,9 +237,8 @@ public boolean addProfileName(String name,String email){
         c.close();
         return sum;
     }
-   public Integer sumOfExpToday(String currentYear,String currentMonth,String currentDay){
-        String relOp="<";
-        String eq ="=";
+   Integer sumOfExpToday(String currentYear, String currentMonth, String currentDay){
+       String relOp="<";
        int a= Integer.parseInt(currentDay);
        int d=Integer.parseInt(currentYear);
        int b=Integer.parseInt(currentMonth);
@@ -261,9 +253,8 @@ public boolean addProfileName(String name,String email){
         return sum;
     }
 
-    public Integer sumOfInToday(String currentYear,String currentMonth,String currentDay){
+    Integer sumOfInToday(String currentYear, String currentMonth, String currentDay){
         String relOp=">";
-        String eq ="=";
         int a= Integer.parseInt(currentDay);
         int d=Integer.parseInt(currentYear);
         int b=Integer.parseInt(currentMonth);
@@ -278,9 +269,8 @@ public boolean addProfileName(String name,String email){
     }
 
 
-    public Integer sumOfInThisMonth(String currentYear,String currentMonth){
+    Integer sumOfInThisMonth(String currentYear, String currentMonth){
         String relOp=">";
-        String eq ="=";
         int d=Integer.parseInt(currentYear);
         int b=Integer.parseInt(currentMonth);
         SQLiteDatabase db=this.getWritableDatabase();
@@ -292,9 +282,9 @@ public boolean addProfileName(String name,String email){
 
         return sum;
     }
-    public Integer sumOfExpThisMonth(String currentYear,String currentMonth){
+
+    Integer sumOfExpThisMonth(String currentYear, String currentMonth){
         String relOp="<";
-        String eq ="=";
         int d=Integer.parseInt(currentYear);
         int b=Integer.parseInt(currentMonth);
         SQLiteDatabase db=this.getWritableDatabase();
@@ -308,9 +298,8 @@ public boolean addProfileName(String name,String email){
         return sum;
     }
 
-    public Integer sumOfExpThisYear(String currentYear){
+    Integer sumOfExpThisYear(String currentYear){
         String relOp="<";
-        String eq ="=";
         int d=Integer.parseInt(currentYear);
         SQLiteDatabase db=this.getWritableDatabase();
         int sum =0;
@@ -322,9 +311,9 @@ public boolean addProfileName(String name,String email){
 
         return sum;
     }
-    public Integer sumOfInThisYear(String currentYear){
+
+    Integer sumOfInThisYear(String currentYear){
         String relOp=">";
-        String eq ="=";
         int d=Integer.parseInt(currentYear);
         SQLiteDatabase db=this.getWritableDatabase();
         int sum =0;
@@ -336,31 +325,26 @@ public boolean addProfileName(String name,String email){
         return sum;
     }
 
-
-
-    public Cursor getExCategory() {
+    Cursor getExCategory() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'E'",null);
-        return res;
+        return db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'E'",null);
     }
 
-    public Cursor getInCategory() {
+    Cursor getInCategory() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'I'",null);
-        return res;
+        return db.rawQuery("SELECT * FROM "+ TABLE_CATEGORIES +" WHERE TYPE = 'I'",null);
     }
 
     //Execute query specified in 'query'
-    public Cursor executeQuery(String query)
+    Cursor executeQuery(String query)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor cur=db.rawQuery(query,null);
-        return cur;
+        return db.rawQuery(query,null);
     }
 
 
     //Retrieve data based on filter conditions
-    public Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
+    Cursor filterData(String startDate, String endDate, String cashOrBank, String inOrEx, String category, String minAmt, String maxAmt)
     {
         String thequery="Select * from "+TABLE_TRANSACTIONS+" WHERE ";
         String temp=thequery;
