@@ -1,7 +1,9 @@
 package com.svco.ledgerplus;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -44,13 +46,31 @@ public class Settings extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 switch(position){
                     case 0: //clicked Reset Data
-                        Toast.makeText(getApplicationContext(), "You Clicked at "+titles[0], Toast.LENGTH_SHORT).show();
+
+                        final AlertDialog.Builder alertDialog=new AlertDialog.Builder(parent.getContext());
+                        alertDialog.setTitle("RESET DATA");
+                        alertDialog.setMessage("Are you sure you want reset all data? All your transactions will be deleted");
+                        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                LedgerDBManager myDb=new LedgerDBManager(getApplicationContext());
+                                myDb.resetDB();
+                                Toast.makeText(getApplicationContext(), "Reset Data Successfully !!!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+
+
                         break;
                     case 1: //clicked Edit Profile
                         Toast.makeText(getApplicationContext(), "You Clicked at "+titles[1], Toast.LENGTH_SHORT).show();
