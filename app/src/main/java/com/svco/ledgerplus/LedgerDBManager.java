@@ -142,6 +142,17 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         return result != -1;
     }
 
+
+    public boolean editProf(String name,String mail){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(NAME,name);
+        contentValues.put(EMAIL,mail);
+        db.update(TABLE_PROFILE,contentValues,"_id = ?",new String[] {"1"});
+        return true;
+    }
+
+
     Cursor getProfileName(){
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor res=db.rawQuery("SELECT * FROM "+TABLE_PROFILE,null);
