@@ -63,29 +63,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="15sp"
-            android:layout_marginLeft="200sp"
+            android:layout_toEndOf="@id/tv_color1"
             android:text="Total Expenditure"
             android:textSize="11sp"
             android:id="@+id/tv_ex"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="15dp"
             android:layout_below="@+id/circle"
-            android:layout_alignStart="@+id/circle" />
+             />
         <TextView
             android:layout_marginTop="1sp"
             android:layout_width="wrap_content"
             android:layout_height="15sp"
-            android:layout_marginLeft="200sp"
+            android:layout_toEndOf="@id/tv_color2"
             android:text="Total Income"
             android:textSize="11sp"
             android:id="@+id/tv_in"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="15dp"
             android:layout_below="@+id/tv_ex"
             android:layout_marginBottom="15sp"
 
-            android:layout_alignStart="@+id/circle" />
+             />
 
         <View
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -135,7 +135,7 @@
                 android:id="@+id/cur_bal"
                 android:layout_marginBottom="15dp"
                 android:textSize="25dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="15dp"
 
                 />
             <TextView
@@ -150,7 +150,7 @@
                 />
 
             <View
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_below="@+id/cur_bal"
                 android:layout_marginStart="15sp"
                 android:layout_marginEnd="15sp"
@@ -205,7 +205,7 @@
                 android:text="0.00"
                 />
             <View
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_below="@+id/tot_inc"
                 android:layout_marginStart="15sp"
                 android:layout_marginEnd="15sp"
@@ -261,7 +261,7 @@
                 />
 
             <View
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_below="@+id/inc_tod"
                 android:layout_marginStart="15sp"
                 android:id="@+id/view3"
@@ -285,19 +285,10 @@
             android:textSize="20sp"
             android:textColor="@color/md_grey_400"
             android:textStyle="bold"
-            android:layout_marginBottom="133dp"
+            android:layout_below="@id/imageView"
+            android:layout_marginTop="19dp"
             android:id="@+id/no_dat"
-            android:layout_centerInParent="true" />
-
-        <ImageView
-            android:layout_width="70sp"
-            android:layout_height="70sp"
-            android:id="@+id/imageView"
-            android:tint="@color/md_grey_400"
-            android:layout_above="@+id/no_dat"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="33dp"
-            app:srcCompat="@drawable/file" />
+            android:layout_centerHorizontal="true" />
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/material_design_android_floating_action_menu"
@@ -347,7 +338,14 @@
 
         </com.github.clans.fab.FloatingActionMenu>
 
-
+        <ImageView
+            android:layout_width="70sp"
+            android:layout_height="70sp"
+            android:id="@+id/imageView"
+            android:tint="@color/md_grey_400"
+            android:layout_marginTop="170dp"
+            app:srcCompat="@drawable/file"
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>
