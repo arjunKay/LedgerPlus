@@ -44,10 +44,6 @@ public class first extends Fragment {
         }
         adapter= new myListAdapter(getActivity(),R.layout.row_layout,ids,cats);
         myList.setAdapter(adapter);
-
-
-
-
         return view;
     }
 
