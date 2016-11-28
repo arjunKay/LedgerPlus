@@ -629,6 +629,43 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateHomeScreenValues();
+    }
+    public void updateHomeScreenValues()
+    {
+        TextView currentBal, totalExp, totalIn,todayExp, todayIn;
+        currentBal=(TextView)findViewById(R.id.cur_bal_val);
+        totalExp=(TextView)findViewById(R.id.tot_exp_val);
+        totalIn=(TextView)findViewById(R.id.tot_inc_val);
+        todayExp=(TextView)findViewById(R.id.exp_tod_val);
+        todayIn=(TextView)findViewById(R.id.inc_tod_val);
+        LedgerDBManager temp=new LedgerDBManager(getApplicationContext());
+        final Calendar calendar = Calendar.getInstance();
+        int y=calendar.get(Calendar.YEAR);
+        int m=calendar.get(Calendar.MONTH)+1;
+        int d=calendar.get(Calendar.DATE);
+        int bal, exp, inc;
+        exp=temp.sumOfTxn("ex");
+        inc=temp.sumOfTxn("in");
+        bal=inc-exp;
+        totalExp.setText("₹ "+ exp);
+        totalIn.setText("₹ "+inc);
+        if(bal>0){
+            ScaleTextSize(currentBal,bal);
+            currentBal.setText("₹ "+bal);
+            currentBal.setTextColor(Color.parseColor("#4caf50"));
+        }
+        else{
+            ScaleTextSize(currentBal,bal);
+            currentBal.setText("₹ "+bal);
+            currentBal.setTextColor(Color.parseColor("#f44336"));
+        }
+        todayExp.setText("₹ "+temp.sumOfExpToday(""+y,""+m,""+d));
+        todayIn.setText("₹ "+temp.sumOfInToday(""+y,""+m,""+d));
+    }
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (result != null && result.isDrawerOpen()) {

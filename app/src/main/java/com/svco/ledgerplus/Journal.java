@@ -2,12 +2,14 @@ package com.svco.ledgerplus;
 
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,9 +49,9 @@ public class Journal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
+
         final RelativeLayout activityMain=(RelativeLayout)findViewById(R.id.activity_main);
         final ListView theListView = (ListView) findViewById(R.id.recyclerVi);
         adapter = new ListviewAdapter(getApplicationContext());
@@ -286,6 +288,7 @@ public class Journal extends AppCompatActivity {
                                 {
                                     maxAmt="-1";
                                 }
+
                                 filterCur=filterDB.filterData(fromDate,toDate,jrnlCashBank,jrnlInEx,jrnlCat,minAmt,maxAmt);
                                 adapter=new ListviewAdapter(getApplicationContext(), filterCur);
                                 theListView.setAdapter(adapter);
@@ -305,6 +308,18 @@ public class Journal extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void ScaleTextSize(TextView t,long value)
+    {
+        if(value>999999999)
+        {
+            t.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+        }else
+        {
+            t.setTextSize(TypedValue.COMPLEX_UNIT_SP,25);
+        }
     }
 
 }
