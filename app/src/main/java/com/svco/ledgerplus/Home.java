@@ -369,7 +369,7 @@ public class Home extends AppCompatActivity {
                                         String text4= description.getText().toString();
                                         myDb.insertTxn(text3,text2,text,text4,
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
-
+                                    Toast.makeText(Home.this,"Income added  successfully",Toast.LENGTH_LONG).show();
                                         int x1=spin_in+Integer.parseInt(amount_text);
                                         sum = x1 + spin_ex;
 
@@ -528,17 +528,17 @@ public class Home extends AppCompatActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
                                 String amount_text=(amt.getText().toString());
-                                if(spinner_cat2.getSelectedItemPosition()==0 || amount_text.isEmpty()){
-                                    Animation animation=AnimationUtils.loadAnimation(Home.this, R.anim.shake);
-                                    if(amount_text.isEmpty()){
+                                if(spinner_cat2.getSelectedItemPosition()==0 || amount_text.isEmpty()) {
+                                    Animation animation = AnimationUtils.loadAnimation(Home.this, R.anim.shake);
+                                    if (amount_text.isEmpty()) {
                                         amt.requestFocus();
                                         amt.startAnimation(animation);
                                     }
-                                    if(spinner_cat2.getSelectedItemPosition()==0)
-                                    {
+                                    if (spinner_cat2.getSelectedItemPosition() == 0) {
                                         spinner_cat2.requestFocus();
                                         spinner_cat2.startAnimation(animation);
                                     }
+                                }
                                     else {
                                         final String value=amount_text;
                                         amount_text="-"+amount_text;
@@ -547,7 +547,7 @@ public class Home extends AppCompatActivity {
                                         myDb.insertTxn(amount_text,text2,text,
                                                 description.getText().toString(),
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
-
+                                        Toast.makeText(Home.this,"Expenditure added  successfully",Toast.LENGTH_LONG).show();
                                         int x1=spin_ex+Integer.parseInt(value);
                                         sum = x1 + spin_in;
 
@@ -579,11 +579,8 @@ public class Home extends AppCompatActivity {
                                         materialDesignFAM.close(true);
                                     }
                                 }
-                                else {
-                                    Toast.makeText(getApplicationContext(),"Select a category",Toast.LENGTH_SHORT).show();
 
-                                }
-                            }
+
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
