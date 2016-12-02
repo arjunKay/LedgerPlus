@@ -1,6 +1,7 @@
 package com.svco.ledgerplus;
 
 import android.content.Intent;
+import android.view.animation.Animation;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -343,11 +345,23 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
-                                if(spinner_cat.getSelectedItemPosition()!=0){
-                                    String amount_text=(amt.getText().toString());
-                                    if(amount_text.isEmpty()){
-                                        Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                String amount_text=(amt.getText().toString());
+                                if(spinner_cat.getSelectedItemPosition()==0 || amount_text.isEmpty()) {
+                                    Animation animaton= AnimationUtils.loadAnimation(Home.this,R.anim.shake);
+                                    if (amount_text.isEmpty()) {
+                                        Toast.makeText(Home.this, "Enter Amount", Toast.LENGTH_SHORT).show();
+                                        amt.requestFocus();
+                                        //Vibrate here
+
+                                        amt.startAnimation(animaton);
                                     }
+                                    if (spinner_cat.getSelectedItemPosition() == 0) {
+                                        Toast.makeText(getApplicationContext(), "Select a category", Toast.LENGTH_SHORT).show();
+                                        spinner_cat.requestFocus();
+                                        //Vibrate here
+                                        spinner_cat.startAnimation(animaton);
+                                    }
+                                }
                                     else {
                                         String text = spinner_cat.getSelectedItem().toString();
                                         String text2 = spinner_src.getSelectedItem().toString();
@@ -392,10 +406,8 @@ public class Home extends AppCompatActivity {
                                         materialDesignFAM.close(true);
                                     }
                                 }
-                                else {
-                                    Toast.makeText(getApplicationContext(),"Select a category",Toast.LENGTH_SHORT).show();
-                                }
-                            }
+
+
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -515,10 +527,17 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 //Toasting
-                                if(spinner_cat2.getSelectedItemPosition()!=0){
-                                    String amount_text=(amt.getText().toString());
+                                String amount_text=(amt.getText().toString());
+                                if(spinner_cat2.getSelectedItemPosition()==0 || amount_text.isEmpty()){
+                                    Animation animation=AnimationUtils.loadAnimation(Home.this, R.anim.shake);
                                     if(amount_text.isEmpty()){
-                                        Toast.makeText(Home.this,"Enter Amount",Toast.LENGTH_SHORT).show();
+                                        amt.requestFocus();
+                                        amt.startAnimation(animation);
+                                    }
+                                    if(spinner_cat2.getSelectedItemPosition()==0)
+                                    {
+                                        spinner_cat2.requestFocus();
+                                        spinner_cat2.startAnimation(animation);
                                     }
                                     else {
                                         final String value=amount_text;
