@@ -1,5 +1,7 @@
 package com.svco.ledgerplus;
 
+import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.animation.Animation;
 import android.database.Cursor;
@@ -269,7 +271,7 @@ public class Home extends AppCompatActivity {
                 while (inCur.moveToNext()){
                     incomeSpinnerArray.add(inCur.getString(1));
                 }
-                incomeSpinnerArray.add("++ Add new category");
+                incomeSpinnerArray.add("--Add new Category--");
 
                 final ArrayAdapter<String> catSpinnerAdapter = new ArrayAdapter<>(Home.this,
                         android.R.layout.simple_spinner_item, incomeSpinnerArray);
@@ -292,10 +294,17 @@ public class Home extends AppCompatActivity {
                                             //Add to database
                                             myDb.insertCat(input.toString(),"I");
                                             incomeSpinnerArray.set(position,input.toString());
-                                            incomeSpinnerArray.add("Add new ++");
+                                            incomeSpinnerArray.add("--Add new Category--");
                                             catSpinnerAdapter.notifyDataSetChanged();
                                             Toast.makeText(getApplicationContext(),
                                                     "Category  : " + input, Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .dismissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialog) {
+                                            if(spinner_cat.getSelectedItemId()==catSpinnerAdapter.getCount()-1)
+                                                spinner_cat.setSelection(0);
                                         }
                                     })
                                     .build();
@@ -349,14 +358,13 @@ public class Home extends AppCompatActivity {
                                 if(spinner_cat.getSelectedItemPosition()==0 || amount_text.isEmpty()) {
                                     Animation animaton= AnimationUtils.loadAnimation(Home.this,R.anim.shake);
                                     if (amount_text.isEmpty()) {
-                                        Toast.makeText(Home.this, "Enter Amount", Toast.LENGTH_SHORT).show();
+
                                         amt.requestFocus();
                                         //Vibrate here
 
                                         amt.startAnimation(animaton);
                                     }
                                     if (spinner_cat.getSelectedItemPosition() == 0) {
-                                        Toast.makeText(getApplicationContext(), "Select a category", Toast.LENGTH_SHORT).show();
                                         spinner_cat.requestFocus();
                                         //Vibrate here
                                         spinner_cat.startAnimation(animaton);
@@ -406,8 +414,6 @@ public class Home extends AppCompatActivity {
                                         materialDesignFAM.close(true);
                                     }
                                 }
-
-
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -448,7 +454,7 @@ public class Home extends AppCompatActivity {
                 while (expCursor.moveToNext()){
                     expSpinnerArray.add(expCursor.getString(1));
                 }
-                expSpinnerArray.add("++ Add new category");
+                expSpinnerArray.add("--Add new Category--");
 
                 final ArrayAdapter<String> expSpinnerAdapter = new ArrayAdapter<>(Home.this,
                         android.R.layout.simple_spinner_item,
@@ -456,10 +462,11 @@ public class Home extends AppCompatActivity {
                 expSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_cat2 = (Spinner)dialogLayout.findViewById(R.id.spinner_cat);
                 spinner_cat2.setAdapter(expSpinnerAdapter);
+
                 spinner_cat2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                        if(position == expSpinnerAdapter.getCount()-1){
+                        if(position==expSpinnerAdapter.getCount()-1){
                             MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
                                     .widgetColorRes(R.color.colorAccent)
                                     .title("New Category")
@@ -469,11 +476,18 @@ public class Home extends AppCompatActivity {
                                             //Add to database
                                             myDb.insertCat(input.toString(),"E");
                                             expSpinnerArray.set(position,input.toString());
-                                            expSpinnerArray.add("Add new ++");
+                                            expSpinnerArray.add("--Add new Category--");
                                             expSpinnerAdapter.notifyDataSetChanged();
                                             Toast.makeText(getApplicationContext(),
                                                     "Category  : " + input,
                                                     Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .dismissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialog) {
+                                            if(spinner_cat2.getSelectedItemId()==expSpinnerAdapter.getCount()-1)
+                                            spinner_cat2.setSelection(0);
                                         }
                                     })
                                     .build();
