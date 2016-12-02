@@ -107,122 +107,122 @@ public class Home extends AppCompatActivity {
                                 return false;
                             }
                         }
-                    )
-                    .build();
+                )
+                .build();
 
 
-            //Nav Drawer
-            result = new DrawerBuilder()
-                    .withToolbar(toolbar)
-                    .withActivity(this)
-                    .withCloseOnClick(true)
-                    .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
-                    .withAccountHeader(header)
-                    .addDrawerItems(
-                            new PrimaryDrawerItem().withName("Overview").withSelectable(false),
-                            new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Graph Statistics")
-                                    .withSelectable(false),
-                            new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Journal").withSelectable(false),
-                            new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Categories").withSelectable(false),
-                            new DividerDrawerItem(),
-                            new PrimaryDrawerItem().withName("Settings").withSelectable(false)
-                    )
-                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                        @Override
+        //Nav Drawer
+        result = new DrawerBuilder()
+                .withToolbar(toolbar)
+                .withActivity(this)
+                .withCloseOnClick(true)
+                .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
+                .withAccountHeader(header)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Overview").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Graph Statistics")
+                                .withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Journal").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Categories").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Settings").withSelectable(false)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
 
-                        public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
-                            // do something with the clicked item
-                            switch (position) {
-                                case 1:
-                                    result.closeDrawer();
-                                    break;
-                                case 3:
-                                    result.closeDrawer();
-                                    startActivity(new Intent(Home.this, GraphStats.class));
-                                    break;
-                                case 5:
-                                    result.closeDrawer();
-                                    startActivity(new Intent(Home.this, Journal.class));
-                                    break;
-                                case 7:
-                                    result.closeDrawer();
-                                    startActivity(new Intent(Home.this, Categories.class));
-                                    break;
-                                case 9:
-                                    result.closeDrawer();
-                                    startActivity(new Intent(Home.this, Settings.class));
-                                    break;
-                            }
-                            return true;
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
+                        // do something with the clicked item
+                        switch (position) {
+                            case 1:
+                                result.closeDrawer();
+                                break;
+                            case 3:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, GraphStats.class));
+                                break;
+                            case 5:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Journal.class));
+                                break;
+                            case 7:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Categories.class));
+                                break;
+                            case 9:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Settings.class));
+                                break;
                         }
-                    })
-                    .build();
+                        return true;
+                    }
+                })
+                .build();
 
 
-            //Calendar Instance
+        //Calendar Instance
 
-            final Calendar calendar = Calendar.getInstance();
-            y=calendar.get(Calendar.YEAR);
-            m=calendar.get(Calendar.MONTH)+1;
-            d=calendar.get(Calendar.DATE);
-            dt=d;
-            dm=m;
-            dy=y;
+        final Calendar calendar = Calendar.getInstance();
+        y=calendar.get(Calendar.YEAR);
+        m=calendar.get(Calendar.MONTH)+1;
+        d=calendar.get(Calendar.DATE);
+        dt=d;
+        dm=m;
+        dy=y;
 
 
-            //Progress Bar & Spinner
+        //Progress Bar & Spinner
 
-            progress = (DonutProgress) findViewById(R.id.circle);
+        progress = (DonutProgress) findViewById(R.id.circle);
 
-            newb = (TextView) findViewById(R.id.no_dat);
-            in1 = (TextView) findViewById(R.id.tv_color1);
-            in2 = (TextView) findViewById(R.id.tv_in);
-            ex1 = (TextView) findViewById(R.id.tv_color2);
-            ex2 = (TextView) findViewById(R.id.tv_ex);
-            im = (ImageView) findViewById(R.id.imageView);
+        newb = (TextView) findViewById(R.id.no_dat);
+        in1 = (TextView) findViewById(R.id.tv_color1);
+        in2 = (TextView) findViewById(R.id.tv_in);
+        ex1 = (TextView) findViewById(R.id.tv_color2);
+        ex2 = (TextView) findViewById(R.id.tv_ex);
+        im = (ImageView) findViewById(R.id.imageView);
 
-            st1=(TextView)findViewById(R.id.cur_bal);
-            st2=(TextView)findViewById(R.id.cur_bal_val);
-            st3=(TextView)findViewById(R.id.tot_exp);
-            st4=(TextView)findViewById(R.id.tot_exp_val);
-            st5=(TextView)findViewById(R.id.tot_inc);
-            st6=(TextView)findViewById(R.id.tot_inc_val);
-            st7=(TextView)findViewById(R.id.exp_tod);
-            st8=(TextView)findViewById(R.id.exp_tod_val);
-            st9=(TextView)findViewById(R.id.inc_tod);
-            st10=(TextView)findViewById(R.id.inc_tod_val);
+        st1=(TextView)findViewById(R.id.cur_bal);
+        st2=(TextView)findViewById(R.id.cur_bal_val);
+        st3=(TextView)findViewById(R.id.tot_exp);
+        st4=(TextView)findViewById(R.id.tot_exp_val);
+        st5=(TextView)findViewById(R.id.tot_inc);
+        st6=(TextView)findViewById(R.id.tot_inc_val);
+        st7=(TextView)findViewById(R.id.exp_tod);
+        st8=(TextView)findViewById(R.id.exp_tod_val);
+        st9=(TextView)findViewById(R.id.inc_tod);
+        st10=(TextView)findViewById(R.id.inc_tod_val);
 
-            spin_ex = myDb.sumOfTxn("ex");
-            spin_in = myDb.sumOfTxn("in");
-            ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-            in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
-            sum = spin_ex + spin_in;
-            diff=spin_in - spin_ex;
+        spin_ex = myDb.sumOfTxn("ex");
+        spin_in = myDb.sumOfTxn("in");
+        ex_to=myDb.sumOfExpToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+        in_to=myDb.sumOfInToday(String.valueOf(dy),String.valueOf(dm),String.valueOf(dt));
+        sum = spin_ex + spin_in;
+        diff=spin_in - spin_ex;
 
-            if (sum == 0)
-                    spinnerChange(0,0,0);
-            else {
-                spinnerChange(spin_ex,spin_in,sum);
-            }
+        if (sum == 0)
+            spinnerChange(0,0,0);
+        else {
+            spinnerChange(spin_ex,spin_in,sum);
+        }
 
-            st4.setText("₹ "+String.valueOf(spin_ex));
-            st6.setText("₹ "+String.valueOf(spin_in));
-            st8.setText("₹ "+String.valueOf(ex_to));
-            st10.setText("₹ "+String.valueOf(in_to));
+        st4.setText("₹ "+String.valueOf(spin_ex));
+        st6.setText("₹ "+String.valueOf(spin_in));
+        st8.setText("₹ "+String.valueOf(ex_to));
+        st10.setText("₹ "+String.valueOf(in_to));
 
-            if(diff>0){
-                ScaleTextSize(st2,diff);
-                st2.setText("₹ "+String.valueOf(diff));
-                st2.setTextColor(Color.parseColor("#4caf50"));
-            }
-            else{
-                ScaleTextSize(st2,diff);
-                st2.setText("₹ "+String.valueOf(diff));
-                st2.setTextColor(Color.parseColor("#f44336"));
-            }
+        if(diff>0){
+            ScaleTextSize(st2,diff);
+            st2.setText("₹ "+String.valueOf(diff));
+            st2.setTextColor(Color.parseColor("#4caf50"));
+        }
+        else{
+            ScaleTextSize(st2,diff);
+            st2.setText("₹ "+String.valueOf(diff));
+            st2.setTextColor(Color.parseColor("#f44336"));
+        }
 
 
         //Floating Menu and Button

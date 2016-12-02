@@ -218,6 +218,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         contentValues.put(KEY_ID,id);
         contentValues.put(CATEGORY_NAME,cat);
         db.update(TABLE_CATEGORIES,contentValues, KEY_ID +" = ?",new String[] {id});
+
     }
 
     //Delete entry with KEY_ID=id in table TRANSACTIONS
