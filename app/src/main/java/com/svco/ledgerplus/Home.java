@@ -388,6 +388,7 @@ public class Home extends AppCompatActivity {
                                             st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
+                                        dialog.dismiss();
                                         materialDesignFAM.close(true);
                                     }
                                 }
@@ -402,6 +403,7 @@ public class Home extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         })
+                        .autoDismiss(false)
                         .build();
                 dialog.show();
             }
@@ -502,7 +504,7 @@ public class Home extends AppCompatActivity {
                 });
 
 
-                //For Dialog Box
+                //For Expenditure Dialog Box
                 MaterialDialog dialog=new MaterialDialog.Builder(Home.this)
                         .title(R.string.expenditure)
                         .customView(dialogLayout,true)
@@ -554,12 +556,13 @@ public class Home extends AppCompatActivity {
                                             st2.setText("₹ "+String.valueOf(diff));
                                             st2.setTextColor(Color.parseColor("#f44336"));
                                         }
+                                        dialog.dismiss();
                                         materialDesignFAM.close(true);
                                     }
                                 }
                                 else {
-                                    dialog.show();
                                     Toast.makeText(getApplicationContext(),"Select a category",Toast.LENGTH_SHORT).show();
+
                                 }
                             }
                         })
@@ -569,8 +572,10 @@ public class Home extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         })
+                        .autoDismiss(false)
                         .build();
                 dialog.show();
+
             }
         });
     }
