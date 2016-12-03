@@ -7,11 +7,13 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -29,11 +32,11 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.DatePickerDialog;
 import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.ramotion.foldingcell.FoldingCell;
 
 import java.util.ArrayList;
@@ -41,11 +44,13 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.svco.ledgerplus.R.drawable.f;
+
 /**
  * Created by user on 11/26/2016.
  */
 
-public class ListviewAdapter extends Fragment implements ListAdapter {
+public class ListviewAdapter extends FragmentActivity implements ListAdapter {
     //Declare variables
     Context con;
     String[] amount;
@@ -62,7 +67,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
     public ListviewAdapter(Context context) {
         this.con=context;
         database=new LedgerDBManager(con);
-        Cursor c=database.getAllData("Transactions");
+        Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
         setJournalValues(c);
 
     }
@@ -135,6 +140,12 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
     public boolean hasStableIds() {
         return false;
     }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
+
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
@@ -142,8 +153,8 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
         diagView=jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null);
 
         RelativeLayout rljrnl = null, jrnlDiagEditDelete;
-       FoldingCell cell=null ;//(FoldingCell) convertView;
-       final  ViewHolder holder;
+        FoldingCell cell=null ;//(FoldingCell) convertView;
+        final  ViewHolder holder;
 
         if (cell == null) {
             holder = new ViewHolder();
@@ -202,7 +213,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                 if(Integer.parseInt(amount[position])>=0)
                 {
                     inRB.setChecked(true);
-                    amountIn.setText(""+(Integer.parseInt(amount[position])));
+                    amountIn.setText(""+Math.abs(Integer.parseInt(amount[position])));
                     catList.clear();
                     catList.add("Select a Category");
                     Cursor c=database.getInCategory();
@@ -223,7 +234,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                 else
                 {
                     exRB.setChecked(true);
-                    amountIn.setText(""+(Integer.parseInt(amount[position])));
+                    amountIn.setText(""+Math.abs(Integer.parseInt(amount[position])));
                     catList.clear();
                     catList.add("Select a Category");
                     Cursor c=database.getExCategory();
@@ -286,26 +297,29 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                     }
                 });
                 //DatePicker
-                Calendar cal=Calendar.getInstance();
+                final Calendar cal=Calendar.getInstance();
                 dateIn.setHint(date[position]);
 
                 final DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-                        String dateToSet = "" + day + "/" + (month + 1) + "/" + year;
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String dateToSet = "" + dayOfMonth + "/" + (month + 1) + "/" + year;
+                        dateIn.setHint(dateToSet);
 
                     }
+
+
                 };
 
-                    final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(listener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), false);
                     dateIn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            //datePickerDialog.show(getSupportFragmentManager(),"TAG");
+                            new DatePickerDialog(parent.getContext(),listener,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)).show();
 
                         }
                     });
+
                 final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
                         .title("Edit/Delete")
                         //.customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
@@ -316,7 +330,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                String[] tempDate=new String[3];
+                                String[] tempDate;
                                 String source, inEx;
                                 if(inExRG.getCheckedRadioButtonId()==R.id.jrnlInRB)
                                 {
@@ -334,7 +348,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                                 }
                                 tempDate=dateIn.getHint().toString().split("/");
                                 String updatedAmount=amountIn.getText().toString();
-                                if(inEx.equals("e"))
+                                if(inEx.equals("e") )
                                     updatedAmount="-"+updatedAmount;
                                 String updatedCategory=catIn.getSelectedItem().toString();
 
@@ -342,7 +356,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
 
                                database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
                                Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
-                                Cursor c=database.getAllData("TRANSACTIONS");
+                                Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
                                ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
                                 lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
 
@@ -361,7 +375,7 @@ public class ListviewAdapter extends Fragment implements ListAdapter {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                        database.deleteTxn(idList.get(position).toString());
-                                        Cursor c=database.getAllData("TRANSACTIONS");
+                                        Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
                                         setJournalValues(c);
                                         ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
                                         lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));

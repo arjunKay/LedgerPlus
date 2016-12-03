@@ -1,6 +1,7 @@
 package com.svco.ledgerplus;
 
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -64,6 +66,7 @@ public class Journal extends AppCompatActivity {
             }
         });
 // Gets the layout params that will allow you to resize the layout
+
 
         fab=(FloatingActionButton)findViewById(R.id.jrnlFloatingBtn);
         fab.setOnClickListener(new View.OnClickListener(){
@@ -327,7 +330,11 @@ public class Journal extends AppCompatActivity {
 
     }
 
+    //-----------------------------------------
 
+
+
+    //------------------------------------------
     public void ScaleTextSize(TextView t,long value)
     {
         if(value>999999999)

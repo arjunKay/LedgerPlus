@@ -424,10 +424,11 @@ public class LedgerDBManager extends SQLiteOpenHelper{
         }
 
         if(thequery.equals(temp))
-            return getAllData(TABLE_TRANSACTIONS);
+            return executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
         else
         {
             thequery=thequery.substring(0,thequery.lastIndexOf("AND"));
+            thequery+="ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)";
             SQLiteDatabase db=this.getWritableDatabase();
             c=db.rawQuery(thequery,null);
             return c;
