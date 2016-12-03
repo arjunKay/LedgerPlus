@@ -3,6 +3,7 @@ package com.svco.ledgerplus;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -73,7 +74,7 @@ public class Settings extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 LedgerDBManager myDb=new LedgerDBManager(getApplicationContext());
                                 myDb.resetDB();
-                                Toast.makeText(getApplicationContext(), "Reset Data Successfully !!!", Toast.LENGTH_LONG).show();
+                              //  Toast.makeText(getApplicationContext(), "Reset Data Successfully !!!", Toast.LENGTH_LONG).show();
                             }
                         });
                         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -112,25 +113,25 @@ public class Settings extends AppCompatActivity {
                                             if (proName.isEmpty()) {
                                                 name.requestFocus();
                                                 name.startAnimation(animation);
-                                                Toast.makeText(Settings.this, "Enter a name", Toast.LENGTH_SHORT).show();
+                                               // Toast.makeText(Settings.this, "Enter a name", Toast.LENGTH_SHORT).show();
 
                                             }
                                             if (proMail.isEmpty()) {
                                                 mail.requestFocus();
                                                 mail.startAnimation(animation);
-                                                Toast.makeText(Settings.this, "Enter a E-mail address", Toast.LENGTH_SHORT).show();
+                                               // Toast.makeText(Settings.this, "Enter a E-mail address", Toast.LENGTH_SHORT).show();
 
                                             }
                                             if  (!android.util.Patterns.EMAIL_ADDRESS.matcher(proMail).matches()) {
                                                 mail.requestFocus();
                                                 mail.startAnimation(animation);
-                                                Toast.makeText(Settings.this, "Enter a valid E-mail address", Toast.LENGTH_SHORT).show();
+                                              //  Toast.makeText(Settings.this, "Enter a valid E-mail address", Toast.LENGTH_SHORT).show();
 
                                             }
                                         }
                                         else {
                                             myDb.editProf(proName, proMail);
-                                            Toast.makeText(Settings.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                                          //  Toast.makeText(Settings.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                                             dialog.dismiss();
                                         }
                                         }
@@ -159,7 +160,11 @@ public class Settings extends AppCompatActivity {
                         MaterialDialog dialog = new MaterialDialog.Builder(Settings.this)
                                 .title("About Us")
                                 .theme(Theme.LIGHT)
+                                .content("Developed by\n\tTeam DeadPool\n\nContact us\n\t1995mhdharis@gmail.com")
+                            //    .backgroundColor(Color.parseColor("#0089cc"))
+                             //   .color
                                 .build();
+
                         dialog.show();
                         break;
                 }

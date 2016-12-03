@@ -62,14 +62,15 @@ public class myListAdapter extends ArrayAdapter<String> {
 
                                 String text = editText.getText().toString();
                                 if(text.isEmpty()){
-                                    Toast.makeText(activity.getApplicationContext(),"ERROR!!! Enter a valid Category name",Toast.LENGTH_LONG).show();
+                                 //   Toast.makeText(activity.getApplicationContext(),"ERROR!!! Enter a valid Category name",Toast.LENGTH_LONG).show();
+
 
                                 }
                                 else{
                                     myDb.updateCat(id,text);
                                     cats.set(position,text);
                                     myListAdapter.this.notifyDataSetChanged();
-                                    Toast.makeText(activity.getApplicationContext(),"Edit Successful",Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(activity.getApplicationContext(),"Edit Successful",Toast.LENGTH_SHORT).show();
                                 }
 
                                 }
@@ -85,11 +86,11 @@ public class myListAdapter extends ArrayAdapter<String> {
                                     cats.remove(position);
                                     ids.remove(position);
                                     myListAdapter.this.notifyDataSetChanged();
-                                    Toast.makeText(activity.getApplicationContext(),"Category Deleted",Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(activity.getApplicationContext(),"Category Deleted",Toast.LENGTH_SHORT).show();
 
                                 }
                                 else{
-                                    Toast.makeText(activity.getApplicationContext(),"ERROR!!! Could not Delete Category",Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(activity.getApplicationContext(),"ERROR!!! Could not Delete Category",Toast.LENGTH_SHORT).show();
 
                                 }
 

@@ -355,7 +355,7 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                 String updatedDescription=descIn.getText().toString().trim();
 
                                database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
-                               Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
+                             //  Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
                                 Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
                                ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
                                 lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
