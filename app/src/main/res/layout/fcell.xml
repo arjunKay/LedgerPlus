@@ -51,7 +51,6 @@
                 <RelativeLayout
                     android:layout_width="130dp"
                     android:background="@color/jrnlBgColor1"
-                    android:singleLine="false"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
                     android:layout_height="140dp"
@@ -89,7 +88,6 @@
                     android:background="@color/jrnlBgColor3"
                     android:foregroundGravity="center"
                     android:gravity="center"
-                    android:singleLine="false"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:hint="No description"

@@ -2,6 +2,7 @@ package com.svco.ledgerplus;
 
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -53,6 +54,8 @@ public class GraphStats extends AppCompatActivity {
     ArrayList<Integer> colors;
     Spinner spinner_type;
     ArrayAdapter<String> adapter;
+    TextView tc,ta;
+    List<String> discat;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -80,6 +83,9 @@ public class GraphStats extends AppCompatActivity {
         mchart=(PieChart)findViewById(R.id.chart);
         TextView tv=(TextView)findViewById(R.id.tvxt);
         ImageView im=(ImageView)findViewById(R.id.imgdat);
+
+        tc=(TextView)findViewById(R.id.textcat);
+        ta=(TextView)findViewById(R.id.textamt);
 
         if(check==0)
         {
@@ -118,18 +124,22 @@ public class GraphStats extends AppCompatActivity {
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
 
+
+
         inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" < 0 GROUP BY "+CATEGORY);
         sum=(-1)*myDB.sumOfTxn("ex");
         chartData(sum,inCur);
         mchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-              Toast.makeText(GraphStats.this,String.valueOf((int)(e.getVal()*sum*-1)/100),Toast.LENGTH_SHORT).show();
+                tc.setText(discat.get(e.getXIndex()));
+                ta.setText(":  ₹ "+String.valueOf((int)(e.getVal()*sum*-1)/100));
             }
 
             @Override
             public void onNothingSelected() {
-
+                tc.setText("");
+                ta.setText("");
                             }
         });
 
@@ -163,36 +173,34 @@ public class GraphStats extends AppCompatActivity {
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 GROUP BY "+CATEGORY);
                                             sum=(-1)*myDB.sumOfTxn("ex");
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
                                             break;
                                         case R.id.radioButton2:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+DAY+" = "+day+" GROUP BY "+CATEGORY);
                                             sum=(-1)*myDB.sumOfExpToday(String.valueOf(year),String.valueOf(month),String.valueOf(day));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
                                             break;
                                         case R.id.radioButton3:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+MONTH+" = "+month+" GROUP BY "+CATEGORY);
                                             sum=(-1)*myDB.sumOfExpThisMonth(String.valueOf(year),String.valueOf(month));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
                                             break;
                                         case R.id.radioButton:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+YEAR+" = "+year+" GROUP BY "+CATEGORY);
                                             sum=(-1)*myDB.sumOfExpThisYear(String.valueOf(year));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
                                             break;
                                     }
                                     mchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
                                         @Override
                                         public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-                                            Toast.makeText(GraphStats.this,String.valueOf((int)(e.getVal()*sum*-1)/100),Toast.LENGTH_SHORT).show();
+                                            tc.setText(discat.get(e.getXIndex()));
+                                            ta.setText(":  ₹ "+String.valueOf((int)(e.getVal()*sum*-1)/100));
                                         }
 
                                         @Override
                                         public void onNothingSelected() {
-
+                                            tc.setText("");
+                                            ta.setText("");
                                         }
                                     });
                                 }
@@ -207,36 +215,38 @@ public class GraphStats extends AppCompatActivity {
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 GROUP BY "+CATEGORY);
                                             sum=myDB.sumOfTxn("in");
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
+
                                             break;
                                         case R.id.radioButton2:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+DAY+" = "+day+" GROUP BY "+CATEGORY);
                                             sum=myDB.sumOfInToday(String.valueOf(year),String.valueOf(month),String.valueOf(day));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
+
                                             break;
                                         case R.id.radioButton3:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+MONTH+" = "+month+" GROUP BY "+CATEGORY);
                                             sum=myDB.sumOfInThisMonth(String.valueOf(year),String.valueOf(month));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
+
                                             break;
                                         case R.id.radioButton:
                                             inCur=myDB.executeQuery("SELECT *,SUM("+AMOUNT+") FROM "+ TABLE_TRANSACTIONS + " WHERE "+AMOUNT+" "+relOp+" 0 AND "+YEAR+" = "+year+" GROUP BY "+CATEGORY);
                                             sum=myDB.sumOfInThisYear(String.valueOf(year));
                                             chartData(sum,inCur);
-                                            onTouchActivity(sum);
+
                                             break;
                                     }
                                     mchart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
                                         @Override
                                         public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-                                                Toast.makeText(GraphStats.this,String.valueOf((int)(e.getVal()*sum)/100),Toast.LENGTH_SHORT).show();
+                                            tc.setText(discat.get(e.getXIndex()));
+                                            ta.setText(":  ₹ "+String.valueOf((int)(e.getVal()*sum)/100));
                                         }
 
                                         @Override
                                         public void onNothingSelected() {
-
+                                            tc.setText("");
+                                            ta.setText("");
                                         }
                                     });
                                 }
@@ -253,7 +263,7 @@ public class GraphStats extends AppCompatActivity {
 
     public void chartData(int sum,Cursor inCur)
     {
-        final List<String> discat = new ArrayList<>();
+        discat= new ArrayList<>();
         final ArrayList<Entry> entries = new ArrayList<Entry>();
 
         while (inCur.moveToNext()){
@@ -267,13 +277,12 @@ public class GraphStats extends AppCompatActivity {
 
         PieData data=new PieData(discat,dataSet);
         data.setValueFormatter(new PercentFormatter());
+        data.setValueTextSize(10f);
+        data.setValueTypeface(Typeface.SANS_SERIF);
 
         mchart.setData(data);
         mchart.requestLayout();
     }
 
-    void onTouchActivity(final int sum)
-    {
 
-    }
 }

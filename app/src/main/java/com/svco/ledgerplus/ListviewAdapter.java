@@ -352,7 +352,7 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                     updatedAmount="-"+updatedAmount;
                                 String updatedCategory=catIn.getSelectedItem().toString();
 
-                                String updatedDescription=descIn.getText().toString();
+                                String updatedDescription=descIn.getText().toString().trim();
 
                                database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
                                Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
