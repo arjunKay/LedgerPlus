@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -86,12 +87,13 @@ public class Home extends AppCompatActivity {
 
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.sac)
+                .withHeaderBackground(R.drawable.aja)
                 .withSelectionListEnabled(false)
                 .withTextColor(Color.parseColor("#FFFFFF"))
                 .addProfiles(new ProfileDrawerItem()
                         .withName(name)
                         .withEmail(email)
+                        .withIcon(R.drawable.aka)
                         .withSelectable(true))
                 .withOnAccountHeaderSelectionViewClickListener(
                         new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
@@ -592,9 +594,11 @@ public class Home extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateHomeScreenValues();
-        updateProfile();
+        updatePro();
     }
-    public void updateProfile(){
+
+    public void updatePro(){
+
         Cursor cursor;
         cursor=myDb.getProfileName();
         cursor.moveToFirst();
@@ -604,19 +608,18 @@ public class Home extends AppCompatActivity {
 
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.sac)
+                .withHeaderBackground(R.drawable.aja)
                 .withSelectionListEnabled(false)
                 .withTextColor(Color.parseColor("#FFFFFF"))
                 .addProfiles(new ProfileDrawerItem()
                         .withName(name)
                         .withEmail(email)
-                        .withIcon(R.drawable.expenditure)
+                        .withIcon(R.drawable.aka)
                         .withSelectable(true))
                 .withOnAccountHeaderSelectionViewClickListener(
                         new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
                             @Override
                             public boolean onClick(View view, IProfile profile) {
-
                                 return false;
                             }
                         }
@@ -674,10 +677,13 @@ public class Home extends AppCompatActivity {
                 })
                 .build();
 
+
+
     }
     public void updateHomeScreenValues()
     {
         TextView currentBal, totalExp, totalIn,todayExp, todayIn;
+
         currentBal=(TextView)findViewById(R.id.cur_bal_val);
         totalExp=(TextView)findViewById(R.id.tot_exp_val);
         totalIn=(TextView)findViewById(R.id.tot_inc_val);
