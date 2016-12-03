@@ -58,8 +58,9 @@ public class Categories extends AppCompatActivity {
     public void addOnclick(View view) {
 
         MaterialDialog dialog=new MaterialDialog.Builder(this)
-                .widgetColorRes(R.color.colorAccent)
+                .widgetColorRes(R.color.accent)
                 .title("New Category")
+                .negativeText("Cancel")
                 .input("Add Category", null, false, new MaterialDialog.InputCallback() {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {

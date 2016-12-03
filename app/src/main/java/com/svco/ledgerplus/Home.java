@@ -1,6 +1,7 @@
 package com.svco.ledgerplus;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -72,6 +73,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         myDb = new LedgerDBManager(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -95,17 +97,7 @@ public class Home extends AppCompatActivity {
                         new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
                             @Override
                             public boolean onClick(View view, IProfile profile) {
-                                Snackbar.make(findViewById(android.R.id.content),
-                                        "Hi "+name+", want to change name?",
-                                        Snackbar.LENGTH_LONG)
-                                        .setAction("Change", new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                Intent x=new Intent(Home.this,Settings.class);
-                                                startActivity(x);
-                                            }
-                                        }).setActionTextColor(Color.YELLOW)
-                                        .setDuration(2000).show();
+
                                 return false;
                             }
                         }
@@ -366,7 +358,7 @@ public class Home extends AppCompatActivity {
                                         String text = spinner_cat.getSelectedItem().toString();
                                         String text2 = spinner_src.getSelectedItem().toString();
                                         final String text3=amt.getText().toString();
-                                        String text4= description.getText().toString();
+                                        String text4= description.getText().toString().trim();
                                         myDb.insertTxn(text3,text2,text,text4,
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
                                     Toast.makeText(Home.this,"Income added  successfully",Toast.LENGTH_LONG).show();
@@ -545,7 +537,7 @@ public class Home extends AppCompatActivity {
                                         String text = spinner_cat2.getSelectedItem().toString();
                                         String text2=spinner_src2.getSelectedItem().toString();
                                         myDb.insertTxn(amount_text,text2,text,
-                                                description.getText().toString(),
+                                                description.getText().toString().trim(),
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
                                         Toast.makeText(Home.this,"Expenditure added  successfully",Toast.LENGTH_LONG).show();
                                         int x1=spin_ex+Integer.parseInt(value);
@@ -600,11 +592,92 @@ public class Home extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateHomeScreenValues();
+        updateProfile();
+    }
+    public void updateProfile(){
+        Cursor cursor;
+        cursor=myDb.getProfileName();
+        cursor.moveToFirst();
+        name = cursor.getString(1);
+        email = cursor.getString(2);
+
+
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.sac)
+                .withSelectionListEnabled(false)
+                .withTextColor(Color.parseColor("#FFFFFF"))
+                .addProfiles(new ProfileDrawerItem()
+                        .withName(name)
+                        .withEmail(email)
+                        .withIcon(R.drawable.expenditure)
+                        .withSelectable(true))
+                .withOnAccountHeaderSelectionViewClickListener(
+                        new AccountHeader.OnAccountHeaderSelectionViewClickListener() {
+                            @Override
+                            public boolean onClick(View view, IProfile profile) {
+
+                                return false;
+                            }
+                        }
+                )
+                .build();
+
+
+        //Nav Drawer
+        result = new DrawerBuilder()
+                .withToolbar(toolbar)
+                .withActivity(this)
+                .withCloseOnClick(true)
+                .withSliderBackgroundColor(Color.parseColor("#eef9f7"))
+                .withAccountHeader(header)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName("Overview").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Graph Statistics")
+                                .withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Journal").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Categories").withSelectable(false),
+                        new DividerDrawerItem(),
+                        new PrimaryDrawerItem().withName("Settings").withSelectable(false)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem){
+                        // do something with the clicked item
+                        switch (position) {
+                            case 1:
+                                result.closeDrawer();
+                                break;
+                            case 3:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, GraphStats.class));
+                                break;
+                            case 5:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Journal.class));
+                                break;
+                            case 7:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Categories.class));
+                                break;
+                            case 9:
+                                result.closeDrawer();
+                                startActivity(new Intent(Home.this, Settings.class));
+                                break;
+                        }
+                        return true;
+                    }
+                })
+                .build();
+
     }
     public void updateHomeScreenValues()
     {
         TextView currentBal, totalExp, totalIn,todayExp, todayIn;
-
         currentBal=(TextView)findViewById(R.id.cur_bal_val);
         totalExp=(TextView)findViewById(R.id.tot_exp_val);
         totalIn=(TextView)findViewById(R.id.tot_inc_val);
