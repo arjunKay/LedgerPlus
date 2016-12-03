@@ -2,6 +2,7 @@ package com.svco.ledgerplus;
 
 
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -9,28 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.svco.ledgerplus.LedgerDBManager.AMOUNT;
-import static com.svco.ledgerplus.LedgerDBManager.CATEGORY;
-import static com.svco.ledgerplus.LedgerDBManager.DAY;
-import static com.svco.ledgerplus.LedgerDBManager.MONTH;
-import static com.svco.ledgerplus.LedgerDBManager.TABLE_TRANSACTIONS;
-import static com.svco.ledgerplus.LedgerDBManager.YEAR;
 
 public class Settings extends AppCompatActivity {
 
@@ -97,6 +88,11 @@ public class Settings extends AppCompatActivity {
                         final RelativeLayout linearLayout=(RelativeLayout) getLayoutInflater().inflate(R.layout.dialog_layout_profedit, null);
                         final EditText name=(EditText) linearLayout.findViewById(R.id.ProName);
                         final EditText mail=(EditText) linearLayout.findViewById(R.id.ProMail);
+                        Cursor cursor = myDb.getProfileName();
+                        cursor.moveToFirst();
+                        name.setText(cursor.getString(1));
+                        name.setSelection(name.getText().length());
+                        mail.setText(cursor.getString(2));
                         MaterialDialog materialDialog=new MaterialDialog.Builder(Settings.this)
                                 .title("Edit Profile")
                                 .customView(linearLayout,true)
@@ -124,7 +120,7 @@ public class Settings extends AppCompatActivity {
                                         else{
                                             myDb.editProf(proName,proMail);
                                             Toast.makeText(Settings.this, "Profile Updated",Toast.LENGTH_SHORT).show();
-
+                                            dialog.dismiss();
                                         }
                                         }
 
@@ -141,13 +137,19 @@ public class Settings extends AppCompatActivity {
 
                                             }
                                 )
+                                .autoDismiss(false)
                                 .build();
                         materialDialog.show();
 
 
                         break;
                     case 2: //clicked About Us
-                        Toast.makeText(getApplicationContext(), "You Clicked at "+titles[2], Toast.LENGTH_SHORT).show();
+
+                        MaterialDialog dialog = new MaterialDialog.Builder(Settings.this)
+                                .title("About Us")
+                                .theme(Theme.LIGHT)
+                                .build();
+                        dialog.show();
                         break;
                 }
 

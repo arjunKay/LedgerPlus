@@ -30,7 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/settings_detail"
-        android:layout_marginBottom="10dp"
         android:textSize="13sp"
         android:layout_marginStart="51dp"
         android:layout_below="@+id/settings_title"
@@ -38,7 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_below="@+id/settings_detail"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/view_setting_item"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>

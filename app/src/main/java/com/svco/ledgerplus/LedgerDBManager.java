@@ -106,7 +106,7 @@ public class LedgerDBManager extends SQLiteOpenHelper{
     }
 
 
-    void defCategory (SQLiteDatabase db) {
+    private void defCategory(SQLiteDatabase db) {
         //Populate CATEGORIES table with default categories when the database is created for the first time
         int x=0;
         ContentValues contentValues = new ContentValues();

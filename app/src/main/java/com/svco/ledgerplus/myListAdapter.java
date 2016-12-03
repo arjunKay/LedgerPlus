@@ -44,6 +44,7 @@ public class myListAdapter extends ArrayAdapter<String> {
                 RelativeLayout layout = (RelativeLayout) activity.getLayoutInflater().inflate(R.layout.dialog_layout_category,null);
                 final EditText editText = (EditText) layout.findViewById(R.id.cat_edit);
                 editText.setText(cats.get(position));
+                editText.setSelection(editText.getText().length());
                 MaterialDialog dialog = new MaterialDialog.Builder(activity)
                         .customView(layout,true)
                         .positiveText("Edit")
