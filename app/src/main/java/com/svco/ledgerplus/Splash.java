@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 public class Splash extends AppCompatActivity {
 
-    private static int Time=2500;
+    private static int Time=1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

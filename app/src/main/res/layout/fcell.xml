@@ -21,7 +21,7 @@
         folding-cell:animationDuration="1000"
         folding-cell:additionalFlipsCount="0"
         app:backSideColor="@android:color/black"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp">
