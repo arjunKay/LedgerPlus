@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -105,21 +107,30 @@ public class Settings extends AppCompatActivity {
                                        String proName=name.getText().toString();
 
                                         String proMail=mail.getText().toString();
-                                        if(proName.isEmpty()){
-                                            Toast.makeText(Settings.this, "Enter a name",Toast.LENGTH_SHORT).show();
-
-                                        }
-                                        else if(proMail.isEmpty()){
-                                                Toast.makeText(Settings.this, "Enter a e-mail id",Toast.LENGTH_SHORT).show();
+                                        if(proName.isEmpty() || proMail.isEmpty()) {
+                                            Animation animation= AnimationUtils.loadAnimation(Settings.this, R.anim.shake);
+                                            if (proName.isEmpty()) {
+                                                name.requestFocus();
+                                                name.startAnimation(animation);
+                                                Toast.makeText(Settings.this, "Enter a name", Toast.LENGTH_SHORT).show();
 
                                             }
-                                        else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(proMail).matches()){
-                                            Toast.makeText(Settings.this, "Enter a valid e-mail id",Toast.LENGTH_SHORT).show();
+                                            if (proMail.isEmpty()) {
+                                                mail.requestFocus();
+                                                mail.startAnimation(animation);
+                                                Toast.makeText(Settings.this, "Enter a E-mail address", Toast.LENGTH_SHORT).show();
 
+                                            }
+                                            if  (!android.util.Patterns.EMAIL_ADDRESS.matcher(proMail).matches()) {
+                                                mail.requestFocus();
+                                                mail.startAnimation(animation);
+                                                Toast.makeText(Settings.this, "Enter a valid E-mail address", Toast.LENGTH_SHORT).show();
+
+                                            }
                                         }
-                                        else{
-                                            myDb.editProf(proName,proMail);
-                                            Toast.makeText(Settings.this, "Profile Updated",Toast.LENGTH_SHORT).show();
+                                        else {
+                                            myDb.editProf(proName, proMail);
+                                            Toast.makeText(Settings.this, "Profile Updated", Toast.LENGTH_SHORT).show();
                                             dialog.dismiss();
                                         }
                                         }

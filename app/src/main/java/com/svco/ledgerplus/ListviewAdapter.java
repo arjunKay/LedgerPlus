@@ -1,5 +1,6 @@
 package com.svco.ledgerplus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -7,9 +8,12 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -40,7 +45,7 @@ import java.util.List;
  * Created by user on 11/26/2016.
  */
 
-public class ListviewAdapter implements ListAdapter {
+public class ListviewAdapter extends Fragment implements ListAdapter {
     //Declare variables
     Context con;
     String[] amount;
@@ -53,6 +58,7 @@ public class ListviewAdapter implements ListAdapter {
     LayoutInflater jrnlLayoutInflater;
     View diagView;
     private HashSet<Integer> unfoldedIndexes=new HashSet<>();
+
     public ListviewAdapter(Context context) {
         this.con=context;
         database=new LedgerDBManager(con);
@@ -287,7 +293,7 @@ public class ListviewAdapter implements ListAdapter {
                     @Override
                     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                         String dateToSet = "" + day + "/" + (month + 1) + "/" + year;
-                        dateIn.setHint(dateToSet);
+
                     }
                 };
 
@@ -295,7 +301,9 @@ public class ListviewAdapter implements ListAdapter {
                     dateIn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             //datePickerDialog.show(getSupportFragmentManager(),"TAG");
+
                         }
                     });
                 final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
@@ -499,6 +507,8 @@ public class ListviewAdapter implements ListAdapter {
     public boolean isEnabled(int position) {
         return false;
     }
+
+
 
     private static class ViewHolder {
         TextView amtOut, dateOut, typeOut, sourceOut,descOut,amtOut2, dateOutFront, jrnlSrcTx,jrnlCatTx,amtTx2,jrnlInDateTx,jrnlSrcIndTx,jrnlCatIndTx;
