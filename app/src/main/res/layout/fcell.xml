@@ -38,6 +38,7 @@
             android:layout_alignParentStart="true"
             android:visibility="gone">
 
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:background="@color/jrnlColorPrimary"
@@ -71,7 +72,7 @@
                         android:layout_height="50dp"
                         android:layout_width="100dp"
                         android:gravity="center"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textColor="@android:color/background_light"
                         android:layout_marginTop="32dp"
                         android:layout_alignParentTop="true"
@@ -129,12 +130,13 @@
                     android:textColor="?android:attr/textColorAlertDialogListItem"
                     android:textColorHighlight="@android:color/background_dark"
                     android:textStyle="normal|bold"
-                    android:text="Entertainment"
+                    android:text="Entertainmentsnsnmnsmncmsn"
                     android:layout_width="fill_parent"
                     android:paddingLeft="10dp"
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@+id/jrnlCatIndTx"
-                    android:layout_height="70dp" />
+                    android:layout_height="70dp"
+                    android:singleLine="true" />
 
                 <TextView
                     android:text="Debited from"
@@ -148,6 +150,13 @@
                     android:layout_below="@+id/jrnlCatIndTx"
                     android:paddingLeft="5dp" />
 
+                <TextView
+                    android:id="@+id/jrnlTouchTextView"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
                 <Button
                     android:id="@+id/jrnlEditDelete"
                     android:background="@android:drawable/ic_menu_edit"
@@ -155,13 +164,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp" />
-
-                <TextView
-                    android:id="@+id/jrnlTouchTextView"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="30dp"
                     android:layout_height="30dp" />
 
@@ -184,7 +186,7 @@
                     android:text="Income"
                     android:background="@color/jrnlColorPrimary"
                     android:gravity="center"
-                    android:textSize="24sp"
+                    android:textSize="20sp"
                     android:textColor="@android:color/background_dark"
                     android:id="@+id/jrnlCatTx"
                     android:layout_height="50dp"
@@ -219,7 +221,7 @@
                     android:text="200"
                     android:layout_width="wrap_content"
                     android:id="@+id/amtOut1"
-                    android:textSize="28sp"
+                    android:textSize="24sp"
                     android:gravity="bottom|center"
                     android:textColor="@android:color/background_light"
                     android:layout_height="match_parent"

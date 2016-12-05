@@ -615,9 +615,12 @@ public class Home extends AppCompatActivity {
 
         Cursor cursor;
         cursor=myDb.getProfileName();
-        cursor.moveToFirst();
-        name = cursor.getString(1);
-        email = cursor.getString(2);
+        if(cursor.moveToFirst())
+        {
+            name = cursor.getString(1);
+            email = cursor.getString(2);
+        }
+
 
 
         AccountHeader header = new AccountHeaderBuilder()
