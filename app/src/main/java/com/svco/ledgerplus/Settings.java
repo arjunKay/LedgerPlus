@@ -3,7 +3,6 @@ package com.svco.ledgerplus;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -160,7 +158,7 @@ public class Settings extends AppCompatActivity {
                         MaterialDialog dialog = new MaterialDialog.Builder(Settings.this)
                                 .title("About Us")
                                 .theme(Theme.LIGHT)
-                                .content("LedgerPlus v1.0\n\nDeveloped by Team Epoch")
+                                .content("LedgerPlus v1.0\n\nDeveloped by Team Epoch\n\nContact us : epochdevs@gmail.com")
                             //    .backgroundColor(Color.parseColor("#0089cc"))
                              //   .color
                                 .build();
