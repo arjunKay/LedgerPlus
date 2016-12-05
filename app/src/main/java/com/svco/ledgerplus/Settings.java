@@ -160,7 +160,7 @@ public class Settings extends AppCompatActivity {
                         MaterialDialog dialog = new MaterialDialog.Builder(Settings.this)
                                 .title("About Us")
                                 .theme(Theme.LIGHT)
-                                .content("Developed by\n\tTeam DeadPool\n\nContact us\n\t1995mhdharis@gmail.com")
+                                .content("LedgerPlus v1.0\n\nDeveloped by Team Epoch")
                             //    .backgroundColor(Color.parseColor("#0089cc"))
                              //   .color
                                 .build();

@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -319,12 +321,13 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
                         }
                     });
-
+                final MaterialDialog[] mtg = new MaterialDialog[1];
                 final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
                         .title("Edit/Delete")
                         //.customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
                         .customView((RelativeLayout)diagView,true)
                         .positiveText("Update")
+                        .autoDismiss(false)
                         .negativeText("Cancel")
                         .neutralText("Delete")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -353,12 +356,26 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                 String updatedCategory=catIn.getSelectedItem().toString();
 
                                 String updatedDescription=descIn.getText().toString().trim();
-
-                               database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
-                             //  Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
-                                Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
-                               ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
-                                lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
+                                    if(updatedAmount.isEmpty()||catIn.getSelectedItemId()==0)
+                                    {
+                                        Animation anim= AnimationUtils.loadAnimation(parent.getContext(),R.anim.shake);
+                                        if(updatedAmount.isEmpty())
+                                        {
+                                            amountIn.startAnimation(anim);
+                                        }
+                                        if(catIn.getSelectedItemId()==0)
+                                        {
+                                            catIn.startAnimation(anim);
+                                        }
+                                    }
+                                else {
+                                        database.updateTxn(("" + idList.get(position)), updatedAmount, source, updatedCategory, updatedDescription, tempDate[0], tempDate[1], tempDate[2]);
+                                        Toast.makeText(parent.getContext(),"Entry Updated",Toast.LENGTH_SHORT).show();
+                                        Cursor c = database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
+                                        ListView lvParent = (ListView) parent.findViewById(R.id.recyclerVi);
+                                        lvParent.setAdapter(new ListviewAdapter(parent.getContext(), c));
+                                        dialog.dismiss();
+                                    }
 
                             }
                         })
@@ -368,6 +385,7 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                             //Delete entry.
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                mtg[0] =dialog;
                                 final AlertDialog.Builder alertDialog=new AlertDialog.Builder(parent.getContext());
                                 alertDialog.setTitle("Delete");
                                 alertDialog.setMessage("Are you sure you want to delete this entry?");
@@ -378,6 +396,9 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                         Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
                                         setJournalValues(c);
                                         ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
+                                        Toast.makeText(parent.getContext(),"Entry Deleted",Toast.LENGTH_SHORT).show();
+
+                                        mtg[0].dismiss();
                                         lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
                                     }
                                 });
@@ -388,6 +409,12 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                     }
                                 });
                                 alertDialog.show();
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
                             }
                         })
                         .build();
@@ -416,33 +443,6 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
 
             }
-
-
-
-      //--DO NOT DELETE-----------------------------------------------------------------------
-        //
-                //final List<String> inexList=new ArrayList<String>();
-               // inexList.add("Expenditure/Income");
-              /*  EditText amountIn=(EditText)diagView.findViewById(R.id.diagAmtIn);
-                EditText descriptionIn=(EditText)diagView.findViewById(R.id.diagDescIn) ;
-                String source="cash", inEx="e";
-                Spinner catIn=(Spinner)diagView.findViewById(R.id.diagCatSpinner);
-                RadioGroup inExRG, sourceRG;
-                inExRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagInExRG);
-                sourceRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagSourceRG);
-                if(inExRG.getCheckedRadioButtonId()==R.id.jrnlInRB)
-                {
-                    inEx="i";
-                }
-                if(sourceRG.getCheckedRadioButtonId()==R.id.jrnlBankRB)
-                {
-                    source="bank";
-                }
-
-                String updatedAmount=amountIn.getText().toString();
-                String updatedCategory=catIn.getSelectedItem().toString();
-                String updatedDescription=descriptionIn.getText().toString();*/
-        //---------------------------------------------------------------------------------------
 
 
         holder.fc.setOnClickListener(new View.OnClickListener() {

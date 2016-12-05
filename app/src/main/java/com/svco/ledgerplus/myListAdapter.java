@@ -86,7 +86,7 @@ public class myListAdapter extends ArrayAdapter<String> {
                                     cats.remove(position);
                                     ids.remove(position);
                                     myListAdapter.this.notifyDataSetChanged();
-                                    //Toast.makeText(activity.getApplicationContext(),"Category Deleted",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity.getApplicationContext(),"Category Deleted",Toast.LENGTH_SHORT).show();
 
                                 }
                                 else{
