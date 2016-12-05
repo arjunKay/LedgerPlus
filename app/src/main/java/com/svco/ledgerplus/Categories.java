@@ -65,13 +65,13 @@ public class Categories extends AppCompatActivity {
                     @Override
                     public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         if (viewpager.getCurrentItem() == 0) {
-                            Toast.makeText(getApplicationContext(), "Category Added", Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "Category Added", Toast.LENGTH_LONG).show();
                             int id=myDb.insertCat(input.toString(),"E");
                             frag_first.cats.add(input.toString());
                             frag_first.ids.add(id);
                             frag_first.adapter.notifyDataSetChanged();
                         } else {
-                            Toast.makeText(getApplicationContext(), "Category Added", Toast.LENGTH_LONG).show();
+                        //    Toast.makeText(getApplicationContext(), "Category Added", Toast.LENGTH_LONG).show();
                             int id=myDb.insertCat(input.toString(),"I");
                             frag_second.cats.add(input.toString());
                             frag_second.ids.add(id);

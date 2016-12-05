@@ -12,12 +12,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -77,7 +79,9 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
     public void setJournalValues(Cursor c)
     {
 
-        idList.clear();
+        //Cursor c=database.getAllData("Transactions");
+
+         idList.clear();
         amount=new String[c.getCount()];
         date=new String[c.getCount()];
         type=new String[c.getCount()];
@@ -90,6 +94,8 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
 
                     amount[i]=c.getString(1);
+               // if(amount[i].equals("-"))
+                  //  database.deleteTxn(c.getString(0));
                     idList.add(c.getString(0));
                     String xx=c.getString(0);
                     date[i]=c.getString(5)+"/"+c.getString(6)+"/"+c.getString(7);
@@ -147,7 +153,7 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
         diagView=jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null);
 
         RelativeLayout rljrnl = null, jrnlDiagEditDelete;
-        FoldingCell cell=null ;
+        FoldingCell cell=null ;//(FoldingCell) convertView;
         final  ViewHolder holder;
 
         if (cell == null) {
@@ -156,7 +162,6 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
             rljrnl=(RelativeLayout)view.inflate(R.layout.fcell,parent,false);
            cell=(FoldingCell)rljrnl.findViewById(R.id.foldingCell);
             holder.jrnlEditDelete=(Button)cell.findViewById(R.id.jrnlEditDelete);
-            holder.jrnlTouchTextView=(TextView)cell.findViewById(R.id.jrnlTouchTextView);
             holder.jrnlRelLayout=(RelativeLayout)cell.findViewById(R.id.jrnlRelLayout);
             holder.activityMain=(RelativeLayout)parent.findViewById(R.id.activity_main);
             holder.fc=(FoldingCell) cell.findViewById(R.id.foldingCell);
@@ -314,20 +319,14 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
                         }
                     });
-                final MaterialDialog[] mtg = new MaterialDialog[1];
+
                 final MaterialDialog dialogEditDelete=new MaterialDialog.Builder(parent.getContext())
                         .title("Edit/Delete")
+                        //.customView(((RelativeLayout) jrnlLayoutInflater.inflate(R.layout.dialog_layout_journal_edit,null)),true)
                         .customView((RelativeLayout)diagView,true)
                         .positiveText("Update")
                         .negativeText("Cancel")
                         .neutralText("Delete")
-                        .autoDismiss(false)
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                dialog.dismiss();
-                            }
-                        })
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -354,24 +353,12 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                 String updatedCategory=catIn.getSelectedItem().toString();
 
                                 String updatedDescription=descIn.getText().toString().trim();
-                                if(updatedAmount.isEmpty() || catIn.getSelectedItemId()==0)
-                                {
-                                    Animation anim= AnimationUtils.loadAnimation(parent.getContext(), R.anim.shake);
-                                    if(updatedAmount.isEmpty())
-                                        amountIn.startAnimation(anim);
-                                    if(catIn.getSelectedItemId()==0)
-                                        catIn.startAnimation(anim);
-                                }
-                                else
-                                {
-                                    database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
-                                    Toast.makeText(parent.getContext(),"Entry updated",Toast.LENGTH_SHORT).show();
-                                    Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
-                                    ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
-                                    lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
-                                    dialog.dismiss();
-                                }
 
+                               database.updateTxn((""+idList.get(position)),updatedAmount,source,updatedCategory,updatedDescription,tempDate[0],tempDate[1],tempDate[2]);
+                             //  Toast.makeText(parent.getContext(),"Successfully Updated",Toast.LENGTH_SHORT).show();
+                                Cursor c=database.executeQuery("Select * from TRANSACTIONS ORDER BY ((YEAR*10000)+(MONTH*100)+DAY)");
+                               ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
+                                lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
 
                             }
                         })
@@ -381,7 +368,6 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                             //Delete entry.
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                mtg[0] =dialog;
                                 final AlertDialog.Builder alertDialog=new AlertDialog.Builder(parent.getContext());
                                 alertDialog.setTitle("Delete");
                                 alertDialog.setMessage("Are you sure you want to delete this entry?");
@@ -393,14 +379,12 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                                         setJournalValues(c);
                                         ListView lvParent=(ListView)parent.findViewById(R.id.recyclerVi);
                                         lvParent.setAdapter(new ListviewAdapter(parent.getContext(),c));
-                                        Toast.makeText(parent.getContext(),"Entry deleted", Toast.LENGTH_SHORT).show();
-                                        mtg[0].dismiss();
                                     }
                                 });
                                 alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        mtg[0].dismiss();
+                                        dialog.dismiss();
                                     }
                                 });
                                 alertDialog.show();
@@ -408,7 +392,6 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
                         })
                         .build();
                 dialogEditDelete.show();
-
 
 
             }
@@ -434,6 +417,32 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
             }
 
+
+
+      //--DO NOT DELETE-----------------------------------------------------------------------
+        //
+                //final List<String> inexList=new ArrayList<String>();
+               // inexList.add("Expenditure/Income");
+              /*  EditText amountIn=(EditText)diagView.findViewById(R.id.diagAmtIn);
+                EditText descriptionIn=(EditText)diagView.findViewById(R.id.diagDescIn) ;
+                String source="cash", inEx="e";
+                Spinner catIn=(Spinner)diagView.findViewById(R.id.diagCatSpinner);
+                RadioGroup inExRG, sourceRG;
+                inExRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagInExRG);
+                sourceRG=(RadioGroup)diagView.findViewById(R.id.jrnlDiagSourceRG);
+                if(inExRG.getCheckedRadioButtonId()==R.id.jrnlInRB)
+                {
+                    inEx="i";
+                }
+                if(sourceRG.getCheckedRadioButtonId()==R.id.jrnlBankRB)
+                {
+                    source="bank";
+                }
+
+                String updatedAmount=amountIn.getText().toString();
+                String updatedCategory=catIn.getSelectedItem().toString();
+                String updatedDescription=descriptionIn.getText().toString();*/
+        //---------------------------------------------------------------------------------------
 
 
         holder.fc.setOnClickListener(new View.OnClickListener() {
@@ -516,7 +525,7 @@ public class ListviewAdapter extends FragmentActivity implements ListAdapter {
 
 
     private static class ViewHolder {
-        TextView amtOut, dateOut, typeOut, sourceOut,descOut,amtOut2, dateOutFront, jrnlSrcTx,jrnlCatTx,amtTx2,jrnlInDateTx,jrnlSrcIndTx,jrnlCatIndTx,jrnlTouchTextView;
+        TextView amtOut, dateOut, typeOut, sourceOut,descOut,amtOut2, dateOutFront, jrnlSrcTx,jrnlCatTx,amtTx2,jrnlInDateTx,jrnlSrcIndTx,jrnlCatIndTx;
         RelativeLayout jrnlRelLayout,activityMain;
         FoldingCell fc;
         Button jrnlEditDelete;

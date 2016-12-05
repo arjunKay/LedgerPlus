@@ -290,8 +290,8 @@ public class Home extends AppCompatActivity {
                                             incomeSpinnerArray.set(position,input.toString());
                                             incomeSpinnerArray.add("--Add new Category--");
                                             catSpinnerAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Category  : " + input, Toast.LENGTH_LONG).show();
+                                        //    Toast.makeText(getApplicationContext(),
+                                          //          "Category  : " + input, Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .dismissListener(new DialogInterface.OnDismissListener() {
@@ -371,7 +371,7 @@ public class Home extends AppCompatActivity {
                                         String text4= description.getText().toString().trim();
                                         myDb.insertTxn(text3,text2,text,text4,
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
-                                    Toast.makeText(Home.this,"Income added  successfully",Toast.LENGTH_LONG).show();
+                                  //  Toast.makeText(Home.this,"Income added  successfully",Toast.LENGTH_LONG).show();
                                         int x1=spin_in+Integer.parseInt(amount_text);
                                         sum = x1 + spin_ex;
 
@@ -472,9 +472,9 @@ public class Home extends AppCompatActivity {
                                             expSpinnerArray.set(position,input.toString());
                                             expSpinnerArray.add("--Add new Category--");
                                             expSpinnerAdapter.notifyDataSetChanged();
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Category  : " + input,
-                                                    Toast.LENGTH_LONG).show();
+                                       //     Toast.makeText(getApplicationContext(),
+                                         //           "Category  : " + input,
+                                           //         Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .dismissListener(new DialogInterface.OnDismissListener() {
@@ -555,7 +555,7 @@ public class Home extends AppCompatActivity {
                                         myDb.insertTxn(amount_text,text2,text,
                                                 description.getText().toString().trim(),
                                                 String.valueOf(d),String.valueOf(m),String.valueOf(y));
-                                        Toast.makeText(Home.this,"Expenditure added  successfully",Toast.LENGTH_LONG).show();
+                                      //  Toast.makeText(Home.this,"Expenditure added  successfully",Toast.LENGTH_LONG).show();
                                         int x1=spin_ex+Integer.parseInt(value);
                                         sum = x1 + spin_in;
 
