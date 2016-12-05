@@ -49,8 +49,11 @@
     <TextView
         android:text="@string/no_data_available"
         android:layout_width="wrap_content"
+        android:textColor="@android:color/darker_gray"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgdat"
+        android:textSize="20dp"
+        android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp"
         android:id="@+id/tvxt" />
