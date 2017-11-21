@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -50,6 +49,7 @@ public class GraphStats extends AppCompatActivity {
     Cursor inCur=null;
     int day,month,year;
     String relOp;
+    //comment
     Calendar calendar;
     ArrayList<Integer> colors;
     Spinner spinner_type;
